@@ -8,12 +8,15 @@
     constructor(container, popup) {
       this.container = container;
       this.popup = popup;
+      this.closeBtn = document.getElementById("ny-pop-close");
+      this.open = false;
       this.hot = false;
       this.radius = 1.2;
       this.baseSpeed = reducedMotion ? 0 : 0.0024;
       this.speed = this.baseSpeed;
       this.world = null;
       this.raf = 0;
+      this.closeBtn?.addEventListener("click", this.onClose);
 
       if (typeof THREE === "undefined") {
         this.fallback();
@@ -68,6 +71,7 @@
 
       this.renderer.domElement.addEventListener("pointermove", this.onPointerMove);
       this.renderer.domElement.addEventListener("pointerleave", this.onPointerLeave);
+      this.renderer.domElement.addEventListener("click", this.onClick);
       window.addEventListener("resize", this.resize, { passive: true });
       this.ro = new ResizeObserver(this.resize);
       this.ro.observe(this.container);
@@ -228,16 +232,39 @@
 
     onPointerLeave = () => {
       this.pointerVec.set(2, 2);
-      this.setHot(false);
+      this.setHover(false);
     };
 
-    setHot(state) {
+    onClick = (event) => {
+      const rect = this.renderer.domElement.getBoundingClientRect();
+      this.pointerVec.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      this.pointerVec.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      if (this.hitsMarker()) this.setOpen(true);
+      else this.setOpen(false);
+    };
+
+    onClose = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      this.setOpen(false);
+    };
+
+    setHover(state) {
       if (this.hot === state) return;
       this.hot = state;
       this.container.classList.toggle("is-hot", state);
       document.documentElement.classList.toggle("is-globe-hot", state);
+      if (this.marker) this.marker.scale.setScalar(state || this.open ? 1.4 : 1);
+    }
+
+    setOpen(state) {
+      if (this.open === state) {
+        if (state) this.pinPopup();
+        return;
+      }
+      this.open = state;
       this.speed = reducedMotion ? 0 : state ? 0.0007 : this.baseSpeed;
-      if (this.marker) this.marker.scale.setScalar(state ? 1.4 : 1);
+      if (this.marker) this.marker.scale.setScalar(state || this.hot ? 1.4 : 1);
       this.showPopup(state);
     }
 
@@ -269,8 +296,8 @@
       this.raf = requestAnimationFrame(this.tick);
       if (this.planet) {
         this.planet.rotation.y += this.speed;
-        this.setHot(this.hitsMarker());
-        if (this.hot) this.pinPopup();
+        this.setHover(this.hitsMarker());
+        if (this.open) this.pinPopup();
       }
       if (this.renderer) this.renderer.render(this.scene, this.camera);
     };
@@ -284,7 +311,7 @@
       this.fitCamera();
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       this.renderer.setSize(width, height, false);
-      if (this.hot) this.pinPopup();
+      if (this.open) this.pinPopup();
     };
   }
 

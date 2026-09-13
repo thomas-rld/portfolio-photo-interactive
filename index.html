@@ -423,41 +423,76 @@
             <div id="globe-container" class="globe">
               <p class="globe__hud">
                 40.7128 N · 74.0060 W<br />
-                NEW YORK · HOLD MARKER
+                NEW YORK · CLICK MARKER
               </p>
               <div class="globe-pop" id="ny-pop" aria-hidden="true">
-                <figure class="globe-pop__frame">
-                  <img src="photos/photos/new-york/DSC00366.jpg" alt="Passant, Times Square" loading="lazy" />
-                  <figcaption><span>FRAME 018</span><span>35MM • NEW YORK</span></figcaption>
-                </figure>
-                <figure class="globe-pop__frame">
-                  <img src="photos/photos/new-york/DSC00595-2.jpg" alt="Foule Knicks, Times Square" loading="lazy" />
-                  <figcaption><span>FRAME 019</span><span>10MM • TIMES SQUARE</span></figcaption>
-                </figure>
-                <figure class="globe-pop__frame">
-                  <img src="photos/photos/new-york/DSC00816.jpg" alt="Maillot New York 11" loading="lazy" />
-                  <figcaption><span>FRAME 020</span><span>35MM • NEW YORK</span></figcaption>
-                </figure>
-                <figure class="globe-pop__frame">
-                  <img src="photos/photos/new-york/DSC00842.jpg" alt="Foule sur un bus" loading="lazy" />
-                  <figcaption><span>FRAME 022</span><span>16-35MM • DUMBO</span></figcaption>
-                </figure>
-                <figure class="globe-pop__frame">
-                  <img src="photos/photos/new-york/DSC01119.jpg" alt="School bus et néon" loading="lazy" />
-                  <figcaption><span>FRAME 025</span><span>70-200MM • NEW YORK</span></figcaption>
-                </figure>
-                <figure class="globe-pop__frame">
-                  <img src="photos/photos/new-york/DSC01138.jpg" alt="Panneau STOP" loading="lazy" />
-                  <figcaption><span>FRAME 026</span><span>70-200MM • STREET</span></figcaption>
-                </figure>
-                <figure class="globe-pop__frame">
-                  <img src="photos/photos/new-york/DSC01174.jpg" alt="School bus, Times Square" loading="lazy" />
-                  <figcaption><span>FRAME 027</span><span>35MM • TIMES SQUARE</span></figcaption>
-                </figure>
-                <figure class="globe-pop__frame">
-                  <img src="photos/photos/new-york/DSC02131.jpg" alt="Rollers, Times Square" loading="lazy" />
-                  <figcaption><span>FRAME 030</span><span>16-35MM • NEW YORK</span></figcaption>
-                </figure>
+                <div class="globe-pop__panel">
+                  <header class="globe-pop__bar">
+                    <p class="globe-pop__title">
+                      <span>SYS/ROLL</span>
+                      <span>NYC_40.7128N</span>
+                    </p>
+                    <button type="button" class="globe-pop__close" id="ny-pop-close" aria-label="Fermer">[X]</button>
+                  </header>
+                  <div class="globe-pop__grid">
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC00366.jpg" alt="Passant, Times Square" loading="lazy" />
+                      <figcaption><span>FRAME 018</span><span>35MM • NEW YORK</span></figcaption>
+                    </figure>
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC00595-2.jpg" alt="Foule Knicks, Times Square" loading="lazy" />
+                      <figcaption><span>FRAME 019</span><span>10MM • TIMES SQUARE</span></figcaption>
+                    </figure>
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC00816.jpg" alt="Maillot New York 11" loading="lazy" />
+                      <figcaption><span>FRAME 020</span><span>35MM • NEW YORK</span></figcaption>
+                    </figure>
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC00830.jpg" alt="Masque chrome, Times Square" loading="lazy" />
+                      <figcaption><span>FRAME 021</span><span>35MM • TIMES SQUARE</span></figcaption>
+                    </figure>
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC00842.jpg" alt="Foule sur un bus" loading="lazy" />
+                      <figcaption><span>FRAME 022</span><span>16-35MM • DUMBO</span></figcaption>
+                    </figure>
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC01000.jpg" alt="Supporter et NYPD" loading="lazy" />
+                      <figcaption><span>FRAME 023</span><span>35MM • TIMES SQUARE</span></figcaption>
+                    </figure>
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC01076.jpg" alt="T-shirt Knicks" loading="lazy" />
+                      <figcaption><span>FRAME 024</span><span>35MM • NEW YORK</span></figcaption>
+                    </figure>
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC01119.jpg" alt="School bus et néon" loading="lazy" />
+                      <figcaption><span>FRAME 025</span><span>70-200MM • NEW YORK</span></figcaption>
+                    </figure>
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC01138.jpg" alt="Panneau STOP" loading="lazy" />
+                      <figcaption><span>FRAME 026</span><span>70-200MM • STREET</span></figcaption>
+                    </figure>
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC01174.jpg" alt="School bus, Times Square" loading="lazy" />
+                      <figcaption><span>FRAME 027</span><span>35MM • TIMES SQUARE</span></figcaption>
+                    </figure>
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC01216.jpg" alt="Fenêtre de bus" loading="lazy" />
+                      <figcaption><span>FRAME 028</span><span>70-200MM • NEW YORK</span></figcaption>
+                    </figure>
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC01228.jpg" alt="Officier et bus" loading="lazy" />
+                      <figcaption><span>FRAME 029</span><span>70-200MM • 7TH AVE</span></figcaption>
+                    </figure>
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC02131.jpg" alt="Rollers, Times Square" loading="lazy" />
+                      <figcaption><span>FRAME 030</span><span>16-35MM • NEW YORK</span></figcaption>
+                    </figure>
+                    <figure class="globe-pop__frame">
+                      <img src="photos/photos/new-york/DSC02161.jpg" alt="Officier NYPD" loading="lazy" />
+                      <figcaption><span>FRAME 031</span><span>35MM • TIMES SQUARE</span></figcaption>
+                    </figure>
+                  </div>
+                </div>
               </div>
             </div>
           </section>

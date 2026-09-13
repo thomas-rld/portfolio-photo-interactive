@@ -892,7 +892,7 @@ svg {
   aspect-ratio: 1 / 1;
 }
 
-/* ——— 03 · Globe continents + pop-up hover ——— */
+/* ——— 03 · Globe continents + pop-up HUD ——— */
 .globe {
   position: relative;
   width: 100%;
@@ -964,15 +964,94 @@ html.is-globe-hot .viewfinder {
   visibility: visible;
 }
 
-.globe-pop__frame {
+.globe-pop__panel {
+  pointer-events: auto;
   position: absolute;
-  left: 14px;
-  top: 0;
-  width: min(19vw, 156px);
-  margin: 0;
-  border: 1px solid var(--line-strong);
+  left: 16px;
+  bottom: 12px;
+  width: min(42vw, 340px);
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.globe-pop__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-shrink: 0;
+  padding: 8px 10px 7px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.globe-pop__title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+
+.globe-pop__title span:last-child {
+  color: var(--paper-dim);
+}
+
+.globe-pop__close {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--paper);
   background: transparent;
-  transform-origin: bottom left;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 4px 8px 3px;
+  cursor: pointer;
+}
+
+.globe-pop__close:hover,
+.globe-pop__close:focus-visible {
+  background: var(--paper);
+  color: var(--void);
+  outline: none;
+}
+
+.globe-pop__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
+}
+
+.globe-pop__grid::-webkit-scrollbar {
+  width: 3px;
+}
+
+.globe-pop__grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.globe-pop__grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.globe-pop__frame {
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
 }
 
 .globe-pop__frame img {
@@ -986,52 +1065,12 @@ html.is-globe-hot .viewfinder {
   display: flex;
   justify-content: space-between;
   gap: 8px;
-  padding: 5px 6px 6px;
+  padding: 6px 6px 7px;
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--paper);
-}
-
-.globe-pop__frame:nth-child(1) {
-  transform: translate(8px, calc(-100% - 10px)) rotate(-6deg);
-  z-index: 8;
-}
-
-.globe-pop__frame:nth-child(2) {
-  transform: translate(118px, calc(-94% - 4px)) rotate(5deg);
-  z-index: 7;
-}
-
-.globe-pop__frame:nth-child(3) {
-  transform: translate(0, calc(-188% + 36px)) rotate(3deg);
-  z-index: 6;
-}
-
-.globe-pop__frame:nth-child(4) {
-  transform: translate(126px, calc(-176% + 28px)) rotate(-4deg);
-  z-index: 5;
-}
-
-.globe-pop__frame:nth-child(5) {
-  transform: translate(16px, calc(-268% + 72px)) rotate(-2deg);
-  z-index: 4;
-}
-
-.globe-pop__frame:nth-child(6) {
-  transform: translate(122px, calc(-252% + 58px)) rotate(6deg);
-  z-index: 3;
-}
-
-.globe-pop__frame:nth-child(7) {
-  transform: translate(6px, calc(-348% + 110px)) rotate(4deg);
-  z-index: 2;
-}
-
-.globe-pop__frame:nth-child(8) {
-  transform: translate(120px, calc(-330% + 96px)) rotate(-3deg);
-  z-index: 1;
 }
 
 /* ——— 03 · Panorama horizontal (legacy) ——— */
@@ -1167,12 +1206,13 @@ html.is-globe-hot .viewfinder {
     min-height: 320px;
   }
 
-  .globe-pop__frame {
-    width: min(34vw, 128px);
+  .globe-pop__panel {
+    width: min(78vw, 280px);
+    max-height: 320px;
   }
 
-  .globe-pop__frame:nth-child(n + 5) {
-    display: none;
+  .globe-pop__grid {
+    grid-template-columns: 1fr;
   }
 }
 
