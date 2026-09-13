@@ -1345,37 +1345,47 @@ html:has(.cli-footer:hover) .viewfinder {
 
 @media (max-width: 768px) {
   .chapter {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 5vw;
+    padding-right: 5vw;
   }
 
   .chapter__head {
     grid-template-columns: 1fr;
     gap: 12px;
     margin-bottom: 6vh;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .chapter__head h2,
+  .contact-section__title,
+  .hero-title {
+    font-size: clamp(2.5rem, 10vw, 5rem);
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: normal;
+    letter-spacing: 0.04em;
+    box-sizing: border-box;
   }
 
   .chapter__head h2 {
-    font-size: clamp(2.1rem, 14vw, 3.4rem);
-    letter-spacing: -0.03em;
-  }
-
-  .hero-title {
-    font-size: clamp(2rem, 13vw, 3.2rem);
+    letter-spacing: -0.02em;
   }
 
   .contact-section {
     width: 90%;
     max-width: 90%;
     margin: 10vh auto;
-    padding: 0;
+    padding: 0 5vw;
+    box-sizing: border-box;
   }
 
   .contact-section__title {
-    font-size: clamp(2.4rem, 16vw, 3.6rem);
-    letter-spacing: 0.12em;
-    text-indent: 0.12em;
+    letter-spacing: 0.08em;
+    text-indent: 0;
     margin-bottom: 5vh;
+    padding: 0;
   }
 
   .artists__grid {
