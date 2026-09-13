@@ -967,6 +967,21 @@ html.is-globe-hot .viewfinder {
   height: auto;
   opacity: 1;
   visibility: visible;
+  pointer-events: auto !important;
+  cursor: auto !important;
+}
+
+html.is-globe-open,
+html.is-globe-open body,
+html.is-globe-open .globe,
+html.is-globe-open .globe canvas,
+html.is-globe-open .globe-pop,
+html.is-globe-open .globe-pop * {
+  cursor: auto !important;
+}
+
+html.is-globe-open .globe-pop__close {
+  cursor: pointer !important;
 }
 
 html.is-globe-open .viewfinder {
@@ -974,7 +989,8 @@ html.is-globe-open .viewfinder {
 }
 
 .globe-pop__panel {
-  pointer-events: auto;
+  pointer-events: auto !important;
+  cursor: auto !important;
   position: absolute;
   top: 50%;
   left: 50%;
