@@ -279,6 +279,8 @@ svg {
   background: var(--void);
   pointer-events: auto;
   cursor: none;
+  contain: layout style paint;
+  will-change: clip-path;
 }
 
 .loader.is-exposing {
@@ -286,7 +288,8 @@ svg {
 }
 
 .loader.is-gone {
-  display: none;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 @keyframes shutter-fire {
@@ -347,6 +350,7 @@ svg {
   font-size: clamp(13px, 1.7vw, 18px);
   line-height: 1.7;
   letter-spacing: 0.04em;
+  min-height: 3.4em;
 }
 
 .terminal__caret {
@@ -367,6 +371,11 @@ svg {
 
 .terminal__hint {
   margin-top: 36px;
+  min-height: 1.2em;
+  opacity: 0;
+}
+
+.terminal__hint.is-ready {
   animation: hint-pulse 1.4s ease-in-out infinite;
 }
 
@@ -389,7 +398,8 @@ svg {
 
 .scroll-content {
   position: relative;
-  will-change: transform;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 /* ——— Placeholders photo ——— */

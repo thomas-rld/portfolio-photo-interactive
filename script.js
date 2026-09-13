@@ -55,9 +55,15 @@
 
     update() {
       if (coarsePointer) return;
-      // LERP rapide : le collimateur doit précéder le scroll, pas le suivre.
-      this.x = lerp(this.x, this.tx, reducedMotion ? 1 : 0.18);
-      this.y = lerp(this.y, this.ty, reducedMotion ? 1 : 0.18);
+      const nx = lerp(this.x, this.tx, reducedMotion ? 1 : 0.18);
+      const ny = lerp(this.y, this.ty, reducedMotion ? 1 : 0.18);
+      if (Math.abs(nx - this.x) < 0.05 && Math.abs(ny - this.y) < 0.05) {
+        this.x = this.tx;
+        this.y = this.ty;
+        return;
+      }
+      this.x = nx;
+      this.y = ny;
       this.root.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`;
     }
   }
@@ -108,7 +114,7 @@
     finish() {
       this.typed.textContent = this.buffer;
       this.done = true;
-      this.hint.hidden = false;
+      this.hint.classList.add("is-ready");
       if (this.onDone) this.onDone();
     }
   }
@@ -127,25 +133,29 @@
       this.max = 0;
       this.enabled = false;
       this.touchY = 0;
+      this.written = 0;
+      this.dirty = true;
     }
 
     enable() {
       this.enabled = true;
+      this.content.style.willChange = "transform";
     }
 
     measure() {
       this.max = Math.max(0, this.content.scrollHeight - window.innerHeight);
       this.target = clamp(this.target, 0, this.max);
       this.current = clamp(this.current, 0, this.max);
+      this.dirty = true;
     }
 
     add(delta) {
       if (!this.enabled) return;
       this.target = clamp(this.target + delta, 0, this.max);
+      this.dirty = true;
     }
 
     onWheel = (event) => {
-      if (!this.enabled) return;
       event.preventDefault();
       this.add(event.deltaY);
     };
@@ -169,8 +179,13 @@
         this.current = this.target;
       } else {
         this.current = lerp(this.current, this.target, reducedMotion ? 1 : this.ease);
+        this.dirty = true;
       }
-      this.content.style.transform = `translate3d(0, ${-this.current}px, 0)`;
+      if (this.dirty || this.current !== this.written) {
+        this.content.style.transform = `translate3d(0, ${-this.current}px, 0)`;
+        this.written = this.current;
+        this.dirty = false;
+      }
       return this.current;
     }
   }
@@ -312,6 +327,9 @@
       this.frameValue = document.getElementById("frame-value");
       this.ready = false;
       this.exposed = false;
+      this.resizeRaf = 0;
+      this.needRefit = false;
+      this.frameLabel = "000";
 
       this.viewfinder = new Viewfinder(document.getElementById("viewfinder"));
       this.terminal = new Terminal(
@@ -339,9 +357,10 @@
       };
 
       this.bind();
+      this.warmGallery();
       this.terminal.start();
-      this.resize();
-      if (document.fonts?.ready) document.fonts.ready.then(() => this.resize());
+      this.scheduleResize(true);
+      if (document.fonts?.ready) document.fonts.ready.then(() => this.scheduleResize(true));
       this.loop(0);
     }
 
@@ -352,27 +371,57 @@
       window.addEventListener("touchmove", this.onTouch, { passive: false });
       window.addEventListener("keydown", this.onKey);
       this.loader.addEventListener("click", expose);
-      window.addEventListener("resize", () => this.resize());
+      window.addEventListener("resize", () => this.scheduleResize(true), { passive: true });
 
       document.querySelectorAll("[data-cursor='lock']").forEach((node) => {
         node.addEventListener("mouseenter", () => this.viewfinder.lock(true));
         node.addEventListener("mouseleave", () => this.viewfinder.lock(false));
       });
+
+      document.querySelectorAll(".artists__grid img").forEach((img) => {
+        if (!img.complete) {
+          img.addEventListener("load", () => this.scheduleResize(false), { once: true });
+        }
+      });
+    }
+
+    warmGallery() {
+      document.querySelectorAll(".artists__grid img").forEach((img) => {
+        img.decoding = "async";
+        if (img.decode) img.decode().catch(() => {});
+      });
+    }
+
+    scheduleResize(refit) {
+      this.needRefit = this.needRefit || refit;
+      if (this.resizeRaf) return;
+      this.resizeRaf = requestAnimationFrame(() => {
+        this.resizeRaf = 0;
+        const doFit = this.needRefit;
+        this.needRefit = false;
+        this.measure(doFit);
+      });
     }
 
     onWheel = (event) => {
+      event.preventDefault();
       if (!this.exposed) {
-        event.preventDefault();
-        if (this.ready) this.expose();
+        if (this.ready) {
+          this.expose();
+          this.scroll.add(event.deltaY);
+        }
         return;
       }
-      this.scroll.onWheel(event);
+      this.scroll.add(event.deltaY);
     };
 
     onTouch = (event) => {
+      event.preventDefault();
       if (!this.exposed) {
-        event.preventDefault();
-        if (this.ready) this.expose();
+        if (this.ready) {
+          this.expose();
+          this.scroll.onTouchMove(event);
+        }
         return;
       }
       this.scroll.onTouchMove(event);
@@ -399,18 +448,17 @@
       this.loader.classList.add("is-exposing");
       this.chrome.classList.add("is-live");
       this.counter.classList.add("is-live");
+      this.scroll.enable();
       window.setTimeout(() => {
         this.loader.classList.add("is-gone");
-        this.scroll.enable();
-        this.resize();
       }, reducedMotion ? 0 : 800);
     }
 
-    resize() {
+    measure(refit) {
       this.panorama.measure(this.content);
       this.scroll.measure();
       this.parallax.measure();
-      this.fitTitle.fit();
+      if (refit) this.fitTitle.fit();
     }
 
     loop = (time) => {
@@ -419,8 +467,11 @@
       if (this.exposed) {
         this.parallax.update(scrollY);
         this.panorama.update(scrollY);
-        const frame = Math.round(mapRange(scrollY, 0, this.scroll.max || 1, 0, 36));
-        this.frameValue.textContent = String(frame).padStart(3, "0");
+        const frame = String(Math.round(mapRange(scrollY, 0, this.scroll.max || 1, 0, 36))).padStart(3, "0");
+        if (frame !== this.frameLabel) {
+          this.frameLabel = frame;
+          this.frameValue.textContent = frame;
+        }
       }
       this.interference.update(time);
       requestAnimationFrame(this.loop);
