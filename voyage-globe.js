@@ -2,22 +2,18 @@
   "use strict";
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const NY = { lat: 40.7128, lon: -74.006 };
 
   class VoyageGlobe {
-    constructor({ container, modal, lockBtn, closeBtn }) {
+    constructor(container, popup) {
       this.container = container;
-      this.modal = modal;
-      this.lockBtn = lockBtn;
-      this.closeBtn = closeBtn;
-      this.open = false;
+      this.popup = popup;
       this.hot = false;
-      this.baseSpeed = reducedMotion ? 0 : 0.0032;
+      this.radius = 1.2;
+      this.baseSpeed = reducedMotion ? 0 : 0.0024;
       this.speed = this.baseSpeed;
+      this.world = null;
       this.raf = 0;
-
-      this.closeBtn?.addEventListener("click", this.closeModal);
-      this.lockBtn?.addEventListener("click", this.openModal);
-      window.addEventListener("keydown", this.onKey);
 
       if (typeof THREE === "undefined") {
         this.fallback();
@@ -43,24 +39,17 @@
     }
 
     fallback() {
-      if (!this.container || this.container.querySelector(".globe__fallback")) return;
       this.container.classList.add("is-fallback");
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "globe__fallback";
-      button.textContent = "NEW YORK — OPEN ROLL";
-      button.addEventListener("click", this.openModal);
-      this.container.appendChild(button);
+      this.showPopup(true);
     }
 
     mount() {
       const width = this.container.clientWidth || 1;
       const height = this.container.clientHeight || 1;
-      const radius = 1.28;
 
       this.scene = new THREE.Scene();
-      this.camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 20);
-      this.camera.position.set(0, 0.12, 3.35);
+      this.camera = new THREE.PerspectiveCamera(32, width / height, 0.1, 40);
+      this.world = new THREE.Vector3();
 
       this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
       this.renderer.setClearColor(0x000000, 0);
@@ -70,69 +59,165 @@
 
       this.planet = new THREE.Group();
       this.scene.add(this.planet);
-
-      const sphereGeo = new THREE.SphereGeometry(radius, 28, 16);
-      this.planet.add(
-        new THREE.Mesh(
-          sphereGeo,
-          new THREE.MeshBasicMaterial({
-            color: 0xf4f4f4,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.42,
-          })
-        ),
-        new THREE.Points(
-          sphereGeo,
-          new THREE.PointsMaterial({
-            color: 0xe8e8e8,
-            size: 0.02,
-            sizeAttenuation: true,
-          })
-        )
-      );
-
-      const ny = this.latLon(40.7128, -74.006, radius + 0.02);
-      this.marker = new THREE.Group();
-      const markMat = new THREE.MeshBasicMaterial({ color: 0xf4f4f4 });
-      const accentMat = new THREE.MeshBasicMaterial({ color: 0xff2f8b });
-      this.marker.add(new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.018, 0.018), markMat));
-      this.marker.add(new THREE.Mesh(new THREE.BoxGeometry(0.018, 0.09, 0.018), markMat));
-      this.marker.add(new THREE.Mesh(new THREE.BoxGeometry(0.028, 0.028, 0.028), accentMat));
-      this.marker.position.copy(ny);
-      this.marker.lookAt(ny.clone().multiplyScalar(2));
-      this.planet.add(this.marker);
-
-      this.marker.add(
-        new THREE.Mesh(
-          new THREE.TorusGeometry(0.08, 0.006, 8, 20),
-          new THREE.MeshBasicMaterial({ color: 0xff2f8b })
-        )
-      );
-
-      this.hit = new THREE.Mesh(
-        new THREE.SphereGeometry(0.22, 12, 12),
-        new THREE.MeshBasicMaterial({
-          transparent: true,
-          opacity: 0,
-          depthWrite: false,
-        })
-      );
-      this.hit.position.copy(ny);
-      this.planet.add(this.hit);
-      this.planet.rotation.y = -Math.atan2(ny.x, ny.z) + 0.35;
+      this.addRadarCage();
+      this.addMarker();
+      this.loadContinents();
 
       this.raycaster = new THREE.Raycaster();
       this.pointerVec = new THREE.Vector2(2, 2);
 
       this.renderer.domElement.addEventListener("pointermove", this.onPointerMove);
       this.renderer.domElement.addEventListener("pointerleave", this.onPointerLeave);
-      this.renderer.domElement.addEventListener("click", this.onClick);
       window.addEventListener("resize", this.resize, { passive: true });
       this.ro = new ResizeObserver(this.resize);
       this.ro.observe(this.container);
       this.resize();
       this.raf = requestAnimationFrame(this.tick);
+    }
+
+    addRadarCage() {
+      const faint = new THREE.MeshBasicMaterial({
+        color: 0xf4f4f4,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.045,
+      });
+      this.planet.add(new THREE.Mesh(new THREE.SphereGeometry(this.radius, 24, 16), faint));
+
+      const meridians = [];
+      const steps = 64;
+      for (let m = 0; m < 6; m += 1) {
+        const lon = -180 + m * 30;
+        for (let i = 0; i < steps; i += 1) {
+          const a = this.latLon(-90 + (180 * i) / steps, lon, this.radius);
+          const b = this.latLon(-90 + (180 * (i + 1)) / steps, lon, this.radius);
+          meridians.push(a.x, a.y, a.z, b.x, b.y, b.z);
+        }
+      }
+      for (let i = 0; i < steps; i += 1) {
+        const a = this.latLon(0, -180 + (360 * i) / steps, this.radius);
+        const b = this.latLon(0, -180 + (360 * (i + 1)) / steps, this.radius);
+        meridians.push(a.x, a.y, a.z, b.x, b.y, b.z);
+      }
+      const grid = new THREE.BufferGeometry();
+      grid.setAttribute("position", new THREE.Float32BufferAttribute(meridians, 3));
+      this.planet.add(
+        new THREE.LineSegments(
+          grid,
+          new THREE.LineBasicMaterial({ color: 0x6a6a6a, transparent: true, opacity: 0.18 })
+        )
+      );
+    }
+
+    addMarker() {
+      const ny = this.latLon(NY.lat, NY.lon, this.radius + 0.018);
+      this.marker = new THREE.Group();
+      const markMat = new THREE.MeshBasicMaterial({ color: 0xf4f4f4 });
+      const accentMat = new THREE.MeshBasicMaterial({ color: 0xff2f8b });
+      this.marker.add(new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.016, 0.016), markMat));
+      this.marker.add(new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.08, 0.016), markMat));
+      this.marker.add(new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.024, 0.024), accentMat));
+      this.marker.add(
+        new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.005, 8, 20), accentMat)
+      );
+      this.marker.position.copy(ny);
+      this.marker.lookAt(ny.clone().multiplyScalar(2));
+      this.planet.add(this.marker);
+
+      this.hit = new THREE.Mesh(
+        new THREE.SphereGeometry(0.2, 12, 12),
+        new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })
+      );
+      this.hit.position.copy(ny);
+      this.planet.add(this.hit);
+      this.planet.rotation.y = -Math.atan2(ny.x, ny.z) + 0.28;
+    }
+
+    loadContinents() {
+      fetch("data/land-110m.json")
+        .then((response) => {
+          if (!response.ok) throw new Error("land map missing");
+          return response.json();
+        })
+        .then((geo) => this.drawContinents(geo))
+        .catch(() => this.drawWireFallback());
+    }
+
+    drawWireFallback() {
+      this.planet.add(
+        new THREE.Mesh(
+          new THREE.SphereGeometry(this.radius, 36, 22),
+          new THREE.MeshBasicMaterial({
+            color: 0xf4f4f4,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.28,
+          })
+        )
+      );
+    }
+
+    drawContinents(geo) {
+      const lines = [];
+      const dots = [];
+      const pushRing = (ring) => {
+        if (!ring || ring.length < 2) return;
+        let prev = null;
+        let first = null;
+        ring.forEach(([lon, lat], index) => {
+          if (!Number.isFinite(lat) || !Number.isFinite(lon)) return;
+          const point = this.latLon(lat, lon, this.radius + 0.002);
+          if (!first) first = point.clone();
+          if (prev) {
+            lines.push(prev.x, prev.y, prev.z, point.x, point.y, point.z);
+          }
+          if (index % 2 === 0) dots.push(point.x, point.y, point.z);
+          prev = point;
+        });
+        if (prev && first) lines.push(prev.x, prev.y, prev.z, first.x, first.y, first.z);
+      };
+      const walk = (coords) => {
+        if (!coords || !coords.length) return;
+        if (typeof coords[0][0] === "number") pushRing(coords);
+        else coords.forEach(walk);
+      };
+      (geo.features || []).forEach((feature) => {
+        walk(feature.geometry && feature.geometry.coordinates);
+      });
+
+      const coast = new THREE.BufferGeometry();
+      coast.setAttribute("position", new THREE.Float32BufferAttribute(lines, 3));
+      this.planet.add(
+        new THREE.LineSegments(
+          coast,
+          new THREE.LineBasicMaterial({ color: 0xf4f4f4, transparent: true, opacity: 0.82 })
+        )
+      );
+
+      const cloud = new THREE.BufferGeometry();
+      cloud.setAttribute("position", new THREE.Float32BufferAttribute(dots, 3));
+      this.planet.add(
+        new THREE.Points(
+          cloud,
+          new THREE.PointsMaterial({
+            color: 0xe8e8e8,
+            size: 0.012,
+            sizeAttenuation: true,
+            transparent: true,
+            opacity: 0.7,
+          })
+        )
+      );
+    }
+
+    fitCamera() {
+      const aspect = this.camera.aspect || 1;
+      const half = ((this.camera.fov * Math.PI) / 180) * 0.5;
+      const fitH = this.radius / Math.tan(half);
+      const fitW = this.radius / (Math.tan(half) * aspect);
+      this.camera.position.set(0, 0, Math.max(fitH, fitW) * 1.2);
+      this.camera.far = this.camera.position.z + this.radius * 6;
+      this.camera.updateProjectionMatrix();
     }
 
     onPointerMove = (event) => {
@@ -146,24 +231,21 @@
       this.setHot(false);
     };
 
-    onClick = (event) => {
-      const rect = this.renderer.domElement.getBoundingClientRect();
-      this.pointerVec.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      this.pointerVec.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-      if (this.hitsMarker()) this.openModal();
-    };
-
-    onKey = (event) => {
-      if (event.key === "Escape" && this.open) this.closeModal();
-    };
-
     setHot(state) {
       if (this.hot === state) return;
       this.hot = state;
       this.container.classList.toggle("is-hot", state);
       document.documentElement.classList.toggle("is-globe-hot", state);
-      this.speed = reducedMotion ? 0 : state ? 0.0006 : this.baseSpeed;
-      if (this.marker) this.marker.scale.setScalar(state ? 1.45 : 1);
+      this.speed = reducedMotion ? 0 : state ? 0.0007 : this.baseSpeed;
+      if (this.marker) this.marker.scale.setScalar(state ? 1.4 : 1);
+      this.showPopup(state);
+    }
+
+    showPopup(state) {
+      if (!this.popup) return;
+      this.popup.classList.toggle("is-on", state);
+      this.popup.setAttribute("aria-hidden", state ? "false" : "true");
+      if (state) this.pinPopup();
     }
 
     hitsMarker() {
@@ -172,15 +254,23 @@
       return this.raycaster.intersectObject(this.hit, false).length > 0;
     }
 
-    pick() {
-      this.setHot(this.hitsMarker());
+    pinPopup() {
+      if (!this.popup || !this.marker || !this.world) return;
+      this.marker.getWorldPosition(this.world);
+      this.world.project(this.camera);
+      const width = this.container.clientWidth;
+      const height = this.container.clientHeight;
+      const x = (this.world.x * 0.5 + 0.5) * width;
+      const y = (-this.world.y * 0.5 + 0.5) * height;
+      this.popup.style.transform = `translate(${x}px, ${y}px)`;
     }
 
     tick = () => {
       this.raf = requestAnimationFrame(this.tick);
-      if (this.planet && !this.open) {
+      if (this.planet) {
         this.planet.rotation.y += this.speed;
-        this.pick();
+        this.setHot(this.hitsMarker());
+        if (this.hot) this.pinPopup();
       }
       if (this.renderer) this.renderer.render(this.scene, this.camera);
     };
@@ -191,43 +281,17 @@
       const height = this.container.clientHeight;
       if (!width || !height) return;
       this.camera.aspect = width / height;
-      this.camera.updateProjectionMatrix();
+      this.fitCamera();
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       this.renderer.setSize(width, height, false);
-    };
-
-    openModal = () => {
-      if (!this.modal || this.open) return;
-      this.open = true;
-      this.setHot(false);
-      this.modal.classList.add("is-open");
-      this.modal.setAttribute("aria-hidden", "false");
-      document.documentElement.classList.add("is-voyage-open");
-      document.body.style.overflow = "hidden";
-      this.modal.querySelectorAll(".shot").forEach((shot) => shot.classList.add("is-in"));
-      this.closeBtn?.focus();
-    };
-
-    closeModal = () => {
-      if (!this.modal || !this.open) return;
-      this.open = false;
-      this.modal.classList.remove("is-open");
-      this.modal.setAttribute("aria-hidden", "true");
-      document.documentElement.classList.remove("is-voyage-open");
-      document.body.style.overflow = "auto";
+      if (this.hot) this.pinPopup();
     };
   }
 
   const boot = () => {
     const container = document.getElementById("globe-container");
-    const modal = document.getElementById("voyage-modal");
-    if (!container || !modal) return;
-    new VoyageGlobe({
-      container,
-      modal,
-      lockBtn: document.getElementById("globe-lock"),
-      closeBtn: document.getElementById("voyage-modal-close"),
-    });
+    if (!container) return;
+    new VoyageGlobe(container, document.getElementById("ny-pop"));
   };
 
   if (document.readyState === "loading") {

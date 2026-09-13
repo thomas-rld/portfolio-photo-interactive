@@ -250,7 +250,6 @@
     };
 
     onKey = (event) => {
-      if (document.documentElement.classList.contains("is-voyage-open")) return;
       const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Spacebar"];
       if (!keys.includes(event.key)) return;
       if (!this.ready) {

@@ -421,10 +421,44 @@
             </header>
 
             <div id="globe-container" class="globe">
-              <button type="button" class="globe__hud" id="globe-lock">
+              <p class="globe__hud">
                 40.7128 N · 74.0060 W<br />
-                LOCK MARKER TO OPEN ROLL
-              </button>
+                NEW YORK · HOLD MARKER
+              </p>
+              <div class="globe-pop" id="ny-pop" aria-hidden="true">
+                <figure class="globe-pop__frame">
+                  <img src="photos/photos/new-york/DSC00366.jpg" alt="Passant, Times Square" loading="lazy" />
+                  <figcaption><span>FRAME 018</span><span>35MM • NEW YORK</span></figcaption>
+                </figure>
+                <figure class="globe-pop__frame">
+                  <img src="photos/photos/new-york/DSC00595-2.jpg" alt="Foule Knicks, Times Square" loading="lazy" />
+                  <figcaption><span>FRAME 019</span><span>10MM • TIMES SQUARE</span></figcaption>
+                </figure>
+                <figure class="globe-pop__frame">
+                  <img src="photos/photos/new-york/DSC00816.jpg" alt="Maillot New York 11" loading="lazy" />
+                  <figcaption><span>FRAME 020</span><span>35MM • NEW YORK</span></figcaption>
+                </figure>
+                <figure class="globe-pop__frame">
+                  <img src="photos/photos/new-york/DSC00842.jpg" alt="Foule sur un bus" loading="lazy" />
+                  <figcaption><span>FRAME 022</span><span>16-35MM • DUMBO</span></figcaption>
+                </figure>
+                <figure class="globe-pop__frame">
+                  <img src="photos/photos/new-york/DSC01119.jpg" alt="School bus et néon" loading="lazy" />
+                  <figcaption><span>FRAME 025</span><span>70-200MM • NEW YORK</span></figcaption>
+                </figure>
+                <figure class="globe-pop__frame">
+                  <img src="photos/photos/new-york/DSC01138.jpg" alt="Panneau STOP" loading="lazy" />
+                  <figcaption><span>FRAME 026</span><span>70-200MM • STREET</span></figcaption>
+                </figure>
+                <figure class="globe-pop__frame">
+                  <img src="photos/photos/new-york/DSC01174.jpg" alt="School bus, Times Square" loading="lazy" />
+                  <figcaption><span>FRAME 027</span><span>35MM • TIMES SQUARE</span></figcaption>
+                </figure>
+                <figure class="globe-pop__frame">
+                  <img src="photos/photos/new-york/DSC02131.jpg" alt="Rollers, Times Square" loading="lazy" />
+                  <figcaption><span>FRAME 030</span><span>16-35MM • NEW YORK</span></figcaption>
+                </figure>
+              </div>
             </div>
           </section>
 
@@ -437,233 +471,6 @@
             </p>
           </footer>
         </main>
-      </div>
-    </div>
-
-    <div
-      class="voyage-modal"
-      id="voyage-modal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="voyage-modal-title"
-      aria-hidden="true"
-    >
-      <div class="voyage-modal__bar">
-        <p class="voyage-modal__title" id="voyage-modal-title">03 · VOYAGE · NEW YORK</p>
-        <button type="button" class="voyage-modal__close" id="voyage-modal-close">[ FERMER ]</button>
-      </div>
-      <div class="voyage-modal__scroll">
-            <div class="artists__grid">
-              <figure class="shot" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC00366.jpg"
-                    alt="Passant au sac à dos, Times Square la nuit"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC00366 · FRAME 018</span>
-                    <span>35MM • TIMES SQUARE</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">Times Square — portrait de rue, nuit</figcaption>
-              </figure>
-
-              <figure class="shot shot--wide" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC00595-2.jpg"
-                    alt="Foule Knicks sous les écrans, Times Square"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC00595 · FRAME 019</span>
-                    <span>10MM • TIMES SQUARE</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">Times Square — foule Knicks</figcaption>
-              </figure>
-
-              <figure class="shot" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC00816.jpg"
-                    alt="Supporter maillot New York 11, Times Square"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC00816 · FRAME 020</span>
-                    <span>35MM • TIMES SQUARE</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">Times Square — portrait Knicks</figcaption>
-              </figure>
-
-              <figure class="shot" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC00830.jpg"
-                    alt="Masque chrome et maillot New York, Times Square"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC00830 · FRAME 021</span>
-                    <span>35MM • TIMES SQUARE</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">Times Square — masque et maillot</figcaption>
-              </figure>
-
-              <figure class="shot shot--wide" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC00842.jpg"
-                    alt="Foule sur un bus, Times Square"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC00842 · FRAME 022</span>
-                    <span>16-35MM • 7TH AVE</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">7th Avenue — foule sur un bus</figcaption>
-              </figure>
-
-              <figure class="shot" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC01000.jpg"
-                    alt="Supporter Knicks et police, Times Square"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC01000 · FRAME 023</span>
-                    <span>35MM • TIMES SQUARE</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">Times Square — supporter et NYPD</figcaption>
-              </figure>
-
-              <figure class="shot" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC01076.jpg"
-                    alt="T-shirt Knicks Championships levé au-dessus d’une voiture"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC01076 · FRAME 024</span>
-                    <span>35MM • TIMES SQUARE</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">Times Square — t-shirt Knicks</figcaption>
-              </figure>
-
-              <figure class="shot" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC01119.jpg"
-                    alt="Homme debout sur un school bus, néon Sbarro"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC01119 · FRAME 025</span>
-                    <span>70-200MM • TIMES SQUARE</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">Times Square — school bus et néon</figcaption>
-              </figure>
-
-              <figure class="shot" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC01138.jpg"
-                    alt="Main levée sur un panneau STOP, noir et blanc"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC01138 · FRAME 026</span>
-                    <span>70-200MM • STREET</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">Street — panneau STOP</figcaption>
-              </figure>
-
-              <figure class="shot shot--wide" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC01174.jpg"
-                    alt="School bus pare-brise brisé, Times Square"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC01174 · FRAME 027</span>
-                    <span>35MM • TIMES SQUARE</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">Times Square — bus et pare-brise</figcaption>
-              </figure>
-
-              <figure class="shot" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC01216.jpg"
-                    alt="Homme à la fenêtre d’un school bus orange"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC01216 · FRAME 028</span>
-                    <span>70-200MM • TIMES SQUARE</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">Times Square — fenêtre de bus</figcaption>
-              </figure>
-
-              <figure class="shot" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC01228.jpg"
-                    alt="Officier NYPD de profil contre un school bus tagué"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC01228 · FRAME 029</span>
-                    <span>70-200MM • 7TH AVE</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">7th Avenue — officier et bus</figcaption>
-              </figure>
-
-              <figure class="shot shot--wide" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC02131.jpg"
-                    alt="Rollers et drapeaux sur un passage piéton, Times Square"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC02131 · FRAME 030</span>
-                    <span>16-35MM • 7TH AVE</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">Times Square — rollers et drapeaux</figcaption>
-              </figure>
-
-              <figure class="shot" data-cursor="lock">
-                <div class="shot__media">
-                  <img
-                    src="photos/photos/new-york/DSC02161.jpg"
-                    alt="Officier NYPD devant une voiture, Times Square"
-                    loading="lazy"
-                  />
-                  <div class="shot__meta">
-                    <span>DSC02161 · FRAME 031</span>
-                    <span>35MM • TIMES SQUARE</span>
-                  </div>
-                </div>
-                <figcaption class="sr-only">Times Square — officier NYPD</figcaption>
-              </figure>
-            </div>
       </div>
     </div>
 
