@@ -541,7 +541,7 @@ svg {
 .hero {
   position: relative;
   height: 100vh;
-  min-height: 640px;
+  min-height: 100svh;
 }
 
 .hero__frame {
@@ -551,12 +551,15 @@ svg {
 
 .hero__copy {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 36px;
+  inset: 0;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 100%;
+  margin: 0;
   padding: 0 clamp(1.25rem, 4vw, 2.5rem);
   text-align: center;
   pointer-events: none;
@@ -575,7 +578,7 @@ svg {
 .eyebrow {
   font-size: 11px;
   letter-spacing: 0.2em;
-  margin-bottom: 16px;
+  margin: 0 0 12px;
   color: var(--paper-dim);
 }
 
@@ -611,7 +614,7 @@ svg {
 }
 
 .hero__tech {
-  margin-top: 22px;
+  margin: 16px 0 0;
   font-size: 11px;
   line-height: 1.7;
   letter-spacing: 0.14em;
