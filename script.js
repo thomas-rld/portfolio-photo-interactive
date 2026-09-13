@@ -46,24 +46,36 @@
   }
 
   class Terminal {
-    constructor(typed, hint, clock) {
-      this.typed = typed;
+    constructor(title, meta, hint, clock) {
+      this.title = title;
+      this.meta = meta;
       this.hint = hint;
       this.clock = clock;
-      this.buffer = "[SYS_INIT] THOMAS ROLLAND | SONY A7V | 10mm, 16-35mm & 70-200mm";
+      this.lines = [
+        "THOMAS ROLLAND - PORTFOLIO",
+        "[SYS_INIT] SONY A7V | 10mm, 16-35mm & 70-200mm",
+      ];
+      this.line = 0;
       this.index = 0;
+      this.raf = 0;
+      this.clockTimer = 0;
+      this.last = 0;
+      this.step = 28;
+      this.alive = false;
       this.onDone = null;
     }
 
     start() {
       this.tickClock();
-      window.setInterval(this.tickClock, 1000);
+      this.clockTimer = window.setInterval(this.tickClock, 1000);
       if (reducedMotion) {
-        this.typed.textContent = this.buffer;
+        this.title.textContent = this.lines[0];
+        this.meta.textContent = this.lines[1];
         this.finish();
         return;
       }
-      this.type();
+      this.alive = true;
+      this.raf = requestAnimationFrame(this.tick);
     }
 
     tickClock = () => {
@@ -72,20 +84,50 @@
       this.clock.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
     };
 
-    type = () => {
-      if (this.index >= this.buffer.length) {
+    tick = (time) => {
+      if (!this.alive) return;
+      if (!this.last) this.last = time;
+      if (time - this.last < this.step) {
+        this.raf = requestAnimationFrame(this.tick);
+        return;
+      }
+      this.last = time;
+
+      const current = this.lines[this.line];
+      const target = this.line === 0 ? this.title : this.meta;
+      target.textContent += current.charAt(this.index);
+      this.index += 1;
+
+      if (this.index >= current.length) {
+        this.line += 1;
+        this.index = 0;
+        this.last = time + 180;
+      }
+
+      if (this.line >= this.lines.length) {
         this.finish();
         return;
       }
-      this.typed.textContent += this.buffer.charAt(this.index);
-      this.index += 1;
-      window.setTimeout(this.type, 22);
+
+      this.raf = requestAnimationFrame(this.tick);
     };
 
     finish() {
-      this.typed.textContent = this.buffer;
+      this.stop();
+      this.title.textContent = this.lines[0];
+      this.meta.textContent = this.lines[1];
       this.hint.classList.add("is-ready");
       if (this.onDone) this.onDone();
+    }
+
+    stop() {
+      this.alive = false;
+      if (this.raf) cancelAnimationFrame(this.raf);
+      this.raf = 0;
+      if (this.clockTimer) {
+        window.clearInterval(this.clockTimer);
+        this.clockTimer = 0;
+      }
     }
   }
 
@@ -153,7 +195,8 @@
 
       this.viewfinder = new Viewfinder(document.getElementById("viewfinder"));
       this.terminal = new Terminal(
-        document.getElementById("typed"),
+        document.getElementById("typed-title"),
+        document.getElementById("typed-meta"),
         document.getElementById("hint"),
         document.getElementById("loader-clock")
       );
@@ -219,6 +262,7 @@
       this.loader.classList.add("is-exposing");
       this.chrome.classList.add("is-live");
       this.counter.classList.add("is-live");
+      this.terminal.stop();
       document.documentElement.classList.remove("is-locked");
       window.removeEventListener("wheel", this.onFirstScroll);
       window.removeEventListener("touchmove", this.onFirstScroll);

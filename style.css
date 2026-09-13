@@ -307,6 +307,7 @@ svg {
 
 .terminal {
   width: min(920px, calc(100vw - 48px));
+  min-width: min(920px, calc(100vw - 48px));
 }
 
 .terminal__prompt,
@@ -321,12 +322,27 @@ svg {
   margin-bottom: 18px;
 }
 
-.terminal__line {
+.terminal__stage {
+  position: relative;
+  min-width: min(52ch, 100%);
+  min-height: 3.6em;
+}
+
+.terminal__ghost,
+.terminal__live {
   font-family: var(--font-mono);
   font-size: clamp(13px, 1.7vw, 18px);
   line-height: 1.7;
   letter-spacing: 0.04em;
-  min-height: 3.4em;
+}
+
+.terminal__ghost {
+  visibility: hidden;
+}
+
+.terminal__live {
+  position: absolute;
+  inset: 0;
 }
 
 .terminal__caret {
