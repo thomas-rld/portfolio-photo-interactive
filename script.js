@@ -68,7 +68,7 @@
       this.hint = hint;
       this.clock = clock;
       this.buffer =
-        "[SYS_INIT] THOMAS ROLLAND | SONY A7V FULL FRAME | 16-35mm & 70-200mm | GODOX iT30 PRO & LUX JUNIOR.";
+        "[SYS_INIT] THOMAS ROLLAND | SONY A7V FULL FRAME | 10mm, 16-35mm & 70-200mm | GODOX iT30 PRO & LUX JUNIOR.";
       this.index = 0;
       this.done = false;
       this.onDone = null;
