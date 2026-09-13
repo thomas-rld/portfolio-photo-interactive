@@ -19,13 +19,22 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+  background: var(--void);
+}
+
+html.is-locked,
+html.is-locked body {
+  overflow: hidden;
+  height: 100%;
+}
+
 html,
 body {
-  height: 100%;
   background: var(--void);
   color: var(--paper);
   font-family: var(--font-display);
-  overflow: hidden;
 }
 
 body {
@@ -204,20 +213,11 @@ svg {
 /* ——— Grain cinématographique ——— */
 .grain {
   position: fixed;
-  inset: -40%;
+  inset: 0;
   z-index: 8000;
-  opacity: 0.055;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: grain-shift 0.8s steps(2) infinite;
-}
-
-@keyframes grain-shift {
-  0% {
-    transform: translate(0);
-  }
-  100% {
-    transform: translate(-2%, 3%);
-  }
+  opacity: 0.04;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ——— Chrome ——— */
@@ -279,41 +279,17 @@ svg {
   background: var(--void);
   pointer-events: auto;
   cursor: none;
-  contain: layout style paint;
-  will-change: clip-path;
+  opacity: 1;
 }
 
 .loader.is-exposing {
-  animation: shutter-fire 780ms cubic-bezier(0.77, 0, 0.18, 1) forwards;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 320ms ease;
 }
 
 .loader.is-gone {
   visibility: hidden;
-  pointer-events: none;
-}
-
-@keyframes shutter-fire {
-  0% {
-    clip-path: inset(0 0 0 0);
-  }
-  14% {
-    clip-path: inset(7% 0 7% 0);
-  }
-  28% {
-    clip-path: inset(0 18% 0 18%);
-  }
-  42% {
-    clip-path: inset(22% 6% 8% 6%);
-  }
-  58% {
-    clip-path: inset(0 0 48% 0);
-  }
-  76% {
-    clip-path: inset(0 0 82% 0);
-  }
-  100% {
-    clip-path: inset(0 0 100% 0);
-  }
 }
 
 .loader__hud {
@@ -389,17 +365,10 @@ svg {
   }
 }
 
-/* ——— Scroll virtuel ——— */
-.scroll-root {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-}
-
+/* ——— Flux document natif ——— */
+.scroll-root,
 .scroll-content {
   position: relative;
-  backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
 }
 
 /* ——— Placeholders photo ——— */
@@ -774,13 +743,13 @@ svg {
   transition: filter 80ms linear;
 }
 
-.glitch-frame.is-hot .glitch-frame__media {
+.glitch-frame:hover .glitch-frame__media {
   filter: url(#filter-glitch);
   animation: bass-shake 90ms steps(2) infinite;
 }
 
-.glitch-frame.is-hot .glitch-frame__media::before,
-.glitch-frame.is-hot .glitch-frame__media::after {
+.glitch-frame:hover .glitch-frame__media::before,
+.glitch-frame:hover .glitch-frame__media::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -788,25 +757,25 @@ svg {
   pointer-events: none;
 }
 
-.glitch-frame.is-hot .glitch-frame__media::before {
+.glitch-frame:hover .glitch-frame__media::before {
   background: rgba(255, 47, 139, 0.28);
-  transform: translate3d(-6px, 1px, 0);
+  transform: translate(-6px, 1px);
 }
 
-.glitch-frame.is-hot .glitch-frame__media::after {
+.glitch-frame:hover .glitch-frame__media::after {
   background: rgba(61, 224, 255, 0.22);
-  transform: translate3d(6px, -2px, 0);
+  transform: translate(6px, -2px);
 }
 
 @keyframes bass-shake {
   0% {
-    transform: translate3d(0, 0, 0);
+    transform: translate(0, 0);
   }
   50% {
-    transform: translate3d(-2px, 1px, 0);
+    transform: translate(-2px, 1px);
   }
   100% {
-    transform: translate3d(2px, -1px, 0);
+    transform: translate(2px, -1px);
   }
 }
 
@@ -852,10 +821,10 @@ svg {
 }
 
 .travel__pin {
-  position: relative;
+  position: sticky;
+  top: 0;
   height: 100vh;
   overflow: hidden;
-  will-change: transform;
 }
 
 .travel__head {
@@ -886,7 +855,6 @@ svg {
   height: 100%;
   padding: 0 8vw;
   gap: 6vw;
-  will-change: transform;
 }
 
 .travel__slide {
@@ -986,6 +954,10 @@ svg {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
