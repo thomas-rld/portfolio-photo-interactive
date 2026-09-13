@@ -76,15 +76,15 @@ svg {
   pointer-events: none;
 }
 
-/* ——— Curseur : collimateur de viseur ——— */
+/* ——— Curseur : croix pleine X ——— */
 .viewfinder {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 10000;
-  width: 72px;
-  height: 72px;
-  margin: -36px 0 0 -36px;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
   opacity: 0;
   will-change: transform;
 }
@@ -93,96 +93,33 @@ svg {
   opacity: 1;
 }
 
-.viewfinder__ring {
-  position: absolute;
-  inset: 10px;
-  border: 1px solid rgba(244, 244, 244, 0.7);
-  border-radius: 50%;
+.viewfinder > * {
+  display: none;
 }
 
-.viewfinder__cross {
-  position: absolute;
-  background: var(--paper);
-  opacity: 0.85;
-}
-
-.viewfinder__cross--h {
-  top: 50%;
-  left: 18px;
-  right: 18px;
-  height: 1px;
-}
-
-.viewfinder__cross--v {
-  left: 50%;
-  top: 18px;
-  bottom: 18px;
-  width: 1px;
-}
-
-.viewfinder__dot {
+.viewfinder::before,
+.viewfinder::after {
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 4px;
-  height: 4px;
-  margin: -2px 0 0 -2px;
-  background: var(--paper);
-  border-radius: 50%;
-  box-shadow: 0 0 0 1px var(--void);
+  width: 20px;
+  height: 2px;
+  background-color: #fff;
+  border: 0;
+  opacity: 1;
 }
 
-.viewfinder__bracket {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-color: var(--paper);
-  border-style: solid;
-  transition: transform 420ms var(--ease-out), inset 420ms var(--ease-out);
+.viewfinder::before {
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.viewfinder__bracket--tl {
-  top: 4px;
-  left: 4px;
-  border-width: 1px 0 0 1px;
-}
-
-.viewfinder__bracket--tr {
-  top: 4px;
-  right: 4px;
-  border-width: 1px 1px 0 0;
-}
-
-.viewfinder__bracket--bl {
-  bottom: 4px;
-  left: 4px;
-  border-width: 0 0 1px 1px;
-}
-
-.viewfinder__bracket--br {
-  bottom: 4px;
-  right: 4px;
-  border-width: 0 1px 1px 0;
+.viewfinder::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 .viewfinder.is-locked {
   mix-blend-mode: difference;
-}
-
-.viewfinder.is-locked .viewfinder__bracket--tl {
-  transform: translate(6px, 6px);
-}
-
-.viewfinder.is-locked .viewfinder__bracket--tr {
-  transform: translate(-6px, 6px);
-}
-
-.viewfinder.is-locked .viewfinder__bracket--bl {
-  transform: translate(6px, -6px);
-}
-
-.viewfinder.is-locked .viewfinder__bracket--br {
-  transform: translate(-6px, -6px);
 }
 
 /* ——— Flash stroboscopique (Godox) ——— */
