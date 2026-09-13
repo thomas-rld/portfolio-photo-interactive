@@ -67,8 +67,7 @@
       this.typed = typed;
       this.hint = hint;
       this.clock = clock;
-      this.buffer =
-        "[SYS_INIT] THOMAS ROLLAND | SONY A7V FULL FRAME | 10mm, 16-35mm & 70-200mm | GODOX iT30 PRO & LUX JUNIOR.";
+      this.buffer = "[SYS_INIT] THOMAS ROLLAND | SONY A7V | 10mm, 16-35mm & 70-200mm";
       this.index = 0;
       this.done = false;
       this.onDone = null;
@@ -107,6 +106,7 @@
     };
 
     finish() {
+      this.typed.textContent = this.buffer;
       this.done = true;
       this.hint.hidden = false;
       if (this.onDone) this.onDone();

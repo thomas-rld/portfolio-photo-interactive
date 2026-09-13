@@ -347,7 +347,6 @@ svg {
   font-size: clamp(13px, 1.7vw, 18px);
   line-height: 1.7;
   letter-spacing: 0.04em;
-  min-height: 3.4em;
 }
 
 .terminal__caret {
