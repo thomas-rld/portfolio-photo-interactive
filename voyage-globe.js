@@ -258,10 +258,7 @@
     }
 
     setOpen(state) {
-      if (this.open === state) {
-        if (state) this.pinPopup();
-        return;
-      }
+      if (this.open === state) return;
       this.open = state;
       this.speed = reducedMotion ? 0 : state ? 0.0007 : this.baseSpeed;
       if (this.marker) this.marker.scale.setScalar(state || this.hot ? 1.4 : 1);
@@ -272,7 +269,8 @@
       if (!this.popup) return;
       this.popup.classList.toggle("is-on", state);
       this.popup.setAttribute("aria-hidden", state ? "false" : "true");
-      if (state) this.pinPopup();
+      this.popup.style.transform = "";
+      document.documentElement.classList.toggle("is-globe-open", state);
     }
 
     hitsMarker() {
@@ -281,23 +279,11 @@
       return this.raycaster.intersectObject(this.hit, false).length > 0;
     }
 
-    pinPopup() {
-      if (!this.popup || !this.marker || !this.world) return;
-      this.marker.getWorldPosition(this.world);
-      this.world.project(this.camera);
-      const width = this.container.clientWidth;
-      const height = this.container.clientHeight;
-      const x = (this.world.x * 0.5 + 0.5) * width;
-      const y = (-this.world.y * 0.5 + 0.5) * height;
-      this.popup.style.transform = `translate(${x}px, ${y}px)`;
-    }
-
     tick = () => {
       this.raf = requestAnimationFrame(this.tick);
       if (this.planet) {
         this.planet.rotation.y += this.speed;
         this.setHover(this.hitsMarker());
-        if (this.open) this.pinPopup();
       }
       if (this.renderer) this.renderer.render(this.scene, this.camera);
     };
@@ -311,7 +297,6 @@
       this.fitCamera();
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       this.renderer.setSize(width, height, false);
-      if (this.open) this.pinPopup();
     };
   }
 

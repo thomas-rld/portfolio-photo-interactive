@@ -914,9 +914,9 @@ svg {
   cursor: pointer !important;
 }
 
-.globe.is-fallback .globe-pop {
-  left: 50%;
-  top: 58%;
+.globe.is-fallback .globe-pop.is-on {
+  opacity: 1;
+  visibility: visible;
 }
 
 .globe__hud {
@@ -960,17 +960,28 @@ html.is-globe-hot .viewfinder {
 }
 
 .globe-pop.is-on {
+  position: fixed;
+  inset: 0;
+  z-index: 11000;
+  width: auto;
+  height: auto;
   opacity: 1;
   visibility: visible;
+}
+
+html.is-globe-open .viewfinder {
+  display: none;
 }
 
 .globe-pop__panel {
   pointer-events: auto;
   position: absolute;
-  left: 16px;
-  bottom: 12px;
-  width: min(42vw, 340px);
-  max-height: 400px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  max-width: 90vw;
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
   background: rgba(10, 10, 10, 0.7);
@@ -1209,15 +1220,6 @@ html.is-globe-hot .viewfinder {
   .globe {
     height: 62vh;
     min-height: 320px;
-  }
-
-  .globe-pop__panel {
-    width: min(78vw, 280px);
-    max-height: 320px;
-  }
-
-  .globe-pop__grid {
-    column-count: 1;
   }
 }
 
