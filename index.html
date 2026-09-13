@@ -512,13 +512,33 @@
             </div>
           </section>
 
-          <footer class="footer">
-            <p class="footer__index">END OF ROLL</p>
-            <p class="footer__title">THOMAS ROLLAND</p>
-            <p class="footer__note">
-              Disponible pour éditoriaux, résidences et nuits longues.<br />
-              Remplacez les cadres par vos fichiers — les ratios sont déjà calés.
-            </p>
+          <section id="contact" class="terminal-section" aria-label="Contact">
+            <pre class="terminal-section__boot">SECURE CONNECTION ESTABLISHED...
+SERVER_NODE: TLS-01 (NODE_TOULOUSE)
+USER_ROOT: THOMAS ROLLAND</pre>
+            <form
+              class="cli-form"
+              action="https://formspree.io/f/TON_ID"
+              method="POST"
+            >
+              <label class="cli-form__row">
+                <span class="cli-form__prefix">&gt; root@guest:~/name$</span>
+                <input type="text" name="name" autocomplete="name" required />
+              </label>
+              <label class="cli-form__row">
+                <span class="cli-form__prefix">&gt; root@guest:~/email$</span>
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+              <label class="cli-form__row cli-form__row--message">
+                <span class="cli-form__prefix">&gt; root@guest:~/message$</span>
+                <textarea name="message" rows="6" required></textarea>
+              </label>
+              <button type="submit" class="cli-form__exec">[ EXECUTE_TRANSMISSION ]</button>
+            </form>
+          </section>
+
+          <footer class="cli-footer">
+            <p>© 2026 THOMAS ROLLAND - SYSTEM OFFLINE</p>
           </footer>
         </main>
       </div>

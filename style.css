@@ -1182,6 +1182,129 @@ html.is-globe-open .viewfinder {
   color: var(--paper-dim);
 }
 
+/* ——— 04 · Terminal contact ——— */
+.terminal-section {
+  background: #000;
+  color: #d0d0d0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  padding: 16vh 28px 10vh;
+}
+
+.terminal-section,
+.terminal-section * {
+  cursor: auto !important;
+}
+
+.terminal-section__boot {
+  margin: 0 0 4vh;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: 1.8;
+  letter-spacing: 0.04em;
+  color: #c8c8c8;
+  white-space: pre-wrap;
+}
+
+.cli-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 720px;
+}
+
+.cli-form__row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.cli-form__row--message {
+  align-items: flex-start;
+}
+
+.cli-form__prefix {
+  flex-shrink: 0;
+  color: #8a8a8a;
+  letter-spacing: 0.02em;
+}
+
+.cli-form input,
+.cli-form textarea {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  border-radius: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: #fff;
+  caret-color: #fff;
+  cursor: text !important;
+  resize: none;
+}
+
+.cli-form textarea {
+  min-height: 8em;
+}
+
+.cli-form__exec {
+  align-self: flex-start;
+  margin-top: 12px;
+  padding: 8px 10px;
+  background: transparent;
+  border: 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f4f4f4;
+  cursor: pointer !important;
+}
+
+.cli-form__exec:hover,
+.cli-form__exec:focus-visible {
+  background: #fff;
+  color: #000;
+  outline: none;
+}
+
+.cli-footer {
+  background: #000;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 22px 28px 28px;
+  text-align: center;
+}
+
+.cli-footer p {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #888;
+}
+
+html:has(.terminal-section:hover) .viewfinder,
+html:has(.terminal-section:focus-within) .viewfinder,
+html:has(.cli-footer:hover) .viewfinder {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .cli-form__row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+}
+
 /* ——— Responsive ——— */
 @media (max-width: 900px) {
   .chapter__head {
