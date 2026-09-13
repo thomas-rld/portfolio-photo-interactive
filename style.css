@@ -651,6 +651,10 @@ svg {
   .shot {
     margin-bottom: 0;
   }
+
+  .shot--wide {
+    grid-column: 1 / -1;
+  }
 }
 
 .shot {
@@ -662,6 +666,10 @@ svg {
   overflow: hidden;
   border: 1px solid var(--line);
   background: transparent;
+}
+
+.shot--wide {
+  column-span: all;
 }
 
 .shot__media {
