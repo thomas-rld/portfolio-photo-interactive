@@ -792,6 +792,32 @@ svg {
   margin-bottom: 10vh;
 }
 
+.club__strip {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  gap: 2rem;
+  padding: 0 5vw;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.club__strip::-webkit-scrollbar {
+  display: none;
+}
+
+.club__strip .shot {
+  flex: 0 0 auto;
+  width: 85vw;
+  max-width: 900px;
+  margin: 0;
+  scroll-snap-align: center;
+  opacity: 1;
+  transform: none;
+}
+
 .club__stage {
   position: relative;
   height: 170vh;
