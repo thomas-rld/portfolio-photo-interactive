@@ -512,28 +512,17 @@
             </div>
           </section>
 
-          <section id="contact" class="terminal-section" aria-label="Contact">
-            <pre class="terminal-section__boot">SECURE CONNECTION ESTABLISHED...
-SERVER_NODE: TLS-01 (NODE_TOULOUSE)
-USER_ROOT: THOMAS ROLLAND</pre>
+          <section id="contact" class="contact-section" aria-label="Contact">
+            <h2 class="contact-section__title">CONTACT</h2>
             <form
-              class="cli-form"
+              class="contact-form"
               action="https://formspree.io/f/TON_ID"
               method="POST"
             >
-              <label class="cli-form__row">
-                <span class="cli-form__prefix">[ REQUÊTE : NOM ] &gt;</span>
-                <input type="text" name="name" autocomplete="name" placeholder="TAPER ICI..." required />
-              </label>
-              <label class="cli-form__row">
-                <span class="cli-form__prefix">[ PARAMÈTRE : EMAIL ] &gt;</span>
-                <input type="email" name="email" autocomplete="email" placeholder="TAPER ICI..." required />
-              </label>
-              <label class="cli-form__row cli-form__row--message">
-                <span class="cli-form__prefix">[ PAYLOAD : MESSAGE ] &gt;</span>
-                <textarea name="message" rows="6" placeholder="TAPER ICI..." required></textarea>
-              </label>
-              <button type="submit" class="cli-form__exec">[ ENVOYER_TRANSMISSION ]</button>
+              <input type="text" name="name" autocomplete="name" placeholder="NOM" required />
+              <input type="email" name="email" autocomplete="email" placeholder="EMAIL" required />
+              <textarea name="message" rows="4" placeholder="MESSAGE" required></textarea>
+              <button type="submit" class="contact-form__send">[ ENVOYER ]</button>
             </form>
           </section>
 
