@@ -621,74 +621,6 @@ svg {
   color: var(--paper-dim);
 }
 
-/* ——— Feature / DJ ——— */
-.feature {
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 0 16vh;
-}
-
-.feature__frame {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: 78vh;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  background: #070707;
-}
-
-.feature__media {
-  position: absolute;
-  inset: 0;
-}
-
-.feature__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 42%;
-  filter: contrast(1.1) saturate(0.88) brightness(0.82);
-  transform: scale(1.02);
-  transition: transform 1.1s var(--ease-out), filter 1.1s var(--ease-out);
-}
-
-.feature__frame::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 45%, transparent 42%, rgba(5, 5, 5, 0.42) 100%);
-  pointer-events: none;
-  transition: opacity 1.1s var(--ease-out);
-}
-
-.feature__frame:hover .feature__media img {
-  transform: scale(1.06);
-  filter: contrast(1.14) saturate(1) brightness(0.96);
-}
-
-.feature__frame:hover::after {
-  opacity: 0.35;
-}
-
-.feature__meta {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
-  z-index: 2;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--paper);
-  pointer-events: none;
-}
-
 /* ——— Chapitres ——— */
 .chapter {
   position: relative;
@@ -700,7 +632,7 @@ svg {
   grid-template-columns: 80px 1fr 1fr;
   gap: 24px;
   align-items: end;
-  margin-bottom: 18vh;
+  margin-bottom: 10vh;
 }
 
 .chapter__index {
@@ -722,46 +654,60 @@ svg {
   justify-self: end;
 }
 
-/* ——— 01 · Grille asymétrique + vide ——— */
+/* ——— 01 · Grille 2 colonnes compacte ——— */
 .artists__grid {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 18vh 38vh 14vh 42vh 10vh 28vh;
-  gap: 0;
-  min-height: 160vh;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
-.frame {
-  will-change: transform;
+.shot {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #070707;
 }
 
-.frame .photo-slot {
+.shot__media {
+  height: min(500px, 60vh);
+}
+
+.shot__media img,
+.shot__media .photo-slot__void {
+  width: 100%;
   height: 100%;
+  object-fit: cover;
+  object-position: center 42%;
 }
 
-.frame--portrait {
-  grid-column: 1 / 5;
-  grid-row: 1 / 3;
+.shot__media img {
+  display: block;
+  filter: contrast(1.1) saturate(0.88) brightness(0.82);
+  transform: scale(1.02);
+  transition: transform 1.1s var(--ease-out), filter 1.1s var(--ease-out);
 }
 
-.frame--square {
-  grid-column: 8 / 13;
-  grid-row: 2 / 4;
+.shot:hover .shot__media img {
+  transform: scale(1.06);
+  filter: contrast(1.14) saturate(1) brightness(0.96);
 }
 
-.frame--wide {
-  grid-column: 2 / 8;
-  grid-row: 4 / 5;
-}
-
-.frame--tall {
-  grid-column: 10 / 13;
-  grid-row: 4 / 7;
-}
-
-.frame--compact {
-  grid-column: 1 / 4;
-  grid-row: 6 / 7;
+.shot__meta {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper);
+  pointer-events: none;
 }
 
 /* ——— 02 · Chaos superposé + glitch ——— */
@@ -963,28 +909,13 @@ svg {
     justify-self: start;
   }
 
-  .feature {
-    margin-bottom: 12vh;
-  }
-
-  .feature__frame {
-    aspect-ratio: 4 / 3;
-    max-height: none;
-  }
-
   .artists__grid {
-    display: flex;
-    flex-direction: column;
-    gap: 18vh;
-    min-height: 0;
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
-  .frame--portrait,
-  .frame--square,
-  .frame--wide,
-  .frame--tall,
-  .frame--compact {
-    height: 58vh;
+  .shot__media {
+    height: min(420px, 55vh);
   }
 
   .club__stage {
