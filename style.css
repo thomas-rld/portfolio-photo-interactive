@@ -474,7 +474,7 @@ svg {
   position: relative;
   height: 100vh;
   min-height: 100svh;
-  margin-bottom: 18vh;
+  margin-bottom: 5vh;
 }
 
 .hero__frame {
@@ -561,7 +561,7 @@ svg {
 }
 
 .chapter.artists {
-  padding-top: 20vh;
+  padding-top: 5vh;
 }
 
 .chapter.voyage {
