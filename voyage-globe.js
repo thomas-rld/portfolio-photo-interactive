@@ -73,6 +73,7 @@
       this.renderer.domElement.addEventListener("pointerleave", this.onPointerLeave);
       this.renderer.domElement.addEventListener("click", this.onClick);
       window.addEventListener("resize", this.resize, { passive: true });
+      window.addEventListener("orientationchange", this.resize, { passive: true });
       this.ro = new ResizeObserver(this.resize);
       this.ro.observe(this.container);
       this.resize();
@@ -294,6 +295,7 @@
       const height = this.container.clientHeight;
       if (!width || !height) return;
       this.camera.aspect = width / height;
+      this.camera.updateProjectionMatrix();
       this.fitCamera();
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       this.renderer.setSize(width, height, false);

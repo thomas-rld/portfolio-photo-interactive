@@ -1406,6 +1406,76 @@ html:has(.cli-footer:hover) .viewfinder {
   }
 }
 
+@media (max-width: 768px) {
+  .chapter {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .chapter__head {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 6vh;
+  }
+
+  .chapter__head h2 {
+    font-size: clamp(2.1rem, 14vw, 3.4rem);
+    letter-spacing: -0.03em;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 13vw, 3.2rem);
+  }
+
+  .contact-section {
+    width: 90%;
+    max-width: 90%;
+    margin: 10vh auto;
+    padding: 0;
+  }
+
+  .contact-section__title {
+    font-size: clamp(2.4rem, 16vw, 3.6rem);
+    letter-spacing: 0.12em;
+    text-indent: 0.12em;
+    margin-bottom: 5vh;
+  }
+
+  .artists__grid {
+    column-count: 1;
+  }
+
+  @supports (grid-template-rows: masonry) {
+    .artists__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .club__strip {
+    padding: 0 5vw;
+  }
+
+  .club__strip .shot {
+    width: 90vw;
+    max-width: 90vw;
+  }
+
+  .globe {
+    height: 58vh;
+    min-height: 280px;
+  }
+
+  .globe-pop__panel {
+    width: 95vw;
+    max-width: 95vw;
+    max-height: 82vh;
+  }
+
+  .globe-pop__grid {
+    column-count: 1;
+  }
+}
+
 @media (pointer: coarse) {
   body,
   .loader {
