@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thomas Rolland — Photographie</title>
+    <meta
+      name="description"
+      content="Portfolio photographique interactif de Thomas Rolland. Artistes, nuits, territoires. Brutalisme cinématographique."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Syne:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!--
+      Filtres SVG pour la distorsion / aberration chromatique.
+      feTurbulence + feDisplacementMap déforment le bitmap au survol.
+      feOffset + feColorMatrix extraient les canaux R et B pour le RGB split.
+    -->
+    <svg class="svg-filters" aria-hidden="true" focusable="false">
+      <filter id="filter-glitch" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+        <feTurbulence
+          id="glitch-turbulence"
+          type="fractalNoise"
+          baseFrequency="0.018 0.042"
+          numOctaves="3"
+          seed="4"
+          result="noise"
+        />
+        <feDisplacementMap
+          id="glitch-displace"
+          in="SourceGraphic"
+          in2="noise"
+          scale="0"
+          xChannelSelector="R"
+          yChannelSelector="G"
+          result="warped"
+        />
+        <feOffset in="warped" dx="3" dy="0" result="offset-r" />
+        <feOffset in="warped" dx="-3" dy="1" result="offset-b" />
+        <feColorMatrix
+          in="offset-r"
+          type="matrix"
+          values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"
+          result="channel-r"
+        />
+        <feColorMatrix
+          in="offset-b"
+          type="matrix"
+          values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0"
+          result="channel-b"
+        />
+        <feBlend in="warped" in2="channel-r" mode="screen" result="mix-r" />
+        <feBlend in="mix-r" in2="channel-b" mode="screen" />
+      </filter>
+    </svg>
+
+    <div class="viewfinder" id="viewfinder" aria-hidden="true">
+      <div class="viewfinder__ring"></div>
+      <div class="viewfinder__cross viewfinder__cross--h"></div>
+      <div class="viewfinder__cross viewfinder__cross--v"></div>
+      <span class="viewfinder__bracket viewfinder__bracket--tl"></span>
+      <span class="viewfinder__bracket viewfinder__bracket--tr"></span>
+      <span class="viewfinder__bracket viewfinder__bracket--bl"></span>
+      <span class="viewfinder__bracket viewfinder__bracket--br"></span>
+      <div class="viewfinder__dot"></div>
+    </div>
+
+    <div class="strobe" id="strobe" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <header class="chrome" id="chrome">
+      <p class="chrome__mark">THOMAS ROLLAND</p>
+      <p class="chrome__meta">PARIS · FR</p>
+    </header>
+
+    <aside class="counter" id="counter" aria-hidden="true">
+      <span class="counter__label">FRAME</span>
+      <span class="counter__value" id="frame-value">000</span>
+    </aside>
+
+    <div class="loader" id="loader">
+      <div class="loader__hud">
+        <span>SYS</span>
+        <span id="loader-clock">00:00:00</span>
+        <span>A7V</span>
+      </div>
+      <div class="terminal" id="terminal">
+        <p class="terminal__prompt">root@a7v:~# expose --init</p>
+        <p class="terminal__line">
+          <span id="typed"></span><span class="terminal__caret" id="caret"></span>
+        </p>
+        <p class="terminal__hint" id="hint" hidden>SCROLL TO EXPOSE</p>
+      </div>
+    </div>
+
+    <div class="scroll-root" id="scroll-root">
+      <div class="scroll-content" id="scroll-content">
+        <main>
+          <section class="hero" id="hero" aria-label="Image héroïque">
+            <div class="hero__frame photo-slot" data-cursor="lock">
+              <div class="photo-slot__void photo-slot__void--hero">
+                <span class="photo-slot__plus" aria-hidden="true"></span>
+              </div>
+              <div class="photo-slot__meta">
+                <span>HERO / INSERT PHOTO</span>
+                <span>4000×6000 · 100VH</span>
+              </div>
+            </div>
+            <div class="hero__copy">
+              <p class="eyebrow">PHOTOGRAPHE · PARIS</p>
+              <h1>
+                THOMAS<br />
+                ROLLAND
+              </h1>
+              <p class="hero__tech">
+                SONY A7V FULL FRAME<br />
+                16–35MM &amp; 70–200MM<br />
+                GODOX iT30 PRO &amp; LUX JUNIOR
+              </p>
+            </div>
+          </section>
+
+          <section class="chapter artists" id="artistes" aria-label="Artistes et DJ sets">
+            <header class="chapter__head">
+              <p class="chapter__index">01</p>
+              <h2>ARTISTES<br />&amp; DJ SETS</h2>
+              <p class="chapter__lede">
+                Portraits de scène. Le silence avant le drop.<br />
+                Ratios contrastés, beaucoup de vide.
+              </p>
+            </header>
+
+            <div class="artists__grid">
+              <figure class="frame frame--portrait" data-speed="0.22" data-cursor="lock">
+                <div class="photo-slot">
+                  <div class="photo-slot__void photo-slot__void--warm">
+                    <span class="photo-slot__plus" aria-hidden="true"></span>
+                  </div>
+                  <div class="photo-slot__meta">
+                    <span>01 · ARTISTE / INSERT</span>
+                    <span>ISO 800 · F/2.0 · 1/160</span>
+                  </div>
+                </div>
+                <figcaption class="sr-only">Portrait artiste — emplacement photo</figcaption>
+              </figure>
+
+              <figure class="frame frame--square" data-speed="-0.16" data-cursor="lock">
+                <div class="photo-slot">
+                  <div class="photo-slot__void photo-slot__void--amber">
+                    <span class="photo-slot__plus" aria-hidden="true"></span>
+                  </div>
+                  <div class="photo-slot__meta">
+                    <span>02 · DJ SET / INSERT</span>
+                    <span>ISO 1600 · F/2.8 · 1/80</span>
+                  </div>
+                </div>
+                <figcaption class="sr-only">DJ set — emplacement photo</figcaption>
+              </figure>
+
+              <figure class="frame frame--wide" data-speed="0.34" data-cursor="lock">
+                <div class="photo-slot">
+                  <div class="photo-slot__void photo-slot__void--steel">
+                    <span class="photo-slot__plus" aria-hidden="true"></span>
+                  </div>
+                  <div class="photo-slot__meta">
+                    <span>03 · RÉGIE / INSERT</span>
+                    <span>ISO 3200 · F/2.8 · 1/60</span>
+                  </div>
+                </div>
+                <figcaption class="sr-only">Régie — emplacement photo</figcaption>
+              </figure>
+
+              <figure class="frame frame--tall" data-speed="-0.28" data-cursor="lock">
+                <div class="photo-slot">
+                  <div class="photo-slot__void photo-slot__void--rose">
+                    <span class="photo-slot__plus" aria-hidden="true"></span>
+                  </div>
+                  <div class="photo-slot__meta">
+                    <span>04 · CROWD / INSERT</span>
+                    <span>ISO 2500 · F/1.8 · 1/100</span>
+                  </div>
+                </div>
+                <figcaption class="sr-only">Foule — emplacement photo</figcaption>
+              </figure>
+
+              <figure class="frame frame--compact" data-speed="0.12" data-cursor="lock">
+                <div class="photo-slot">
+                  <div class="photo-slot__void photo-slot__void--mute">
+                    <span class="photo-slot__plus" aria-hidden="true"></span>
+                  </div>
+                  <div class="photo-slot__meta">
+                    <span>05 · DÉTAIL / INSERT</span>
+                    <span>70–200MM</span>
+                  </div>
+                </div>
+                <figcaption class="sr-only">Détail — emplacement photo</figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section class="chapter club" id="nuit" aria-label="Nuit et clubbing">
+            <header class="chapter__head chapter__head--club">
+              <p class="chapter__index">02</p>
+              <h2>NUIT<br />&amp; CLUBBING</h2>
+              <p class="chapter__lede">
+                Node · L’Interférence · Pampas.<br />
+                Les cadres se chevauchent. Les basses déforment le viseur.
+              </p>
+            </header>
+
+            <div class="club__stage">
+              <figure class="glitch-frame glitch-frame--node" data-glitch data-cursor="lock">
+                <div class="glitch-frame__media photo-slot">
+                  <div class="photo-slot__void photo-slot__void--node">
+                    <span class="photo-slot__plus" aria-hidden="true"></span>
+                  </div>
+                </div>
+                <figcaption>
+                  <span class="glitch-frame__venue">NODE</span>
+                  <span>ISO 6400 · F/2.0 · 1/40</span>
+                </figcaption>
+              </figure>
+
+              <figure class="glitch-frame glitch-frame--interference" data-glitch data-cursor="lock">
+                <div class="glitch-frame__media photo-slot">
+                  <div class="photo-slot__void photo-slot__void--interference">
+                    <span class="photo-slot__plus" aria-hidden="true"></span>
+                  </div>
+                </div>
+                <figcaption>
+                  <span class="glitch-frame__venue">L’INTERFÉRENCE</span>
+                  <span>ISO 5000 · F/1.8 · 1/50</span>
+                </figcaption>
+              </figure>
+
+              <figure class="glitch-frame glitch-frame--pampas" data-glitch data-cursor="lock">
+                <div class="glitch-frame__media photo-slot">
+                  <div class="photo-slot__void photo-slot__void--pampas">
+                    <span class="photo-slot__plus" aria-hidden="true"></span>
+                  </div>
+                </div>
+                <figcaption>
+                  <span class="glitch-frame__venue">PAMPAS</span>
+                  <span>ISO 4000 · F/2.2 · 1/60</span>
+                </figcaption>
+              </figure>
+
+              <figure class="glitch-frame glitch-frame--ghost" data-glitch data-cursor="lock">
+                <div class="glitch-frame__media photo-slot">
+                  <div class="photo-slot__void photo-slot__void--laser">
+                    <span class="photo-slot__plus" aria-hidden="true"></span>
+                  </div>
+                </div>
+                <figcaption>
+                  <span class="glitch-frame__venue">AFTER / INSERT</span>
+                  <span>ISO 8000 · F/1.4 · 1/30</span>
+                </figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section class="travel" id="voyage" aria-label="Voyage New York">
+            <div class="travel__pin" id="travel-pin">
+              <header class="travel__head">
+                <p class="chapter__index">03</p>
+                <h2>VOYAGE</h2>
+                <p class="travel__place" id="travel-place">NEW YORK — WEST 4TH ST</p>
+              </header>
+              <div class="travel__track" id="travel-track">
+                <figure class="travel__slide" data-place="NEW YORK — WEST 4TH ST" data-cursor="lock">
+                  <div class="photo-slot photo-slot--landscape">
+                    <div class="photo-slot__void photo-slot__void--w4">
+                      <span class="photo-slot__plus" aria-hidden="true"></span>
+                    </div>
+                    <div class="photo-slot__meta">
+                      <span>WEST 4TH STREET / INSERT</span>
+                      <span>PAYSAGE · 16–35MM</span>
+                    </div>
+                  </div>
+                  <figcaption class="sr-only">West 4th Street — emplacement photo paysage</figcaption>
+                </figure>
+                <figure class="travel__slide" data-place="NEW YORK — WEST 4TH ST" data-cursor="lock">
+                  <div class="photo-slot photo-slot--landscape">
+                    <div class="photo-slot__void photo-slot__void--subway">
+                      <span class="photo-slot__plus" aria-hidden="true"></span>
+                    </div>
+                    <div class="photo-slot__meta">
+                      <span>SUBWAY PLATFORM / INSERT</span>
+                      <span>PAYSAGE · 35MM</span>
+                    </div>
+                  </div>
+                  <figcaption class="sr-only">Quai de métro — emplacement photo paysage</figcaption>
+                </figure>
+                <figure class="travel__slide" data-place="NEW YORK — DUMBO" data-cursor="lock">
+                  <div class="photo-slot photo-slot--landscape">
+                    <div class="photo-slot__void photo-slot__void--dumbo">
+                      <span class="photo-slot__plus" aria-hidden="true"></span>
+                    </div>
+                    <div class="photo-slot__meta">
+                      <span>DUMBO / INSERT</span>
+                      <span>PAYSAGE · 24MM</span>
+                    </div>
+                  </div>
+                  <figcaption class="sr-only">DUMBO — emplacement photo paysage</figcaption>
+                </figure>
+                <figure class="travel__slide" data-place="NEW YORK — DUMBO" data-cursor="lock">
+                  <div class="photo-slot photo-slot--landscape">
+                    <div class="photo-slot__void photo-slot__void--bridge">
+                      <span class="photo-slot__plus" aria-hidden="true"></span>
+                    </div>
+                    <div class="photo-slot__meta">
+                      <span>BROOKLYN BRIDGE / INSERT</span>
+                      <span>PAYSAGE · 70–200MM</span>
+                    </div>
+                  </div>
+                  <figcaption class="sr-only">Brooklyn Bridge — emplacement photo paysage</figcaption>
+                </figure>
+                <figure class="travel__slide" data-place="NEW YORK — DUMBO" data-cursor="lock">
+                  <div class="photo-slot photo-slot--landscape">
+                    <div class="photo-slot__void photo-slot__void--river">
+                      <span class="photo-slot__plus" aria-hidden="true"></span>
+                    </div>
+                    <div class="photo-slot__meta">
+                      <span>EAST RIVER / INSERT</span>
+                      <span>PAYSAGE · 16MM</span>
+                    </div>
+                  </div>
+                  <figcaption class="sr-only">East River — emplacement photo paysage</figcaption>
+                </figure>
+              </div>
+            </div>
+          </section>
+
+          <footer class="footer">
+            <p class="footer__index">END OF ROLL</p>
+            <p class="footer__title">THOMAS ROLLAND</p>
+            <p class="footer__note">
+              Disponible pour éditoriaux, résidences et nuits longues.<br />
+              Remplacez les cadres par vos fichiers — les ratios sont déjà calés.
+            </p>
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
