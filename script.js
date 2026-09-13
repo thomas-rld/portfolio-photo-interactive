@@ -137,11 +137,13 @@
       this.pin = pin;
       this.track = track;
       this.label = label;
-      this.slides = [...track.querySelectorAll(".travel__slide")];
+      this.enabled = Boolean(section && pin && track);
+      this.slides = this.enabled ? [...track.querySelectorAll(".travel__slide")] : [];
       this.travel = 0;
     }
 
     measure() {
+      if (!this.enabled) return;
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       this.travel = Math.max(this.track.scrollWidth - vw, vw);
@@ -149,6 +151,7 @@
     }
 
     update() {
+      if (!this.enabled) return;
       const rect = this.section.getBoundingClientRect();
       const distance = this.section.offsetHeight - window.innerHeight;
       const local = clamp(-rect.top, 0, distance);
@@ -156,7 +159,7 @@
       this.track.style.transform = `translate(${-progress * this.travel}px, 0)`;
       const index = Math.min(this.slides.length - 1, Math.floor(progress * this.slides.length));
       const place = this.slides[index]?.dataset.place;
-      if (place && this.label.textContent !== place) this.label.textContent = place;
+      if (place && this.label && this.label.textContent !== place) this.label.textContent = place;
     }
   }
 
