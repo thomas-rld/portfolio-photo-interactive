@@ -798,6 +798,7 @@ svg {
 .club__strip {
   display: flex;
   flex-wrap: nowrap;
+  align-items: flex-start;
   overflow-x: auto;
   overflow-y: hidden;
   gap: 2rem;
@@ -815,10 +816,28 @@ svg {
   flex: 0 0 auto;
   width: 85vw;
   max-width: 900px;
+  height: auto;
   margin: 0;
+  padding: 0;
   scroll-snap-align: center;
   opacity: 1;
   transform: none;
+}
+
+.club__strip .shot__media {
+  padding: 0;
+  line-height: 0;
+  font-size: 0;
+}
+
+.club__strip .shot__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  object-fit: cover;
+  object-position: center;
+  vertical-align: top;
 }
 
 .club__stage {
