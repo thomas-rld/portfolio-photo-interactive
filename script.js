@@ -280,6 +280,29 @@
     }
   }
 
+  class FitTitle {
+    constructor(root) {
+      this.root = root;
+      this.lines = root ? [...root.querySelectorAll(".hero-title__line")] : [];
+    }
+
+    fit() {
+      if (!this.root) return;
+      this.root.style.fontSize = "";
+      const available = this.root.clientWidth;
+      if (!available) return;
+
+      let widest = 0;
+      this.lines.forEach((line) => {
+        widest = Math.max(widest, line.scrollWidth);
+      });
+      if (!widest || widest <= available) return;
+
+      const computed = parseFloat(getComputedStyle(this.root).fontSize);
+      this.root.style.fontSize = `${((computed * available) / widest) * 0.98}px`;
+    }
+  }
+
   class App {
     constructor() {
       this.loader = document.getElementById("loader");
@@ -309,6 +332,7 @@
         document.getElementById("travel-track"),
         document.getElementById("travel-place")
       );
+      this.fitTitle = new FitTitle(document.querySelector(".hero-title"));
 
       this.terminal.onDone = () => {
         this.ready = true;
@@ -386,6 +410,7 @@
       this.panorama.measure(this.content);
       this.scroll.measure();
       this.parallax.measure();
+      this.fitTitle.fit();
     }
 
     loop = (time) => {

@@ -552,8 +552,14 @@ svg {
 
 .hero__copy {
   position: absolute;
-  inset: auto 28px 36px 28px;
+  left: 0;
+  right: 0;
+  bottom: 36px;
   z-index: 2;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 clamp(1.25rem, 4vw, 2.5rem);
+  text-align: center;
   pointer-events: none;
 }
 
@@ -574,7 +580,6 @@ svg {
   color: var(--paper-dim);
 }
 
-.hero h1,
 .chapter__head h2,
 .footer__title {
   font-weight: 800;
@@ -583,8 +588,27 @@ svg {
   text-transform: uppercase;
 }
 
-.hero h1 {
-  font-size: clamp(4.8rem, 16vw, 15rem);
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(2.25rem, 8vw, 9rem);
+  line-height: 0.88;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
+}
+
+.hero-title__line {
+  display: block;
+  max-width: 100%;
 }
 
 .hero__tech {
@@ -906,10 +930,6 @@ svg {
   .travel__slide {
     flex-basis: 88vw;
     height: 48vh;
-  }
-
-  .hero h1 {
-    font-size: clamp(3.6rem, 18vw, 6rem);
   }
 }
 
