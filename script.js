@@ -170,6 +170,7 @@
       };
 
       this.bind();
+      this.observeShots();
       this.terminal.start();
       this.scheduleResize();
       if (document.fonts?.ready) document.fonts.ready.then(() => this.scheduleResize());
@@ -243,6 +244,25 @@
         this.frameValue.textContent = frame;
       }
     };
+
+    observeShots() {
+      const shots = document.querySelectorAll(".artists__grid .shot");
+      if (reducedMotion) {
+        shots.forEach((shot) => shot.classList.add("is-in"));
+        return;
+      }
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-in");
+            observer.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.16, rootMargin: "0px 0px -10% 0px" }
+      );
+      shots.forEach((shot) => observer.observe(shot));
+    }
 
     scheduleResize = () => {
       if (this.resizeRaf) return;

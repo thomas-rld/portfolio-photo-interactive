@@ -521,6 +521,7 @@ svg {
   position: relative;
   height: 100vh;
   min-height: 100svh;
+  margin-bottom: 18vh;
 }
 
 .hero__frame {
@@ -606,6 +607,10 @@ svg {
   padding: 18vh 28px 12vh;
 }
 
+.chapter.artists {
+  padding-top: 20vh;
+}
+
 .chapter__head {
   display: grid;
   grid-template-columns: 80px 1fr 1fr;
@@ -666,6 +671,38 @@ svg {
   overflow: hidden;
   border: 1px solid var(--line);
   background: transparent;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.85s ease, transform 0.85s ease;
+}
+
+.shot.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.shot:nth-child(2) {
+  transition-delay: 70ms;
+}
+
+.shot:nth-child(3) {
+  transition-delay: 140ms;
+}
+
+.shot:nth-child(4) {
+  transition-delay: 80ms;
+}
+
+.shot:nth-child(5) {
+  transition-delay: 150ms;
+}
+
+.shot:nth-child(6) {
+  transition-delay: 90ms;
+}
+
+.shot:nth-child(7) {
+  transition-delay: 160ms;
 }
 
 .shot--wide {
@@ -975,5 +1012,10 @@ svg {
 
   .grain {
     display: none;
+  }
+
+  .shot {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
