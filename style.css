@@ -1210,7 +1210,6 @@ html.is-globe-open .viewfinder {
 .cli-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
   max-width: 720px;
 }
 
@@ -1218,6 +1217,7 @@ html.is-globe-open .viewfinder {
   display: flex;
   align-items: baseline;
   gap: 10px;
+  margin-bottom: 2rem;
 }
 
 .cli-form__row--message {
@@ -1227,7 +1227,8 @@ html.is-globe-open .viewfinder {
 .cli-form__prefix {
   flex-shrink: 0;
   color: #8a8a8a;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .cli-form input,
@@ -1235,13 +1236,15 @@ html.is-globe-open .viewfinder {
   flex: 1;
   width: 100%;
   min-width: 0;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.03);
   border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   outline: none;
   box-shadow: none;
   border-radius: 0;
   appearance: none;
   -webkit-appearance: none;
+  padding: 8px 10px;
   font-family: var(--font-mono);
   font-size: 13px;
   line-height: 1.7;
@@ -1251,21 +1254,34 @@ html.is-globe-open .viewfinder {
   resize: none;
 }
 
+.cli-form input::placeholder,
+.cli-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.28);
+  text-transform: uppercase;
+}
+
+.cli-form input:focus,
+.cli-form textarea:focus {
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: rgba(255, 255, 255, 0.05);
+}
+
 .cli-form textarea {
   min-height: 8em;
 }
 
 .cli-form__exec {
   align-self: flex-start;
-  margin-top: 12px;
-  padding: 8px 10px;
+  margin-top: 8px;
+  padding: 15px 30px;
   background: transparent;
-  border: 0;
+  border: 1px solid #fff;
   font-family: var(--font-mono);
   font-size: 13px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #f4f4f4;
+  color: #fff;
   cursor: pointer !important;
 }
 
