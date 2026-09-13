@@ -892,7 +892,154 @@ svg {
   aspect-ratio: 1 / 1;
 }
 
-/* ——— 03 · Panorama horizontal ——— */
+/* ——— 03 · Globe filaire + modale NY ——— */
+.globe {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  min-height: 420px;
+  border: 1px solid var(--line);
+  background: transparent;
+  overflow: hidden;
+}
+
+.globe canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.globe.is-hot,
+.globe.is-hot canvas {
+  cursor: pointer !important;
+}
+
+.globe.is-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.globe__fallback {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  padding: 16px 22px;
+  cursor: pointer;
+}
+
+.globe__hud {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  z-index: 2;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
+  letter-spacing: 0.18em;
+  text-align: left;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+html.is-globe-hot,
+html.is-globe-hot body,
+html.is-globe-hot .globe,
+html.is-globe-hot .globe canvas {
+  cursor: pointer !important;
+}
+
+html.is-globe-hot .viewfinder {
+  display: none;
+}
+
+.voyage-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20000;
+  display: flex;
+  flex-direction: column;
+  background: rgba(5, 5, 5, 0.84);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 420ms var(--ease-out), visibility 420ms var(--ease-out);
+}
+
+.voyage-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.voyage-modal__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-shrink: 0;
+  padding: 20px 28px;
+  border-bottom: 2px solid var(--paper);
+  background: #050505;
+}
+
+.voyage-modal__title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+
+.voyage-modal__close {
+  font-family: var(--font-mono);
+  font-size: clamp(13px, 1.8vw, 20px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: transparent;
+  border: 2px solid var(--paper);
+  padding: 10px 16px 8px;
+  cursor: pointer;
+}
+
+.voyage-modal__close:hover,
+.voyage-modal__close:focus-visible {
+  background: var(--paper);
+  color: var(--void);
+  outline: none;
+}
+
+.voyage-modal__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8vh 28px 12vh;
+}
+
+html.is-voyage-open,
+html.is-voyage-open body {
+  overflow: hidden !important;
+}
+
+html.is-voyage-open .viewfinder {
+  display: none;
+}
+
+/* ——— 03 · Panorama horizontal (legacy) ——— */
 .travel {
   position: relative;
   height: 400vh;
@@ -1018,6 +1165,19 @@ svg {
   .travel__slide {
     flex-basis: 88vw;
     height: 48vh;
+  }
+
+  .globe {
+    height: 62vh;
+    min-height: 320px;
+  }
+
+  .voyage-modal__bar {
+    padding: 16px 18px;
+  }
+
+  .voyage-modal__scroll {
+    padding: 6vh 16px 10vh;
   }
 }
 

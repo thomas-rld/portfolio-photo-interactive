@@ -420,6 +420,39 @@
               <p class="chapter__geo">NEW YORK</p>
             </header>
 
+            <div id="globe-container" class="globe">
+              <button type="button" class="globe__hud" id="globe-lock">
+                40.7128 N · 74.0060 W<br />
+                LOCK MARKER TO OPEN ROLL
+              </button>
+            </div>
+          </section>
+
+          <footer class="footer">
+            <p class="footer__index">END OF ROLL</p>
+            <p class="footer__title">THOMAS ROLLAND</p>
+            <p class="footer__note">
+              Disponible pour éditoriaux, résidences et nuits longues.<br />
+              Remplacez les cadres par vos fichiers — les ratios sont déjà calés.
+            </p>
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <div
+      class="voyage-modal"
+      id="voyage-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="voyage-modal-title"
+      aria-hidden="true"
+    >
+      <div class="voyage-modal__bar">
+        <p class="voyage-modal__title" id="voyage-modal-title">03 · VOYAGE · NEW YORK</p>
+        <button type="button" class="voyage-modal__close" id="voyage-modal-close">[ FERMER ]</button>
+      </div>
+      <div class="voyage-modal__scroll">
             <div class="artists__grid">
               <figure class="shot" data-cursor="lock">
                 <div class="shot__media">
@@ -631,20 +664,11 @@
                 <figcaption class="sr-only">Times Square — officier NYPD</figcaption>
               </figure>
             </div>
-          </section>
-
-          <footer class="footer">
-            <p class="footer__index">END OF ROLL</p>
-            <p class="footer__title">THOMAS ROLLAND</p>
-            <p class="footer__note">
-              Disponible pour éditoriaux, résidences et nuits longues.<br />
-              Remplacez les cadres par vos fichiers — les ratios sont déjà calés.
-            </p>
-          </footer>
-        </main>
       </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="voyage-globe.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
