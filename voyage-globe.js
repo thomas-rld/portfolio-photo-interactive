@@ -61,6 +61,8 @@
         btn.addEventListener("click", this.onClose);
       });
       this.preview?.addEventListener("click", this.onPreviewClick);
+      this.preview?.addEventListener("pointerenter", this.onPreviewEnter);
+      this.preview?.addEventListener("pointerleave", this.onPreviewLeave);
 
       if (typeof THREE === "undefined") {
         this.fallback();
@@ -388,6 +390,16 @@
       if (this.shownPreview) this.openGallery(this.shownPreview);
     };
 
+    onPreviewEnter = () => {
+      document.documentElement.classList.add("is-preview-hot");
+      document.getElementById("viewfinder")?.classList.add("is-open-cue");
+    };
+
+    onPreviewLeave = () => {
+      document.documentElement.classList.remove("is-preview-hot");
+      document.getElementById("viewfinder")?.classList.remove("is-open-cue");
+    };
+
     hidePreview() {
       this.shownPreview = null;
       this.previewShots = [];
@@ -397,6 +409,7 @@
       this.preview?.classList.remove("is-on");
       this.preview?.setAttribute("aria-hidden", "true");
       this.previewLabel?.classList.remove("is-typed");
+      this.onPreviewLeave();
     }
 
     armKenBurns(node, index) {

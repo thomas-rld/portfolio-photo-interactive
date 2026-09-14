@@ -122,6 +122,24 @@ svg {
   mix-blend-mode: difference;
 }
 
+.viewfinder__open {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f4f4f4;
+  white-space: nowrap;
+  background: #0a0a0a;
+  border: 1px solid #f4f4f4;
+  padding: 4px 7px 3px;
+  pointer-events: none;
+}
+
 /* ——— Flash stroboscopique (Godox) ——— */
 .strobe {
   position: fixed;
@@ -1054,6 +1072,29 @@ svg {
   border-bottom: 1px solid #f4f4f4;
 }
 
+.globe-preview__aim {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f4f4f4;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.1s linear;
+}
+
+.globe-preview.is-on:hover .globe-preview__aim,
+.globe-preview.is-on:focus-visible .globe-preview__aim {
+  opacity: 1;
+}
+
 .globe-preview__stage img {
   position: absolute;
   inset: 0;
@@ -1131,8 +1172,38 @@ svg {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 8px 9px 9px;
+  padding: 7px 9px 4px;
   min-width: 0;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.globe-preview__prompt {
+  display: block;
+  padding: 5px 9px 6px;
+  font-family: var(--font-mono);
+  font-size: 6px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #f4f4f4;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.globe-preview__caret {
+  display: inline-block;
+  animation: blink 1.15s steps(1, end) infinite;
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
 }
 
 .globe-preview__label {
@@ -1149,26 +1220,6 @@ svg {
   text-align: left;
   white-space: nowrap;
   clip-path: inset(0 100% 0 0);
-}
-
-.globe-preview__click {
-  flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: 7px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(244, 244, 244, 0.52);
-  animation: preview-click-hint 1.8s ease-in-out infinite;
-}
-
-@keyframes preview-click-hint {
-  0%,
-  100% {
-    opacity: 0.32;
-  }
-  50% {
-    opacity: 1;
-  }
 }
 
 .globe-preview.is-on .globe-preview__label.is-typed {
@@ -1226,13 +1277,35 @@ svg {
   }
 }
 
+html.is-preview-hot .viewfinder,
+html:has(.globe-preview.is-on:hover) .viewfinder,
+html:has(.globe-preview.is-on:focus-visible) .viewfinder {
+  width: 0;
+  height: 0;
+  margin: 0;
+  mix-blend-mode: normal;
+}
+
+html.is-preview-hot .viewfinder::before,
+html.is-preview-hot .viewfinder::after,
 html:has(.globe-preview.is-on:hover) .viewfinder::before,
 html:has(.globe-preview.is-on:hover) .viewfinder::after,
 html:has(.globe-preview.is-on:focus-visible) .viewfinder::before,
 html:has(.globe-preview.is-on:focus-visible) .viewfinder::after {
-  width: 46px;
-  height: 6px;
-  background-color: #ff2f8b;
+  display: none;
+}
+
+html.is-preview-hot .viewfinder__open,
+html:has(.globe-preview.is-on:hover) .viewfinder__open,
+html:has(.globe-preview.is-on:focus-visible) .viewfinder__open,
+.viewfinder.is-open-cue .viewfinder__open {
+  display: block;
+}
+
+html.is-preview-hot,
+html.is-preview-hot body,
+html:has(.globe-preview.is-on:hover) {
+  cursor: none;
 }
 
 html.is-globe-hot,
@@ -1244,6 +1317,13 @@ html.is-globe-hot .globe canvas {
 
 html.is-globe-hot .viewfinder {
   display: none;
+}
+
+html.is-preview-hot .viewfinder,
+html.is-preview-hot.is-globe-hot .viewfinder,
+html:has(.globe-preview.is-on:hover) .viewfinder {
+  display: block;
+  opacity: 1;
 }
 
 .globe-pop {
@@ -1780,12 +1860,21 @@ html:has(.cli-footer:hover) .viewfinder {
   }
 
   .globe-preview__bar {
-    padding: 7px 8px 8px;
+    padding: 6px 8px 3px;
   }
 
   .globe-preview__label {
     font-size: 7px;
     padding: 0;
+  }
+
+  .globe-preview__prompt {
+    font-size: 5px;
+    padding: 4px 8px 5px;
+  }
+
+  .globe-preview__aim {
+    font-size: 12px;
   }
 
   .globe-pop__panel {
