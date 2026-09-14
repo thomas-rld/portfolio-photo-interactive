@@ -45,23 +45,21 @@
     };
   }
 
-  class Terminal {
-    constructor(title, meta, hint, clock) {
-      this.title = title;
-      this.meta = meta;
-      this.hint = hint;
+  class BootLog {
+    constructor(root, clock) {
+      this.root = root;
       this.clock = clock;
       this.lines = [
-        "THOMAS ROLLAND - PORTFOLIO",
-        "[SYS_INIT] SONY A7V | 10mm, 16-35mm & 70-200mm",
+        "> SYSTEM BOOT...",
+        "> LOADING KERNEL_A7V...",
+        "> LOADING WEBGL_EARTH...",
+        "> MOUNTING DIRECTORIES...",
+        "> INDEXING /PHOTOS...",
+        "> ACCESS GRANTED.",
       ];
-      this.line = 0;
       this.index = 0;
-      this.raf = 0;
       this.clockTimer = 0;
-      this.last = 0;
-      this.step = 28;
-      this.alive = false;
+      this.lineTimer = 0;
       this.onDone = null;
     }
 
@@ -69,61 +67,48 @@
       this.tickClock();
       this.clockTimer = window.setInterval(this.tickClock, 1000);
       if (reducedMotion) {
-        this.title.textContent = this.lines[0];
-        this.meta.textContent = this.lines[1];
+        this.dumpAll();
         this.finish();
         return;
       }
-      this.alive = true;
-      this.raf = requestAnimationFrame(this.tick);
+      this.next();
+    }
+
+    dumpAll() {
+      if (!this.root) return;
+      this.root.innerHTML = this.lines.map((line) => `<p>${line}</p>`).join("");
+    }
+
+    next() {
+      if (!this.root || this.index >= this.lines.length) {
+        this.finish();
+        return;
+      }
+      const line = document.createElement("p");
+      line.textContent = this.lines[this.index];
+      if (this.index === this.lines.length - 1) line.classList.add("is-ok");
+      this.root.appendChild(line);
+      this.index += 1;
+      this.lineTimer = window.setTimeout(() => this.next(), 260);
     }
 
     tickClock = () => {
+      if (!this.clock) return;
       const now = new Date();
       const pad = (n) => String(n).padStart(2, "0");
       this.clock.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
     };
 
-    tick = (time) => {
-      if (!this.alive) return;
-      if (!this.last) this.last = time;
-      if (time - this.last < this.step) {
-        this.raf = requestAnimationFrame(this.tick);
-        return;
-      }
-      this.last = time;
-
-      const current = this.lines[this.line];
-      const target = this.line === 0 ? this.title : this.meta;
-      target.textContent += current.charAt(this.index);
-      this.index += 1;
-
-      if (this.index >= current.length) {
-        this.line += 1;
-        this.index = 0;
-        this.last = time + 180;
-      }
-
-      if (this.line >= this.lines.length) {
-        this.finish();
-        return;
-      }
-
-      this.raf = requestAnimationFrame(this.tick);
-    };
-
     finish() {
       this.stop();
-      this.title.textContent = this.lines[0];
-      this.meta.textContent = this.lines[1];
-      this.hint.classList.add("is-ready");
       if (this.onDone) this.onDone();
     }
 
     stop() {
-      this.alive = false;
-      if (this.raf) cancelAnimationFrame(this.raf);
-      this.raf = 0;
+      if (this.lineTimer) {
+        window.clearTimeout(this.lineTimer);
+        this.lineTimer = 0;
+      }
       if (this.clockTimer) {
         window.clearInterval(this.clockTimer);
         this.clockTimer = 0;
@@ -197,10 +182,8 @@
       this.frameLabel = "000";
 
       this.viewfinder = new Viewfinder(document.getElementById("viewfinder"));
-      this.terminal = new Terminal(
-        document.getElementById("typed-title"),
-        document.getElementById("typed-meta"),
-        document.getElementById("hint"),
+      this.boot = new BootLog(
+        document.getElementById("loader-boot"),
         document.getElementById("loader-clock")
       );
       this.panorama = new Panorama(
@@ -210,16 +193,32 @@
         document.getElementById("travel-place")
       );
       this.fitTitle = new FitTitle(document.querySelector(".hero-title"));
+      this.bootDone = false;
+      this.pageLoaded = document.readyState === "complete";
+      this.failSafe = 0;
 
-      this.terminal.onDone = () => {
-        this.ready = true;
+      this.boot.onDone = () => {
+        this.bootDone = true;
+        this.tryExpose();
       };
 
       this.bind();
       this.observeShots();
-      this.terminal.start();
+      this.loader?.classList.add("is-armed");
+      this.boot.start();
+      this.failSafe = window.setTimeout(() => this.expose(), 2500);
+      window.addEventListener("load", this.onPageLoad);
       this.scheduleResize();
       if (document.fonts?.ready) document.fonts.ready.then(() => this.scheduleResize());
+    }
+
+    onPageLoad = () => {
+      this.pageLoaded = true;
+      this.tryExpose();
+    };
+
+    tryExpose() {
+      if (this.bootDone && this.pageLoaded) this.expose();
     }
 
     bind() {
@@ -238,40 +237,38 @@
     }
 
     onFirstScroll = (event) => {
-      if (!this.ready) {
-        event.preventDefault();
-        return;
-      }
       if (!this.exposed) {
-        const delta = event.deltaY || 0;
+        event.preventDefault();
         this.expose();
-        if (delta) window.scrollBy({ top: delta, behavior: "smooth" });
       }
     };
 
     onKey = (event) => {
-      const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Spacebar"];
+      const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Spacebar", "Enter", "Escape"];
       if (!keys.includes(event.key)) return;
-      if (!this.ready) {
+      if (!this.exposed) {
         event.preventDefault();
-        return;
+        this.expose();
       }
-      if (!this.exposed) this.expose();
     };
 
     expose() {
-      if (this.exposed || !this.ready) return;
+      if (this.exposed) return;
       this.exposed = true;
+      this.ready = true;
+      window.clearTimeout(this.failSafe);
+      window.removeEventListener("load", this.onPageLoad);
       this.loader.classList.add("is-exposing");
       this.chrome.classList.add("is-live");
       this.counter.classList.add("is-live");
-      this.terminal.stop();
+      this.boot.stop();
       document.documentElement.classList.remove("is-locked");
       window.removeEventListener("wheel", this.onFirstScroll);
       window.removeEventListener("touchmove", this.onFirstScroll);
       window.setTimeout(() => {
         this.loader.classList.add("is-gone");
-      }, reducedMotion ? 0 : 320);
+        this.loader.setAttribute("aria-busy", "false");
+      }, reducedMotion ? 0 : 450);
       this.scheduleResize();
     }
 

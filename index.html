@@ -85,26 +85,13 @@
       <span class="counter__value" id="frame-value">000</span>
     </aside>
 
-    <div class="loader" id="loader">
+    <div class="loader" id="loader" aria-busy="true" aria-live="polite">
       <div class="loader__hud">
         <span>SYS</span>
         <span id="loader-clock">00:00:00</span>
         <span>A7V</span>
       </div>
-      <div class="terminal" id="terminal">
-        <p class="terminal__prompt">root@a7v:~# expose --init</p>
-        <div class="terminal__stage">
-          <p class="terminal__ghost" aria-hidden="true">
-            THOMAS ROLLAND - PORTFOLIO<br />
-            [SYS_INIT] SONY A7V | 10mm, 16-35mm &amp; 70-200mm
-          </p>
-          <p class="terminal__live">
-            <span id="typed-title"></span><br />
-            <span id="typed-meta"></span><span class="terminal__caret" id="caret"></span>
-          </p>
-        </div>
-        <p class="terminal__hint" id="hint">SCROLL TO EXPOSE</p>
-      </div>
+      <div class="loader__boot" id="loader-boot"></div>
     </div>
 
     <div class="scroll-root" id="scroll-root">
@@ -551,6 +538,14 @@
         </main>
       </div>
     </div>
+
+    <noscript>
+      <style>
+        .loader {
+          display: none !important;
+        }
+      </style>
+    </noscript>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="voyage-globe.js"></script>

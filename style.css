@@ -227,24 +227,46 @@ svg {
 .loader {
   position: fixed;
   inset: 0;
-  z-index: 9000;
+  z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--void);
+  background: #0a0a0a;
   pointer-events: auto;
   cursor: none;
   opacity: 1;
+  transform: translateY(0);
+  animation: loader-failsafe 2.9s linear forwards;
+}
+
+.loader.is-armed {
+  animation: none;
 }
 
 .loader.is-exposing {
   opacity: 0;
+  transform: translateY(-100%);
   pointer-events: none;
-  transition: opacity 320ms ease;
+  transition: opacity 280ms ease, transform 420ms var(--ease-out);
 }
 
 .loader.is-gone {
+  display: none;
   visibility: hidden;
+}
+
+@keyframes loader-failsafe {
+  0%,
+  78% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+    visibility: hidden;
+  }
 }
 
 .loader__hud {
@@ -257,82 +279,40 @@ svg {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.18em;
-  color: var(--paper-dim);
+  color: #f4f4f4;
 }
 
-.terminal {
-  width: min(920px, calc(100vw - 48px));
-  min-width: min(920px, calc(100vw - 48px));
-}
-
-.terminal__prompt,
-.terminal__hint {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  color: var(--paper-dim);
-}
-
-.terminal__prompt {
-  margin-bottom: 18px;
-}
-
-.terminal__stage {
-  position: relative;
-  min-width: min(52ch, 100%);
-  min-height: 3.6em;
-}
-
-.terminal__ghost,
-.terminal__live {
-  font-family: var(--font-mono);
-  font-size: clamp(13px, 1.7vw, 18px);
-  line-height: 1.7;
-  letter-spacing: 0.04em;
-}
-
-.terminal__ghost {
-  visibility: hidden;
-}
-
-.terminal__live {
+.loader__boot {
   position: absolute;
-  inset: 0;
+  left: 28px;
+  bottom: 28px;
+  right: 28px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.75;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #f4f4f4;
+  text-align: left;
 }
 
-.terminal__caret {
-  display: inline-block;
-  width: 0.65ch;
-  height: 1.05em;
-  margin-left: 2px;
-  background: var(--paper);
-  transform: translateY(3px);
-  animation: caret 0.72s steps(1) infinite;
+.loader__boot p {
+  margin: 0;
+  animation: boot-line 90ms linear both;
 }
 
-@keyframes caret {
-  50% {
+.loader__boot p.is-ok {
+  color: #f4f4f4;
+}
+
+@keyframes boot-line {
+  from {
     opacity: 0;
+    transform: translateX(-8px);
   }
-}
-
-.terminal__hint {
-  margin-top: 36px;
-  min-height: 1.2em;
-  opacity: 0;
-}
-
-.terminal__hint.is-ready {
-  animation: hint-pulse 1.4s ease-in-out infinite;
-}
-
-@keyframes hint-pulse {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
+  to {
     opacity: 1;
+    transform: none;
   }
 }
 
