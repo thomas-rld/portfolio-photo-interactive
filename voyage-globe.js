@@ -2,7 +2,7 @@
   "use strict";
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const PREVIEW_SLIDE = 1800;
+  const PREVIEW_SLIDE = 2000;
   const PREVIEW_MIN_MS = 3200;
   const PREVIEW_MISS = 54;
 
@@ -345,16 +345,24 @@
       this.previewLabel?.classList.remove("is-typed");
     }
 
+    armKenBurns(node, index) {
+      if (!node) return;
+      node.dataset.pan = String.fromCharCode(97 + (index % 4));
+      node.classList.remove("is-live");
+      void node.offsetWidth;
+      node.classList.add("is-live");
+    }
+
     paintSlide(index, instant) {
       const shot = this.previewShots[index];
       if (!shot || !this.previewImgs.length) return;
       if (instant || this.previewImgs.length < 2 || reducedMotion) {
         this.previewImgs[0].src = shot.src;
         this.previewImgs[0].alt = shot.alt;
-        this.previewImgs[0].classList.add("is-live");
+        this.armKenBurns(this.previewImgs[0], index);
         if (this.previewImgs[1]) {
           this.previewImgs[1].classList.remove("is-live");
-          this.previewImgs[1].src = shot.src;
+          this.previewImgs[1].removeAttribute("data-pan");
         }
         this.slideLayer = 0;
         return;
@@ -363,8 +371,8 @@
       const incoming = this.previewImgs[next];
       incoming.src = shot.src;
       incoming.alt = shot.alt;
-      incoming.classList.add("is-live");
       this.previewImgs[this.slideLayer].classList.remove("is-live");
+      this.armKenBurns(incoming, index);
       this.slideLayer = next;
       const upcoming = this.previewShots[(index + 1) % this.previewShots.length];
       if (upcoming) {
