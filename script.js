@@ -322,7 +322,63 @@
     };
   }
 
-  const boot = () => new App();
+  class ClubStrip {
+    constructor(section) {
+      this.strip = section?.querySelector(".club__strip");
+      if (!this.strip) return;
+      this.shots = [...this.strip.querySelectorAll(".shot")];
+      this.prev = section.querySelector("[data-club-dir='-1']");
+      this.next = section.querySelector("[data-club-dir='1']");
+      this.raf = 0;
+      this.prev?.addEventListener("click", () => this.step(-1));
+      this.next?.addEventListener("click", () => this.step(1));
+      this.strip.addEventListener("scroll", this.onScroll, { passive: true });
+      window.addEventListener("resize", this.onScroll, { passive: true });
+      this.sync();
+    }
+
+    step(direction) {
+      const active = this.strip.querySelector(".shot.is-active") || this.shots[0];
+      const styles = getComputedStyle(this.strip);
+      const gap = parseFloat(styles.columnGap || styles.gap) || 32;
+      this.strip.scrollBy({
+        left: (active.getBoundingClientRect().width + gap) * direction,
+        behavior: "smooth",
+      });
+    }
+
+    onScroll = () => {
+      if (this.raf) return;
+      this.raf = requestAnimationFrame(() => {
+        this.raf = 0;
+        this.sync();
+      });
+    };
+
+    sync() {
+      const bounds = this.strip.getBoundingClientRect();
+      const mid = bounds.left + bounds.width / 2;
+      let closest = this.shots[0];
+      let best = Infinity;
+      this.shots.forEach((shot) => {
+        const rect = shot.getBoundingClientRect();
+        const dist = Math.abs(rect.left + rect.width / 2 - mid);
+        if (dist < best) {
+          best = dist;
+          closest = shot;
+        }
+      });
+      this.shots.forEach((shot) => shot.classList.toggle("is-active", shot === closest));
+      const index = this.shots.indexOf(closest);
+      if (this.prev) this.prev.disabled = index <= 0;
+      if (this.next) this.next.disabled = index >= this.shots.length - 1;
+    }
+  }
+
+  const boot = () => {
+    new App();
+    new ClubStrip(document.getElementById("nuit"));
+  };
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", boot);
   } else {

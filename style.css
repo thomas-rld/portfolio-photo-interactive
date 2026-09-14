@@ -732,6 +732,10 @@ svg {
   margin-bottom: 10vh;
 }
 
+.club__rail {
+  position: relative;
+}
+
 .club__strip {
   display: flex;
   flex-wrap: nowrap;
@@ -739,8 +743,9 @@ svg {
   overflow-x: auto;
   overflow-y: hidden;
   gap: 2rem;
-  padding: 0 5vw;
+  padding: 0 calc((100% - min(80vw, 700px)) / 2);
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -751,14 +756,21 @@ svg {
 
 .club__strip .shot {
   flex: 0 0 auto;
-  width: 85vw;
-  max-width: 900px;
+  width: min(80vw, 700px);
+  max-width: 700px;
   height: auto;
   margin: 0;
   padding: 0;
   scroll-snap-align: center;
-  opacity: 1;
+  opacity: 0.4;
+  filter: grayscale(0.35) brightness(0.62);
   transform: none;
+  transition: opacity 0.45s ease, filter 0.45s ease;
+}
+
+.club__strip .shot.is-active {
+  opacity: 1;
+  filter: none;
 }
 
 .club__strip .shot__media {
@@ -775,6 +787,38 @@ svg {
   object-fit: cover;
   object-position: center;
   vertical-align: top;
+}
+
+.club__nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 1.4rem;
+  padding: 0 calc((100% - min(80vw, 700px)) / 2);
+}
+
+.club__arrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: var(--paper);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  padding: 8px 14px 7px;
+  cursor: pointer !important;
+}
+
+.club__arrow:hover,
+.club__arrow:focus-visible {
+  background: var(--paper);
+  color: var(--void);
+  outline: none;
+}
+
+.club__arrow:disabled {
+  opacity: 0.28;
+  pointer-events: none;
 }
 
 .club__stage {
@@ -1399,12 +1443,16 @@ html:has(.cli-footer:hover) .viewfinder {
   }
 
   .club__strip {
-    padding: 0 5vw;
+    padding: 0 calc((100% - 75vw) / 2);
   }
 
   .club__strip .shot {
-    width: 90vw;
-    max-width: 90vw;
+    width: 75vw;
+    max-width: 75vw;
+  }
+
+  .club__nav {
+    padding: 0 calc((100% - 75vw) / 2);
   }
 
   .globe {
