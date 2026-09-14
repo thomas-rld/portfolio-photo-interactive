@@ -18,8 +18,7 @@
     // { id: "paris", name: "PARIS", lat: 48.8566, lon: 2.3522, gallery: "paris-pop", preview: "photos/paris/cover.jpg", hint: "PARIS · CLICK MARKER" },
   ];
 
-  const AUTO_FIRST = 4500;
-  const AUTO_GAP = 12000;
+  const AUTO_GAP = 10000;
   const AUTO_HOLD = 3000;
 
   class VoyageGlobe {
@@ -34,13 +33,10 @@
       this.autoOpen = false;
       this.cycleStopped = false;
       this.sectionVisible = false;
-      this.didAutoPop = false;
       this.cycleTimer = 0;
       this.holdTimer = 0;
       this.closeToken = 0;
       this.hot = false;
-      this.teasing = false;
-      this.teaserPlayed = false;
       this.active = null;
       this.pins = [];
       this.radius = 1.2;
@@ -48,7 +44,6 @@
       this.speed = this.baseSpeed;
       this.world = null;
       this.raf = 0;
-      this.pulse = 0;
 
       document.querySelectorAll(".globe-pop__close").forEach((btn) => {
         btn.addEventListener("click", this.onClose);
@@ -125,7 +120,6 @@
       this.ro = new ResizeObserver(this.resize);
       this.ro.observe(this.container);
       this.resize();
-      this.observeTeaser();
       this.observeCycle();
       this.raf = requestAnimationFrame(this.tick);
     }
@@ -286,36 +280,6 @@
       );
     }
 
-    observeTeaser() {
-      if (reducedMotion || !("IntersectionObserver" in window)) return;
-      const observer = new IntersectionObserver(
-        (entries) => {
-          if (!entries[0]?.isIntersecting || this.teaserPlayed) return;
-          this.teaserPlayed = true;
-          this.playTeaser();
-          observer.disconnect();
-        },
-        { threshold: 0.42 }
-      );
-      observer.observe(this.container);
-    }
-
-    playTeaser() {
-      this.teasing = true;
-      this.hud?.classList.add("is-tease");
-      window.setTimeout(() => {
-        this.teasing = false;
-        this.hud?.classList.remove("is-tease");
-        this.pins.forEach((pin) => {
-          pin.marker.scale.setScalar(1);
-          if (pin.ring) {
-            pin.ring.scale.setScalar(1);
-            pin.ring.material.opacity = 0.95;
-          }
-        });
-      }, 2600);
-    }
-
     observeCycle() {
       if (reducedMotion || !("IntersectionObserver" in window)) return;
       const section = document.getElementById("voyage") || this.container;
@@ -324,7 +288,7 @@
           this.sectionVisible = Boolean(entries[0]?.isIntersecting);
           if (this.cycleStopped) return;
           if (this.sectionVisible) {
-            if (!this.open) this.scheduleCycle(this.didAutoPop ? AUTO_GAP : AUTO_FIRST);
+            if (!this.open) this.scheduleCycle(AUTO_GAP);
             return;
           }
           this.clearCycleTimers();
@@ -370,7 +334,6 @@
       if (this.cycleStopped || !this.sectionVisible || document.hidden || this.open) return;
       const dest = this.featured();
       if (!dest) return;
-      this.didAutoPop = true;
       this.openGallery(dest, { auto: true });
       this.holdTimer = window.setTimeout(() => {
         if (this.cycleStopped || !this.autoOpen) return;
@@ -508,8 +471,6 @@
         return;
       }
 
-      this.teasing = false;
-      this.hud?.classList.remove("is-tease");
       this.hidePreview();
       this.active = dest;
       this.open = true;
@@ -519,7 +480,7 @@
         const node = this.gallery(item);
         if (!node) return;
         const on = item.id === dest.id;
-        node.classList.remove("is-tease", "is-leaving", "is-on", "is-auto");
+        node.classList.remove("is-leaving", "is-on", "is-auto");
         node.style.transform = "";
         if (!on) {
           node.setAttribute("aria-hidden", "true");
@@ -549,11 +510,11 @@
         const node = this.gallery(item);
         if (!node) return;
         if (!node.classList.contains("is-on")) {
-          node.classList.remove("is-on", "is-tease", "is-auto", "is-leaving");
+          node.classList.remove("is-on", "is-auto", "is-leaving");
           node.setAttribute("aria-hidden", "true");
           return;
         }
-        node.classList.remove("is-on", "is-tease", "is-auto");
+        node.classList.remove("is-on", "is-auto");
         node.classList.add("is-leaving");
         const panel = node.querySelector(".globe-pop__panel");
         const finish = (event) => {
@@ -573,7 +534,7 @@
     scaleActivePin() {
       this.pins.forEach((pin) => {
         const live = this.hot || (this.open && this.active && pin.dest.id === this.active.id);
-        if (!this.teasing) pin.marker.scale.setScalar(live ? 1.4 : 1);
+        pin.marker.scale.setScalar(live ? 1.4 : 1);
       });
     }
 
@@ -594,18 +555,6 @@
         this.setHover(Boolean(this.hitsPin()));
         this.scaleActivePin();
         this.updatePreview();
-        if (this.teasing && !reducedMotion) {
-          this.pulse += 0.11;
-          const wave = Math.abs(Math.sin(this.pulse));
-          this.pins.forEach((pin) => {
-            if (!pin.dest.featured) return;
-            pin.marker.scale.setScalar(1 + wave * 0.95);
-            if (pin.ring) {
-              pin.ring.scale.setScalar(1 + wave * 2.1);
-              pin.ring.material.opacity = 0.95 - wave * 0.75;
-            }
-          });
-        }
       }
       if (this.renderer) this.renderer.render(this.scene, this.camera);
     };
