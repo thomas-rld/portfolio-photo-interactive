@@ -1079,6 +1079,24 @@ html.is-globe-hot .viewfinder {
   cursor: auto !important;
 }
 
+.globe-pop.is-on.is-auto {
+  pointer-events: none !important;
+  cursor: none !important;
+}
+
+.globe-pop.is-on.is-auto .globe-pop__panel {
+  pointer-events: auto !important;
+  cursor: none !important;
+}
+
+.globe-pop.is-on.is-auto .globe-pop__close {
+  cursor: pointer !important;
+}
+
+html:has(.globe-pop.is-on.is-auto) .viewfinder {
+  z-index: 12000;
+}
+
 .globe-pop.is-on .globe-pop__panel {
   animation: globe-expand 0.48s var(--ease-out);
 }
@@ -1091,6 +1109,32 @@ html.is-globe-hot .viewfinder {
   to {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.globe-pop.is-leaving {
+  position: fixed;
+  inset: 0;
+  z-index: 11000;
+  width: auto;
+  height: auto;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: none !important;
+}
+
+.globe-pop.is-leaving .globe-pop__panel {
+  animation: globe-collapse 0.42s var(--ease-out) forwards;
+}
+
+@keyframes globe-collapse {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.46);
   }
 }
 
