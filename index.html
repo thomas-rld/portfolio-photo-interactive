@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="is-locked">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -531,6 +531,11 @@
 
     <noscript>
       <style>
+        html.is-locked,
+        html.is-locked body {
+          overflow: auto !important;
+          height: auto !important;
+        }
         .terminal__ghost {
           visibility: visible !important;
         }
@@ -539,6 +544,7 @@
         }
         .terminal__hint {
           opacity: 1 !important;
+          visibility: visible !important;
         }
       </style>
     </noscript>

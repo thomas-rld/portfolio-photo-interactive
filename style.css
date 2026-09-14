@@ -24,6 +24,13 @@ html {
   background: var(--void);
 }
 
+html.is-locked,
+html.is-locked body {
+  overflow: hidden;
+  height: 100%;
+  overscroll-behavior: none;
+}
+
 html,
 body {
   background: var(--void);
@@ -329,11 +336,23 @@ svg {
   letter-spacing: 0.08em;
   color: var(--paper-dim);
   opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .terminal__hint.is-ready {
-  opacity: 0.85;
-  animation: hint-pulse 1.4s ease-in-out infinite;
+  visibility: visible;
+  opacity: 1;
+  animation: hint-in 0.45s ease forwards, hint-pulse 1.4s ease-in-out 0.45s infinite;
+}
+
+@keyframes hint-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes hint-pulse {
@@ -1874,5 +1893,10 @@ html:has(.cli-footer:hover) .viewfinder {
   .shot {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .terminal__hint.is-ready {
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 }

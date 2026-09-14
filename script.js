@@ -46,7 +46,7 @@
   }
 
   class Terminal {
-    constructor(prompt, title, meta, hint, clock) {
+    constructor(prompt, title, meta, hint, clock, onDone) {
       this.queue = [
         { el: prompt, text: "root@a7v:~# expose --init" },
         { el: title, text: "THOMAS ROLLAND - PORTFOLIO" },
@@ -54,11 +54,13 @@
       ].filter((item) => item.el);
       this.hint = hint;
       this.clock = clock;
+      this.onDone = onDone;
       this.line = 0;
       this.index = 0;
       this.last = 0;
       this.step = 28;
       this.alive = false;
+      this.done = false;
       this.raf = 0;
       this.clockTimer = 0;
       this.caret = document.createElement("span");
@@ -70,7 +72,6 @@
     start() {
       this.tickClock();
       this.clockTimer = window.setInterval(this.tickClock, 1000);
-      this.hint?.classList.add("is-ready");
       if (reducedMotion) {
         this.dumpAll();
         this.finish();
@@ -134,11 +135,15 @@
     };
 
     finish() {
+      if (this.done) return;
+      this.done = true;
       this.alive = false;
       if (this.raf) cancelAnimationFrame(this.raf);
       this.raf = 0;
       this.dumpAll();
       this.caret.remove();
+      this.hint?.classList.add("is-ready");
+      this.onDone?.();
     }
   }
 
@@ -203,14 +208,17 @@
       this.scrollRaf = 0;
       this.resizeRaf = 0;
       this.frameLabel = "000";
+      this.exposed = false;
 
+      this.lockScroll();
       this.viewfinder = new Viewfinder(document.getElementById("viewfinder"));
       this.terminal = new Terminal(
         document.getElementById("typed-prompt"),
         document.getElementById("typed-title"),
         document.getElementById("typed-meta"),
         document.getElementById("hint"),
-        document.getElementById("hero-clock")
+        document.getElementById("hero-clock"),
+        this.unlockScroll
       );
       this.panorama = new Panorama(
         document.getElementById("voyage"),
@@ -226,6 +234,35 @@
       this.scheduleResize();
       if (document.fonts?.ready) document.fonts.ready.then(() => this.scheduleResize());
     }
+
+    lockScroll() {
+      document.documentElement.classList.add("is-locked");
+      document.documentElement.style.overflow = "hidden";
+      document.body.style.overflow = "hidden";
+      window.addEventListener("wheel", this.blockScroll, { passive: false });
+      window.addEventListener("touchmove", this.blockScroll, { passive: false });
+      window.addEventListener("keydown", this.blockKeys);
+    }
+
+    blockScroll = (event) => {
+      if (!this.exposed) event.preventDefault();
+    };
+
+    blockKeys = (event) => {
+      const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Spacebar", "Home", "End"];
+      if (!this.exposed && keys.includes(event.key)) event.preventDefault();
+    };
+
+    unlockScroll = () => {
+      if (this.exposed) return;
+      this.exposed = true;
+      document.documentElement.classList.remove("is-locked");
+      document.documentElement.style.overflow = "auto";
+      document.body.style.overflow = "auto";
+      window.removeEventListener("wheel", this.blockScroll);
+      window.removeEventListener("touchmove", this.blockScroll);
+      window.removeEventListener("keydown", this.blockKeys);
+    };
 
     bind() {
       window.addEventListener("scroll", this.onScroll, { passive: true });
