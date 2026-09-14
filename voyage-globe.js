@@ -11,16 +11,21 @@
       lon: -74.006,
       gallery: "ny-pop",
       hint: "40.7128 N · 74.0060 W\nNEW YORK · CLICK MARKER",
+      preview: "photos/photos/new-york/DSC00366.jpg",
       featured: true,
     },
-    // Ajouter une destination :
-    // { id: "paris", name: "PARIS", lat: 48.8566, lon: 2.3522, gallery: "paris-pop", hint: "PARIS · CLICK MARKER" },
+    // Nouvelle ville : une entrée ici + un bloc HTML .globe-pop dont l'id = gallery.
+    // { id: "paris", name: "PARIS", lat: 48.8566, lon: 2.3522, gallery: "paris-pop", preview: "photos/paris/cover.jpg", hint: "PARIS · CLICK MARKER" },
   ];
 
   class VoyageGlobe {
     constructor(container) {
       this.container = container;
       this.hud = document.getElementById("globe-hud");
+      this.preview = document.getElementById("globe-preview");
+      this.previewImg = document.getElementById("globe-preview-img");
+      this.previewLabel = document.getElementById("globe-preview-label");
+      this.shownPreview = null;
       this.open = false;
       this.hot = false;
       this.teasing = false;
@@ -37,6 +42,7 @@
       document.querySelectorAll(".globe-pop__close").forEach((btn) => {
         btn.addEventListener("click", this.onClose);
       });
+      this.preview?.addEventListener("click", this.onPreviewClick);
 
       if (typeof THREE === "undefined") {
         this.fallback();
@@ -275,10 +281,6 @@
     playTeaser() {
       this.teasing = true;
       this.hud?.classList.add("is-tease");
-      const featured = DESTINATIONS.find((item) => item.featured) || DESTINATIONS[0];
-      const gallery = this.gallery(featured);
-      gallery?.classList.add("is-tease");
-      window.setTimeout(() => gallery?.classList.remove("is-tease"), 780);
       window.setTimeout(() => {
         this.teasing = false;
         this.hud?.classList.remove("is-tease");
@@ -289,7 +291,7 @@
             pin.ring.material.opacity = 0.95;
           }
         });
-      }, 3200);
+      }, 2600);
     }
 
     fitCamera() {
@@ -328,6 +330,68 @@
       this.closeGallery();
     };
 
+    onPreviewClick = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (this.shownPreview) this.openGallery(this.shownPreview);
+    };
+
+    hidePreview() {
+      this.shownPreview = null;
+      this.preview?.classList.remove("is-on");
+      this.preview?.setAttribute("aria-hidden", "true");
+    }
+
+    bindPreview(dest) {
+      if (!dest || this.shownPreview === dest) return;
+      this.shownPreview = dest;
+      if (this.previewImg && dest.preview) {
+        this.previewImg.src = dest.preview;
+        this.previewImg.alt = dest.name;
+      }
+      if (this.previewLabel) this.previewLabel.textContent = `[ APERÇU : ${dest.name} ]`;
+      this.preview?.setAttribute("aria-label", `Aperçu ${dest.name}`);
+    }
+
+    updatePreview() {
+      if (this.open || !this.preview || !this.camera) {
+        if (this.shownPreview) this.hidePreview();
+        return;
+      }
+      this.camera.updateMatrixWorld();
+      const camLen = this.camera.position.length();
+      let best = null;
+      let bestFacing = -Infinity;
+      this.pins.forEach((pin) => {
+        pin.marker.getWorldPosition(this.world);
+        const facing = this.world.dot(this.camera.position);
+        const keep = this.shownPreview && this.shownPreview.id === pin.dest.id;
+        const cutoff = this.radius * camLen * (keep ? 0.18 : 0.38);
+        if (facing < cutoff) return;
+        if (facing > bestFacing) {
+          best = pin;
+          bestFacing = facing;
+        }
+      });
+      if (!best) {
+        this.hidePreview();
+        return;
+      }
+      this.bindPreview(best.dest);
+      best.marker.getWorldPosition(this.world);
+      this.world.project(this.camera);
+      const width = this.container.clientWidth;
+      const height = this.container.clientHeight;
+      const cardW = this.preview.offsetWidth || 152;
+      const cardH = this.preview.offsetHeight || 130;
+      const x = Math.min(Math.max(8, (this.world.x * 0.5 + 0.5) * width + 16), Math.max(8, width - cardW - 8));
+      const y = Math.min(Math.max(8, (-this.world.y * 0.5 + 0.5) * height - cardH * 0.62), Math.max(8, height - cardH - 8));
+      this.preview.style.left = `${x}px`;
+      this.preview.style.top = `${y}px`;
+      this.preview.classList.add("is-on");
+      this.preview.setAttribute("aria-hidden", "false");
+    }
+
     setHover(state) {
       if (this.hot === state) return;
       this.hot = state;
@@ -341,6 +405,7 @@
       if (!dest) return;
       this.teasing = false;
       this.hud?.classList.remove("is-tease");
+      this.hidePreview();
       this.active = dest;
       this.open = true;
       this.speed = reducedMotion ? 0 : 0.0007;
@@ -395,6 +460,7 @@
         this.planet.rotation.y += this.speed;
         this.setHover(Boolean(this.hitsPin()));
         this.scaleActivePin();
+        this.updatePreview();
         if (this.teasing && !reducedMotion) {
           this.pulse += 0.11;
           const wave = Math.abs(Math.sin(this.pulse));
