@@ -116,6 +116,104 @@
     }
   }
 
+  class HeroType {
+    constructor() {
+      this.queue = [
+        { el: document.getElementById("typed-title-1"), text: "THOMAS" },
+        { el: document.getElementById("typed-title-2"), text: "ROLLAND" },
+        {
+          el: document.getElementById("typed-meta"),
+          text: "SONY A7V FULL FRAME\n16–35MM & 70–200MM",
+          html: true,
+        },
+      ].filter((item) => item.el);
+      this.line = 0;
+      this.index = 0;
+      this.last = 0;
+      this.step = 28;
+      this.alive = false;
+      this.started = false;
+      this.raf = 0;
+      this.caret = document.createElement("span");
+      this.caret.className = "hero-caret";
+      this.caret.setAttribute("aria-hidden", "true");
+    }
+
+    start() {
+      if (this.started || !this.queue.length) return;
+      this.started = true;
+      if (reducedMotion) {
+        this.dumpAll();
+        return;
+      }
+      this.alive = true;
+      this.attachCaret();
+      this.raf = requestAnimationFrame(this.tick);
+    }
+
+    dumpAll() {
+      this.queue.forEach((item) => {
+        if (item.html) item.el.innerHTML = item.text.replace(/\n/g, "<br />");
+        else item.el.textContent = item.text;
+      });
+    }
+
+    attachCaret() {
+      const current = this.queue[this.line];
+      if (!current) return;
+      current.el.appendChild(this.caret);
+    }
+
+    tick = (time) => {
+      if (!this.alive) return;
+      if (!this.last) this.last = time;
+      if (time - this.last < this.step) {
+        this.raf = requestAnimationFrame(this.tick);
+        return;
+      }
+      this.last = time;
+
+      const current = this.queue[this.line];
+      if (!current) {
+        this.finish();
+        return;
+      }
+
+      const char = current.text.charAt(this.index);
+      if (current.html) {
+        current.el.innerHTML = current.text
+          .slice(0, this.index + 1)
+          .replace(/\n/g, "<br />");
+        current.el.appendChild(this.caret);
+      } else {
+        current.el.textContent += char;
+        current.el.appendChild(this.caret);
+      }
+      this.index += 1;
+
+      if (this.index >= current.text.length) {
+        this.line += 1;
+        this.index = 0;
+        this.last = time + 180;
+        this.attachCaret();
+      }
+
+      if (this.line >= this.queue.length) {
+        this.finish();
+        return;
+      }
+
+      this.raf = requestAnimationFrame(this.tick);
+    };
+
+    finish() {
+      this.alive = false;
+      if (this.raf) cancelAnimationFrame(this.raf);
+      this.raf = 0;
+      this.caret.remove();
+    }
+  }
+
   class Panorama {
     constructor(section, pin, track, label) {
       this.section = section;
@@ -193,6 +291,7 @@
         document.getElementById("travel-place")
       );
       this.fitTitle = new FitTitle(document.querySelector(".hero-title"));
+      this.heroType = new HeroType();
       this.bootDone = false;
       this.pageLoaded = document.readyState === "complete";
       this.failSafe = 0;
@@ -268,7 +367,16 @@
       window.setTimeout(() => {
         this.loader.classList.add("is-gone");
         this.loader.setAttribute("aria-busy", "false");
+        this.heroType.start();
       }, reducedMotion ? 0 : 450);
+      this.loader.addEventListener(
+        "transitionend",
+        (event) => {
+          if (event.target !== this.loader) return;
+          this.heroType.start();
+        },
+        { once: true }
+      );
       this.scheduleResize();
     }
 

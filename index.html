@@ -109,13 +109,22 @@
             </div>
             <div class="hero__copy">
               <p class="eyebrow">PHOTOGRAPHE · TOULOUSE</p>
-              <h1 class="hero-title">
-                <span class="hero-title__line">THOMAS</span>
-                <span class="hero-title__line">ROLLAND</span>
+              <h1 class="hero-title" aria-label="Thomas Rolland">
+                <span class="hero-title__line">
+                  <span class="hero-title__ghost" aria-hidden="true">THOMAS</span>
+                  <span class="hero-title__live" id="typed-title-1"></span>
+                </span>
+                <span class="hero-title__line">
+                  <span class="hero-title__ghost" aria-hidden="true">ROLLAND</span>
+                  <span class="hero-title__live" id="typed-title-2"></span>
+                </span>
               </h1>
               <p class="hero__tech">
-                SONY A7V FULL FRAME<br />
-                16–35MM &amp; 70–200MM
+                <span class="hero__tech-ghost" aria-hidden="true">
+                  SONY A7V FULL FRAME<br />
+                  16–35MM &amp; 70–200MM
+                </span>
+                <span class="hero__tech-live" id="typed-meta"></span>
               </p>
             </div>
           </section>
@@ -542,6 +551,14 @@
     <noscript>
       <style>
         .loader {
+          display: none !important;
+        }
+        .hero-title__ghost,
+        .hero__tech-ghost {
+          visibility: visible !important;
+        }
+        .hero-title__live,
+        .hero__tech-live {
           display: none !important;
         }
       </style>

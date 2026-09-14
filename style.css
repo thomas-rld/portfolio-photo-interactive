@@ -540,16 +540,57 @@ svg {
 }
 
 .hero-title__line {
+  position: relative;
   display: block;
   max-width: 100%;
 }
 
+.hero-title__ghost {
+  visibility: hidden;
+  display: block;
+}
+
+.hero-title__live {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
 .hero__tech {
+  position: relative;
   margin: 16px 0 0;
   font-size: 11px;
   line-height: 1.7;
   letter-spacing: 0.14em;
   color: var(--paper-dim);
+}
+
+.hero__tech-ghost {
+  visibility: hidden;
+  display: block;
+}
+
+.hero__tech-live {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-caret {
+  display: inline-block;
+  width: 0.55ch;
+  height: 0.82em;
+  margin-left: 3px;
+  background: currentColor;
+  transform: translateY(0.08em);
+  animation: caret 0.72s steps(1) infinite;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
 }
 
 /* ——— Chapitres ——— */
