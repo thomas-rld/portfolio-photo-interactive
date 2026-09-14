@@ -965,40 +965,25 @@ svg {
   pointer-events: none;
 }
 
-.globe__hud.is-tease {
-  color: var(--paper);
-  animation: globe-hud-blink 0.55s steps(2, end) 5;
-}
-
-@keyframes globe-hud-blink {
-  50% {
-    opacity: 0.15;
-  }
-}
-
 .globe-preview {
   position: absolute;
   left: 0;
   top: 0;
   z-index: 6;
-  width: 152px;
+  width: 168px;
   padding: 0;
   overflow: hidden;
   appearance: none;
   -webkit-appearance: none;
-  background: rgba(10, 10, 10, 0.78);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: inherit;
+  background: #0a0a0a;
+  border: 1px solid #f4f4f4;
+  color: #f4f4f4;
   text-align: left;
   cursor: pointer !important;
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  transform: scale(0.92);
-  transform-origin: left top;
-  transition: opacity 280ms var(--ease-out), visibility 280ms var(--ease-out), transform 280ms var(--ease-out);
+  transition: opacity 420ms ease, visibility 420ms ease;
   touch-action: manipulation;
 }
 
@@ -1006,38 +991,68 @@ svg {
   pointer-events: auto;
   opacity: 1;
   visibility: visible;
-  transform: scale(1);
 }
 
 .globe-preview.is-on:hover,
 .globe-preview.is-on:focus-visible {
-  border-color: rgba(255, 255, 255, 0.42);
   outline: none;
 }
 
-.globe-preview.is-on:hover img,
-.globe-preview.is-on:focus-visible img {
-  filter: saturate(1) brightness(1);
+.globe-preview.is-on:hover .globe-preview__stage img.is-live,
+.globe-preview.is-on:focus-visible .globe-preview__stage img.is-live {
+  filter: none;
 }
 
-.globe-preview img {
+.globe-preview__stage {
+  position: relative;
+  display: block;
+  height: 108px;
+  overflow: hidden;
+  border-bottom: 1px solid #f4f4f4;
+}
+
+.globe-preview__stage img {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  height: 96px;
+  height: 100%;
   object-fit: cover;
-  filter: saturate(0.88) brightness(0.92);
+  opacity: 0;
+  filter: saturate(0.9) brightness(0.94);
   pointer-events: none;
+  transition: opacity 480ms ease;
 }
 
-.globe-preview span {
+.globe-preview__stage img.is-live {
+  opacity: 1;
+}
+
+.globe-preview__label {
   display: block;
-  padding: 7px 8px 8px;
+  overflow: hidden;
+  padding: 8px 9px 9px;
   font-family: var(--font-mono);
   font-size: 8px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #c8c8c8;
+  color: #f4f4f4;
   text-align: left;
+  white-space: nowrap;
+  clip-path: inset(0 100% 0 0);
+}
+
+.globe-preview.is-on .globe-preview__label.is-typed {
+  animation: preview-label 0.72s steps(14, end) forwards;
+}
+
+@keyframes preview-label {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
 }
 
 html:has(.globe-preview.is-on:hover) .viewfinder {
@@ -1079,24 +1094,6 @@ html.is-globe-hot .viewfinder {
   cursor: auto !important;
 }
 
-.globe-pop.is-on.is-auto {
-  pointer-events: none !important;
-  cursor: none !important;
-}
-
-.globe-pop.is-on.is-auto .globe-pop__panel {
-  pointer-events: auto !important;
-  cursor: none !important;
-}
-
-.globe-pop.is-on.is-auto .globe-pop__close {
-  cursor: pointer !important;
-}
-
-html:has(.globe-pop.is-on.is-auto) .viewfinder {
-  z-index: 12000;
-}
-
 .globe-pop.is-on .globe-pop__panel {
   animation: globe-expand 0.48s var(--ease-out);
 }
@@ -1135,36 +1132,6 @@ html:has(.globe-pop.is-on.is-auto) .viewfinder {
   to {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.46);
-  }
-}
-
-.globe-pop.is-tease {
-  position: fixed;
-  inset: 0;
-  z-index: 10990;
-  width: auto;
-  height: auto;
-  opacity: 1;
-  visibility: visible;
-  pointer-events: none !important;
-}
-
-.globe-pop.is-tease .globe-pop__panel {
-  animation: globe-gallery-tease 0.78s var(--ease-out) both;
-}
-
-@keyframes globe-gallery-tease {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.7);
-  }
-  32% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.03);
   }
 }
 
@@ -1629,16 +1596,16 @@ html:has(.cli-footer:hover) .viewfinder {
   }
 
   .globe-preview {
-    width: 124px;
+    width: 132px;
   }
 
-  .globe-preview img {
-    height: 76px;
+  .globe-preview__stage {
+    height: 84px;
   }
 
-  .globe-preview span {
+  .globe-preview__label {
     font-size: 7px;
-    padding: 6px 7px 7px;
+    padding: 7px 8px 8px;
   }
 
   .globe-pop__panel {

@@ -2,6 +2,9 @@
   "use strict";
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const PREVIEW_SLIDE = 1800;
+  const PREVIEW_MIN_MS = 3200;
+  const PREVIEW_MISS = 54;
 
   const DESTINATIONS = [
     {
@@ -18,23 +21,26 @@
     // { id: "paris", name: "PARIS", lat: 48.8566, lon: 2.3522, gallery: "paris-pop", preview: "photos/paris/cover.jpg", hint: "PARIS · CLICK MARKER" },
   ];
 
-  const AUTO_GAP = 10000;
-  const AUTO_HOLD = 3000;
-
   class VoyageGlobe {
     constructor(container) {
       this.container = container;
       this.hud = document.getElementById("globe-hud");
       this.preview = document.getElementById("globe-preview");
-      this.previewImg = document.getElementById("globe-preview-img");
+      this.previewImgs = [
+        document.getElementById("globe-preview-img-a"),
+        document.getElementById("globe-preview-img-b"),
+      ].filter(Boolean);
       this.previewLabel = document.getElementById("globe-preview-label");
       this.shownPreview = null;
+      this.previewShots = [];
+      this.slideIndex = 0;
+      this.slideAt = 0;
+      this.slideLayer = 0;
+      this.previewMiss = 0;
+      this.previewOnAt = 0;
+      this.previewX = null;
+      this.previewY = null;
       this.open = false;
-      this.autoOpen = false;
-      this.cycleStopped = false;
-      this.sectionVisible = false;
-      this.cycleTimer = 0;
-      this.holdTimer = 0;
       this.closeToken = 0;
       this.hot = false;
       this.active = null;
@@ -48,13 +54,7 @@
       document.querySelectorAll(".globe-pop__close").forEach((btn) => {
         btn.addEventListener("click", this.onClose);
       });
-      DESTINATIONS.forEach((item) => {
-        this.gallery(item)
-          ?.querySelector(".globe-pop__panel")
-          ?.addEventListener("click", this.onPanelClick);
-      });
       this.preview?.addEventListener("click", this.onPreviewClick);
-      document.addEventListener("visibilitychange", this.onPageVisibility);
 
       if (typeof THREE === "undefined") {
         this.fallback();
@@ -73,6 +73,24 @@
       return dest ? document.getElementById(dest.gallery) : null;
     }
 
+    featured() {
+      return DESTINATIONS.find((item) => item.featured) || DESTINATIONS[0];
+    }
+
+    shotsOf(dest) {
+      if (!dest) return [];
+      if (dest.shots) return dest.shots;
+      const imgs = this.gallery(dest)?.querySelectorAll(".globe-pop__frame img") || [];
+      dest.shots = [...imgs].map((img) => ({
+        src: img.getAttribute("src"),
+        alt: img.getAttribute("alt") || dest.name,
+      }));
+      if (!dest.shots.length && dest.preview) {
+        dest.shots = [{ src: dest.preview, alt: dest.name }];
+      }
+      return dest.shots;
+    }
+
     latLon(lat, lon, radius) {
       const phi = (90 - lat) * (Math.PI / 180);
       const theta = (lon + 180) * (Math.PI / 180);
@@ -85,8 +103,7 @@
 
     fallback() {
       this.container.classList.add("is-fallback");
-      const featured = this.featured();
-      this.openGallery(featured);
+      this.openGallery(this.featured());
     }
 
     mount() {
@@ -120,12 +137,7 @@
       this.ro = new ResizeObserver(this.resize);
       this.ro.observe(this.container);
       this.resize();
-      this.observeCycle();
       this.raf = requestAnimationFrame(this.tick);
-    }
-
-    featured() {
-      return DESTINATIONS.find((item) => item.featured) || DESTINATIONS[0];
     }
 
     addRadarCage() {
@@ -280,67 +292,6 @@
       );
     }
 
-    observeCycle() {
-      if (reducedMotion || !("IntersectionObserver" in window)) return;
-      const section = document.getElementById("voyage") || this.container;
-      this.cycleObserver = new IntersectionObserver(
-        (entries) => {
-          this.sectionVisible = Boolean(entries[0]?.isIntersecting);
-          if (this.cycleStopped) return;
-          if (this.sectionVisible) {
-            if (!this.open) this.scheduleCycle(AUTO_GAP);
-            return;
-          }
-          this.clearCycleTimers();
-          if (this.autoOpen) this.closeGallery({ reason: "auto" });
-        },
-        { threshold: 0.32 }
-      );
-      this.cycleObserver.observe(section);
-    }
-
-    onPageVisibility = () => {
-      if (this.cycleStopped) return;
-      if (document.hidden) {
-        this.clearCycleTimers();
-        if (this.autoOpen) this.closeGallery({ reason: "auto" });
-        return;
-      }
-      if (this.sectionVisible && !this.open) this.scheduleCycle(AUTO_GAP);
-    };
-
-    clearCycleTimers() {
-      window.clearTimeout(this.cycleTimer);
-      window.clearTimeout(this.holdTimer);
-      this.cycleTimer = 0;
-      this.holdTimer = 0;
-    }
-
-    stopCycle() {
-      this.cycleStopped = true;
-      this.autoOpen = false;
-      this.clearCycleTimers();
-    }
-
-    scheduleCycle(delay) {
-      if (this.cycleStopped || reducedMotion || !this.sectionVisible || document.hidden || this.open) {
-        return;
-      }
-      this.clearCycleTimers();
-      this.cycleTimer = window.setTimeout(this.autoPop, delay);
-    }
-
-    autoPop = () => {
-      if (this.cycleStopped || !this.sectionVisible || document.hidden || this.open) return;
-      const dest = this.featured();
-      if (!dest) return;
-      this.openGallery(dest, { auto: true });
-      this.holdTimer = window.setTimeout(() => {
-        if (this.cycleStopped || !this.autoOpen) return;
-        this.closeGallery({ reason: "auto" });
-      }, AUTO_HOLD);
-    };
-
     fitCamera() {
       const aspect = this.camera.aspect || 1;
       const half = ((this.camera.fov * Math.PI) / 180) * 0.5;
@@ -368,21 +319,13 @@
       this.pointerVec.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
       const dest = this.hitsPin();
       if (dest) this.openGallery(dest);
-      else if (this.autoOpen) return;
-      else if (this.open) this.closeGallery({ reason: "user" });
+      else this.closeGallery();
     };
 
     onClose = (event) => {
       event.preventDefault();
       event.stopPropagation();
-      this.closeGallery({ reason: "user" });
-    };
-
-    onPanelClick = (event) => {
-      if (event.target.closest(".globe-pop__close")) return;
-      if (!this.open || !this.autoOpen) return;
-      event.stopPropagation();
-      this.openGallery(this.active);
+      this.closeGallery();
     };
 
     onPreviewClick = (event) => {
@@ -393,19 +336,88 @@
 
     hidePreview() {
       this.shownPreview = null;
+      this.previewShots = [];
+      this.previewMiss = 0;
+      this.previewX = null;
+      this.previewY = null;
       this.preview?.classList.remove("is-on");
       this.preview?.setAttribute("aria-hidden", "true");
+      this.previewLabel?.classList.remove("is-typed");
+    }
+
+    paintSlide(index, instant) {
+      const shot = this.previewShots[index];
+      if (!shot || !this.previewImgs.length) return;
+      if (instant || this.previewImgs.length < 2 || reducedMotion) {
+        this.previewImgs[0].src = shot.src;
+        this.previewImgs[0].alt = shot.alt;
+        this.previewImgs[0].classList.add("is-live");
+        if (this.previewImgs[1]) {
+          this.previewImgs[1].classList.remove("is-live");
+          this.previewImgs[1].src = shot.src;
+        }
+        this.slideLayer = 0;
+        return;
+      }
+      const next = 1 - this.slideLayer;
+      const incoming = this.previewImgs[next];
+      incoming.src = shot.src;
+      incoming.alt = shot.alt;
+      incoming.classList.add("is-live");
+      this.previewImgs[this.slideLayer].classList.remove("is-live");
+      this.slideLayer = next;
+      const upcoming = this.previewShots[(index + 1) % this.previewShots.length];
+      if (upcoming) {
+        const preload = new Image();
+        preload.src = upcoming.src;
+      }
     }
 
     bindPreview(dest) {
       if (!dest || this.shownPreview === dest) return;
       this.shownPreview = dest;
-      if (this.previewImg && dest.preview) {
-        this.previewImg.src = dest.preview;
-        this.previewImg.alt = dest.name;
+      this.previewShots = this.shotsOf(dest);
+      this.slideIndex = 0;
+      this.slideAt = performance.now();
+      this.previewOnAt = this.slideAt;
+      this.previewMiss = 0;
+      this.paintSlide(0, true);
+      if (this.previewLabel) {
+        this.previewLabel.textContent = `[ ${dest.name} ]`;
+        this.previewLabel.classList.remove("is-typed");
+        void this.previewLabel.offsetWidth;
+        this.previewLabel.classList.add("is-typed");
       }
-      if (this.previewLabel) this.previewLabel.textContent = `[ APERÇU : ${dest.name} ]`;
-      this.preview?.setAttribute("aria-label", `Aperçu ${dest.name}`);
+      this.preview?.setAttribute("aria-label", `Ouvrir ${dest.name}`);
+    }
+
+    advancePreviewSlide() {
+      if (reducedMotion || this.open || this.previewShots.length < 2 || document.hidden) return;
+      const now = performance.now();
+      if (now - this.slideAt < PREVIEW_SLIDE) return;
+      this.slideAt = now;
+      this.slideIndex = (this.slideIndex + 1) % this.previewShots.length;
+      this.paintSlide(this.slideIndex, false);
+    }
+
+    placePreview(pin, snap) {
+      pin.marker.getWorldPosition(this.world);
+      this.world.project(this.camera);
+      const width = this.container.clientWidth;
+      const height = this.container.clientHeight;
+      const cardW = this.preview.offsetWidth || 168;
+      const cardH = this.preview.offsetHeight || 148;
+      const x = Math.min(Math.max(8, (this.world.x * 0.5 + 0.5) * width + 18), Math.max(8, width - cardW - 8));
+      const y = Math.min(Math.max(8, (-this.world.y * 0.5 + 0.5) * height - cardH * 0.58), Math.max(8, height - cardH - 8));
+      if (snap || this.previewX == null) {
+        this.previewX = x;
+        this.previewY = y;
+      } else {
+        this.previewX += (x - this.previewX) * 0.16;
+        this.previewY += (y - this.previewY) * 0.16;
+      }
+      this.preview.style.left = `${this.previewX}px`;
+      this.preview.style.top = `${this.previewY}px`;
     }
 
     updatePreview() {
@@ -421,30 +433,35 @@
         pin.marker.getWorldPosition(this.world);
         const facing = this.world.dot(this.camera.position);
         const keep = this.shownPreview && this.shownPreview.id === pin.dest.id;
-        const cutoff = this.radius * camLen * (keep ? 0.18 : 0.38);
+        const cutoff = this.radius * camLen * (keep ? 0.06 : 0.34);
         if (facing < cutoff) return;
         if (facing > bestFacing) {
           best = pin;
           bestFacing = facing;
         }
       });
+
       if (!best) {
-        this.hidePreview();
+        if (!this.shownPreview) return;
+        this.previewMiss += 1;
+        const held = performance.now() - this.previewOnAt > PREVIEW_MIN_MS;
+        if (held && this.previewMiss > PREVIEW_MISS) {
+          this.hidePreview();
+          return;
+        }
+        const pin = this.pins.find((item) => item.dest.id === this.shownPreview.id);
+        if (pin) this.placePreview(pin, false);
+        this.advancePreviewSlide();
         return;
       }
+
+      const fresh = this.shownPreview !== best.dest;
       this.bindPreview(best.dest);
-      best.marker.getWorldPosition(this.world);
-      this.world.project(this.camera);
-      const width = this.container.clientWidth;
-      const height = this.container.clientHeight;
-      const cardW = this.preview.offsetWidth || 152;
-      const cardH = this.preview.offsetHeight || 130;
-      const x = Math.min(Math.max(8, (this.world.x * 0.5 + 0.5) * width + 16), Math.max(8, width - cardW - 8));
-      const y = Math.min(Math.max(8, (-this.world.y * 0.5 + 0.5) * height - cardH * 0.62), Math.max(8, height - cardH - 8));
-      this.preview.style.left = `${x}px`;
-      this.preview.style.top = `${y}px`;
+      this.previewMiss = 0;
+      this.placePreview(best, fresh);
       this.preview.classList.add("is-on");
       this.preview.setAttribute("aria-hidden", "false");
+      this.advancePreviewSlide();
     }
 
     setHover(state) {
@@ -456,31 +473,18 @@
       if (dest && this.hud) this.hud.innerHTML = dest.hint.replace("\n", "<br />");
     }
 
-    openGallery(dest, opts = {}) {
+    openGallery(dest) {
       if (!dest) return;
-      const auto = Boolean(opts.auto);
-      if (!auto) this.stopCycle();
       this.closeToken += 1;
-
-      if (this.open && this.active?.id === dest.id) {
-        this.autoOpen = false;
-        this.gallery(dest)?.classList.remove("is-auto");
-        document.documentElement.classList.add("is-globe-open");
-        this.speed = reducedMotion ? 0 : 0.0007;
-        this.scaleActivePin();
-        return;
-      }
-
       this.hidePreview();
       this.active = dest;
       this.open = true;
-      this.autoOpen = auto;
-      this.speed = reducedMotion ? 0 : auto ? this.baseSpeed : 0.0007;
+      this.speed = reducedMotion ? 0 : 0.0007;
       DESTINATIONS.forEach((item) => {
         const node = this.gallery(item);
         if (!node) return;
         const on = item.id === dest.id;
-        node.classList.remove("is-leaving", "is-on", "is-auto");
+        node.classList.remove("is-leaving", "is-on");
         node.style.transform = "";
         if (!on) {
           node.setAttribute("aria-hidden", "true");
@@ -488,19 +492,14 @@
         }
         void node.offsetWidth;
         node.classList.add("is-on");
-        if (auto) node.classList.add("is-auto");
         node.setAttribute("aria-hidden", "false");
       });
-      document.documentElement.classList.toggle("is-globe-open", !auto);
+      document.documentElement.classList.add("is-globe-open");
       this.scaleActivePin();
     }
 
-    closeGallery(opts = {}) {
+    closeGallery() {
       if (!this.open) return;
-      const reason = opts.reason || "user";
-      if (reason === "user") this.stopCycle();
-      else this.autoOpen = false;
-
       this.open = false;
       this.active = null;
       this.speed = this.baseSpeed;
@@ -510,11 +509,11 @@
         const node = this.gallery(item);
         if (!node) return;
         if (!node.classList.contains("is-on")) {
-          node.classList.remove("is-on", "is-auto", "is-leaving");
+          node.classList.remove("is-on", "is-leaving");
           node.setAttribute("aria-hidden", "true");
           return;
         }
-        node.classList.remove("is-on", "is-auto");
+        node.classList.remove("is-on");
         node.classList.add("is-leaving");
         const panel = node.querySelector(".globe-pop__panel");
         const finish = (event) => {
@@ -528,7 +527,6 @@
         window.setTimeout(finish, 480);
       });
       this.scaleActivePin();
-      if (reason === "auto" && !this.cycleStopped) this.scheduleCycle(AUTO_GAP);
     }
 
     scaleActivePin() {

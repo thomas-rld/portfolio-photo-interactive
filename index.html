@@ -440,9 +440,12 @@
                 40.7128 N · 74.0060 W<br />
                 NEW YORK · CLICK MARKER
               </p>
-              <button type="button" class="globe-preview" id="globe-preview" aria-hidden="true" aria-label="Aperçu New York">
-                <img id="globe-preview-img" alt="" />
-                <span id="globe-preview-label">[ APERÇU : NEW YORK ]</span>
+              <button type="button" class="globe-preview" id="globe-preview" aria-hidden="true" aria-label="Ouvrir New York">
+                <span class="globe-preview__stage">
+                  <img id="globe-preview-img-a" alt="" />
+                  <img id="globe-preview-img-b" alt="" />
+                </span>
+                <span class="globe-preview__label" id="globe-preview-label">[ NEW YORK ]</span>
               </button>
               <!-- HUD : dupliquer .globe-pop (id = DESTINATIONS[].gallery) pour une nouvelle ville -->
               <div class="globe-pop" id="ny-pop" data-destination="new-york" aria-hidden="true">
