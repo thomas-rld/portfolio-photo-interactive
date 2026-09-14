@@ -45,105 +45,35 @@
     };
   }
 
-  class BootLog {
-    constructor(root, clock) {
-      this.root = root;
-      this.clock = clock;
-      this.lines = [
-        "> SYSTEM BOOT...",
-        "> LOADING KERNEL_A7V...",
-        "> LOADING WEBGL_EARTH...",
-        "> MOUNTING DIRECTORIES...",
-        "> INDEXING /PHOTOS...",
-        "> ACCESS GRANTED.",
-      ];
-      this.index = 0;
-      this.clockTimer = 0;
-      this.lineTimer = 0;
-      this.onDone = null;
-    }
-
-    start() {
-      this.tickClock();
-      this.clockTimer = window.setInterval(this.tickClock, 1000);
-      if (reducedMotion) {
-        this.dumpAll();
-        this.finish();
-        return;
-      }
-      this.next();
-    }
-
-    dumpAll() {
-      if (!this.root) return;
-      this.root.innerHTML = this.lines.map((line) => `<p>${line}</p>`).join("");
-    }
-
-    next() {
-      if (!this.root || this.index >= this.lines.length) {
-        this.finish();
-        return;
-      }
-      const line = document.createElement("p");
-      line.textContent = this.lines[this.index];
-      if (this.index === this.lines.length - 1) line.classList.add("is-ok");
-      this.root.appendChild(line);
-      this.index += 1;
-      this.lineTimer = window.setTimeout(() => this.next(), 260);
-    }
-
-    tickClock = () => {
-      if (!this.clock) return;
-      const now = new Date();
-      const pad = (n) => String(n).padStart(2, "0");
-      this.clock.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-    };
-
-    finish() {
-      this.stop();
-      if (this.onDone) this.onDone();
-    }
-
-    stop() {
-      if (this.lineTimer) {
-        window.clearTimeout(this.lineTimer);
-        this.lineTimer = 0;
-      }
-      if (this.clockTimer) {
-        window.clearInterval(this.clockTimer);
-        this.clockTimer = 0;
-      }
-    }
-  }
-
-  class HeroType {
-    constructor() {
+  class Terminal {
+    constructor(prompt, title, meta, hint, clock) {
       this.queue = [
-        { el: document.getElementById("typed-title-1"), text: "THOMAS" },
-        { el: document.getElementById("typed-title-2"), text: "ROLLAND" },
-        {
-          el: document.getElementById("typed-meta"),
-          text: "SONY A7V FULL FRAME\n16–35MM & 70–200MM",
-          html: true,
-        },
+        { el: prompt, text: "root@a7v:~# expose --init" },
+        { el: title, text: "THOMAS ROLLAND - PORTFOLIO" },
+        { el: meta, text: "[SYS_INIT] SONY A7V | 10mm, 16-35mm & 70-200mm" },
       ].filter((item) => item.el);
+      this.hint = hint;
+      this.clock = clock;
       this.line = 0;
       this.index = 0;
       this.last = 0;
       this.step = 28;
       this.alive = false;
-      this.started = false;
       this.raf = 0;
+      this.clockTimer = 0;
       this.caret = document.createElement("span");
-      this.caret.className = "hero-caret";
+      this.caret.className = "terminal__caret";
+      this.caret.id = "caret";
       this.caret.setAttribute("aria-hidden", "true");
     }
 
     start() {
-      if (this.started || !this.queue.length) return;
-      this.started = true;
+      this.tickClock();
+      this.clockTimer = window.setInterval(this.tickClock, 1000);
+      this.hint?.classList.add("is-ready");
       if (reducedMotion) {
         this.dumpAll();
+        this.finish();
         return;
       }
       this.alive = true;
@@ -153,16 +83,21 @@
 
     dumpAll() {
       this.queue.forEach((item) => {
-        if (item.html) item.el.innerHTML = item.text.replace(/\n/g, "<br />");
-        else item.el.textContent = item.text;
+        item.el.textContent = item.text;
       });
     }
 
     attachCaret() {
       const current = this.queue[this.line];
-      if (!current) return;
-      current.el.appendChild(this.caret);
+      if (current) current.el.appendChild(this.caret);
     }
+
+    tickClock = () => {
+      if (!this.clock) return;
+      const now = new Date();
+      const pad = (n) => String(n).padStart(2, "0");
+      this.clock.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+    };
 
     tick = (time) => {
       if (!this.alive) return;
@@ -179,16 +114,8 @@
         return;
       }
 
-      const char = current.text.charAt(this.index);
-      if (current.html) {
-        current.el.innerHTML = current.text
-          .slice(0, this.index + 1)
-          .replace(/\n/g, "<br />");
-        current.el.appendChild(this.caret);
-      } else {
-        current.el.textContent += char;
-        current.el.appendChild(this.caret);
-      }
+      current.el.textContent += current.text.charAt(this.index);
+      current.el.appendChild(this.caret);
       this.index += 1;
 
       if (this.index >= current.text.length) {
@@ -210,6 +137,7 @@
       this.alive = false;
       if (this.raf) cancelAnimationFrame(this.raf);
       this.raf = 0;
+      this.dumpAll();
       this.caret.remove();
     }
   }
@@ -269,20 +197,20 @@
 
   class App {
     constructor() {
-      this.loader = document.getElementById("loader");
       this.chrome = document.getElementById("chrome");
       this.counter = document.getElementById("counter");
       this.frameValue = document.getElementById("frame-value");
-      this.ready = false;
-      this.exposed = false;
       this.scrollRaf = 0;
       this.resizeRaf = 0;
       this.frameLabel = "000";
 
       this.viewfinder = new Viewfinder(document.getElementById("viewfinder"));
-      this.boot = new BootLog(
-        document.getElementById("loader-boot"),
-        document.getElementById("loader-clock")
+      this.terminal = new Terminal(
+        document.getElementById("typed-prompt"),
+        document.getElementById("typed-title"),
+        document.getElementById("typed-meta"),
+        document.getElementById("hint"),
+        document.getElementById("hero-clock")
       );
       this.panorama = new Panorama(
         document.getElementById("voyage"),
@@ -291,93 +219,21 @@
         document.getElementById("travel-place")
       );
       this.fitTitle = new FitTitle(document.querySelector(".hero-title"));
-      this.heroType = new HeroType();
-      this.bootDone = false;
-      this.pageLoaded = document.readyState === "complete";
-      this.failSafe = 0;
-
-      this.boot.onDone = () => {
-        this.bootDone = true;
-        this.tryExpose();
-      };
 
       this.bind();
       this.observeShots();
-      this.loader?.classList.add("is-armed");
-      this.boot.start();
-      this.failSafe = window.setTimeout(() => this.expose(), 2500);
-      window.addEventListener("load", this.onPageLoad);
+      this.terminal.start();
       this.scheduleResize();
       if (document.fonts?.ready) document.fonts.ready.then(() => this.scheduleResize());
     }
 
-    onPageLoad = () => {
-      this.pageLoaded = true;
-      this.tryExpose();
-    };
-
-    tryExpose() {
-      if (this.bootDone && this.pageLoaded) this.expose();
-    }
-
     bind() {
-      document.documentElement.classList.add("is-locked");
-      window.addEventListener("wheel", this.onFirstScroll, { passive: false });
-      window.addEventListener("touchmove", this.onFirstScroll, { passive: false });
-      window.addEventListener("keydown", this.onKey);
-      this.loader.addEventListener("click", () => this.expose());
       window.addEventListener("scroll", this.onScroll, { passive: true });
       window.addEventListener("resize", this.scheduleResize, { passive: true });
-
       document.querySelectorAll("[data-cursor='lock']").forEach((node) => {
         node.addEventListener("mouseenter", () => this.viewfinder.lock(true));
         node.addEventListener("mouseleave", () => this.viewfinder.lock(false));
       });
-    }
-
-    onFirstScroll = (event) => {
-      if (!this.exposed) {
-        event.preventDefault();
-        this.expose();
-      }
-    };
-
-    onKey = (event) => {
-      const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Spacebar", "Enter", "Escape"];
-      if (!keys.includes(event.key)) return;
-      if (!this.exposed) {
-        event.preventDefault();
-        this.expose();
-      }
-    };
-
-    expose() {
-      if (this.exposed) return;
-      this.exposed = true;
-      this.ready = true;
-      window.clearTimeout(this.failSafe);
-      window.removeEventListener("load", this.onPageLoad);
-      this.loader.classList.add("is-exposing");
-      this.chrome.classList.add("is-live");
-      this.counter.classList.add("is-live");
-      this.boot.stop();
-      document.documentElement.classList.remove("is-locked");
-      window.removeEventListener("wheel", this.onFirstScroll);
-      window.removeEventListener("touchmove", this.onFirstScroll);
-      window.setTimeout(() => {
-        this.loader.classList.add("is-gone");
-        this.loader.setAttribute("aria-busy", "false");
-        this.heroType.start();
-      }, reducedMotion ? 0 : 450);
-      this.loader.addEventListener(
-        "transitionend",
-        (event) => {
-          if (event.target !== this.loader) return;
-          this.heroType.start();
-        },
-        { once: true }
-      );
-      this.scheduleResize();
     }
 
     onScroll = () => {
@@ -387,8 +243,10 @@
 
     paintScroll = () => {
       this.scrollRaf = 0;
-      if (!this.exposed) return;
       this.panorama.update();
+      const pastHero = window.scrollY > window.innerHeight * 0.28;
+      this.chrome?.classList.toggle("is-live", pastHero);
+      this.counter?.classList.toggle("is-live", pastHero);
       const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       const frame = String(Math.round((window.scrollY / max) * 36)).padStart(3, "0");
       if (frame !== this.frameLabel) {
@@ -422,7 +280,7 @@
         this.resizeRaf = 0;
         this.panorama.measure();
         this.fitTitle.fit();
-        if (this.exposed) this.paintScroll();
+        this.paintScroll();
       });
     };
   }
