@@ -2,21 +2,41 @@
   "use strict";
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const NY = { lat: 40.7128, lon: -74.006 };
+
+  const DESTINATIONS = [
+    {
+      id: "new-york",
+      name: "NEW YORK",
+      lat: 40.7128,
+      lon: -74.006,
+      gallery: "ny-pop",
+      hint: "40.7128 N · 74.0060 W\nNEW YORK · CLICK MARKER",
+      featured: true,
+    },
+    // Ajouter une destination :
+    // { id: "paris", name: "PARIS", lat: 48.8566, lon: 2.3522, gallery: "paris-pop", hint: "PARIS · CLICK MARKER" },
+  ];
 
   class VoyageGlobe {
-    constructor(container, popup) {
+    constructor(container) {
       this.container = container;
-      this.popup = popup;
-      this.closeBtn = document.getElementById("ny-pop-close");
+      this.hud = document.getElementById("globe-hud");
       this.open = false;
       this.hot = false;
+      this.teasing = false;
+      this.teaserPlayed = false;
+      this.active = null;
+      this.pins = [];
       this.radius = 1.2;
       this.baseSpeed = reducedMotion ? 0 : 0.0024;
       this.speed = this.baseSpeed;
       this.world = null;
       this.raf = 0;
-      this.closeBtn?.addEventListener("click", this.onClose);
+      this.pulse = 0;
+
+      document.querySelectorAll(".globe-pop__close").forEach((btn) => {
+        btn.addEventListener("click", this.onClose);
+      });
 
       if (typeof THREE === "undefined") {
         this.fallback();
@@ -31,6 +51,10 @@
       }
     }
 
+    gallery(dest) {
+      return dest ? document.getElementById(dest.gallery) : null;
+    }
+
     latLon(lat, lon, radius) {
       const phi = (90 - lat) * (Math.PI / 180);
       const theta = (lon + 180) * (Math.PI / 180);
@@ -43,7 +67,8 @@
 
     fallback() {
       this.container.classList.add("is-fallback");
-      this.showPopup(true);
+      const featured = DESTINATIONS.find((item) => item.featured) || DESTINATIONS[0];
+      this.openGallery(featured);
     }
 
     mount() {
@@ -63,7 +88,7 @@
       this.planet = new THREE.Group();
       this.scene.add(this.planet);
       this.addRadarCage();
-      this.addMarker();
+      this.addPins();
       this.loadContinents();
 
       this.raycaster = new THREE.Raycaster();
@@ -77,6 +102,7 @@
       this.ro = new ResizeObserver(this.resize);
       this.ro.observe(this.container);
       this.resize();
+      this.observeTeaser();
       this.raf = requestAnimationFrame(this.tick);
     }
 
@@ -114,28 +140,45 @@
       );
     }
 
-    addMarker() {
-      const ny = this.latLon(NY.lat, NY.lon, this.radius + 0.018);
-      this.marker = new THREE.Group();
+    addPins() {
       const markMat = new THREE.MeshBasicMaterial({ color: 0xf4f4f4 });
       const accentMat = new THREE.MeshBasicMaterial({ color: 0xff2f8b });
-      this.marker.add(new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.016, 0.016), markMat));
-      this.marker.add(new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.08, 0.016), markMat));
-      this.marker.add(new THREE.Mesh(new THREE.BoxGeometry(0.024, 0.024, 0.024), accentMat));
-      this.marker.add(
-        new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.005, 8, 20), accentMat)
-      );
-      this.marker.position.copy(ny);
-      this.marker.lookAt(ny.clone().multiplyScalar(2));
-      this.planet.add(this.marker);
 
-      this.hit = new THREE.Mesh(
-        new THREE.SphereGeometry(0.2, 12, 12),
-        new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })
-      );
-      this.hit.position.copy(ny);
-      this.planet.add(this.hit);
-      this.planet.rotation.y = -Math.atan2(ny.x, ny.z) + 0.28;
+      DESTINATIONS.forEach((dest) => {
+        const pos = this.latLon(dest.lat, dest.lon, this.radius + 0.018);
+        const marker = new THREE.Group();
+        marker.add(new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.016, 0.016), markMat));
+        marker.add(new THREE.Mesh(new THREE.BoxGeometry(0.016, 0.08, 0.016), markMat));
+        marker.add(new THREE.Mesh(new THREE.BoxGeometry(0.028, 0.028, 0.028), accentMat.clone()));
+        const ring = new THREE.Mesh(
+          new THREE.TorusGeometry(0.07, 0.006, 8, 24),
+          new THREE.MeshBasicMaterial({
+            color: 0xff2f8b,
+            transparent: true,
+            opacity: 0.95,
+          })
+        );
+        marker.add(ring);
+        marker.position.copy(pos);
+        marker.lookAt(pos.clone().multiplyScalar(2));
+        marker.userData.destination = dest;
+        this.planet.add(marker);
+
+        const hit = new THREE.Mesh(
+          new THREE.SphereGeometry(0.22, 12, 12),
+          new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false })
+        );
+        hit.position.copy(pos);
+        hit.userData.destination = dest;
+        this.planet.add(hit);
+
+        this.pins.push({ dest, marker, hit, ring });
+      });
+
+      const face = this.pins.find((pin) => pin.dest.featured) || this.pins[0];
+      if (face) {
+        this.planet.rotation.y = -Math.atan2(face.marker.position.x, face.marker.position.z) + 0.28;
+      }
     }
 
     loadContinents() {
@@ -215,6 +258,40 @@
       );
     }
 
+    observeTeaser() {
+      if (reducedMotion || !("IntersectionObserver" in window)) return;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (!entries[0]?.isIntersecting || this.teaserPlayed) return;
+          this.teaserPlayed = true;
+          this.playTeaser();
+          observer.disconnect();
+        },
+        { threshold: 0.42 }
+      );
+      observer.observe(this.container);
+    }
+
+    playTeaser() {
+      this.teasing = true;
+      this.hud?.classList.add("is-tease");
+      const featured = DESTINATIONS.find((item) => item.featured) || DESTINATIONS[0];
+      const gallery = this.gallery(featured);
+      gallery?.classList.add("is-tease");
+      window.setTimeout(() => gallery?.classList.remove("is-tease"), 780);
+      window.setTimeout(() => {
+        this.teasing = false;
+        this.hud?.classList.remove("is-tease");
+        this.pins.forEach((pin) => {
+          pin.marker.scale.setScalar(1);
+          if (pin.ring) {
+            pin.ring.scale.setScalar(1);
+            pin.ring.material.opacity = 0.95;
+          }
+        });
+      }, 3200);
+    }
+
     fitCamera() {
       const aspect = this.camera.aspect || 1;
       const half = ((this.camera.fov * Math.PI) / 180) * 0.5;
@@ -240,14 +317,15 @@
       const rect = this.renderer.domElement.getBoundingClientRect();
       this.pointerVec.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       this.pointerVec.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-      if (this.hitsMarker()) this.setOpen(true);
-      else this.setOpen(false);
+      const dest = this.hitsPin();
+      if (dest) this.openGallery(dest);
+      else this.closeGallery();
     };
 
     onClose = (event) => {
       event.preventDefault();
       event.stopPropagation();
-      this.setOpen(false);
+      this.closeGallery();
     };
 
     setHover(state) {
@@ -255,36 +333,80 @@
       this.hot = state;
       this.container.classList.toggle("is-hot", state);
       document.documentElement.classList.toggle("is-globe-hot", state);
-      if (this.marker) this.marker.scale.setScalar(state || this.open ? 1.4 : 1);
+      const dest = this.hitsPin();
+      if (dest && this.hud) this.hud.innerHTML = dest.hint.replace("\n", "<br />");
     }
 
-    setOpen(state) {
-      if (this.open === state) return;
-      this.open = state;
-      this.speed = reducedMotion ? 0 : state ? 0.0007 : this.baseSpeed;
-      if (this.marker) this.marker.scale.setScalar(state || this.hot ? 1.4 : 1);
-      this.showPopup(state);
+    openGallery(dest) {
+      if (!dest) return;
+      this.teasing = false;
+      this.hud?.classList.remove("is-tease");
+      this.active = dest;
+      this.open = true;
+      this.speed = reducedMotion ? 0 : 0.0007;
+      DESTINATIONS.forEach((item) => {
+        const node = this.gallery(item);
+        if (!node) return;
+        const on = item.id === dest.id;
+        node.classList.remove("is-tease");
+        node.classList.toggle("is-on", on);
+        node.setAttribute("aria-hidden", on ? "false" : "true");
+        node.style.transform = "";
+      });
+      document.documentElement.classList.toggle("is-globe-open", true);
+      this.scaleActivePin();
     }
 
-    showPopup(state) {
-      if (!this.popup) return;
-      this.popup.classList.toggle("is-on", state);
-      this.popup.setAttribute("aria-hidden", state ? "false" : "true");
-      this.popup.style.transform = "";
-      document.documentElement.classList.toggle("is-globe-open", state);
+    closeGallery() {
+      if (!this.open) return;
+      this.open = false;
+      this.active = null;
+      this.speed = this.baseSpeed;
+      DESTINATIONS.forEach((item) => {
+        const node = this.gallery(item);
+        if (!node) return;
+        node.classList.remove("is-on", "is-tease");
+        node.setAttribute("aria-hidden", "true");
+      });
+      document.documentElement.classList.remove("is-globe-open");
+      this.scaleActivePin();
     }
 
-    hitsMarker() {
-      if (!this.raycaster || !this.hit) return false;
+    scaleActivePin() {
+      this.pins.forEach((pin) => {
+        const live = this.hot || (this.open && this.active && pin.dest.id === this.active.id);
+        if (!this.teasing) pin.marker.scale.setScalar(live ? 1.4 : 1);
+      });
+    }
+
+    hitsPin() {
+      if (!this.raycaster || !this.pins.length) return null;
       this.raycaster.setFromCamera(this.pointerVec, this.camera);
-      return this.raycaster.intersectObject(this.hit, false).length > 0;
+      const hits = this.raycaster.intersectObjects(
+        this.pins.map((pin) => pin.hit),
+        false
+      );
+      return hits[0]?.object.userData.destination || null;
     }
 
     tick = () => {
       this.raf = requestAnimationFrame(this.tick);
       if (this.planet) {
         this.planet.rotation.y += this.speed;
-        this.setHover(this.hitsMarker());
+        this.setHover(Boolean(this.hitsPin()));
+        this.scaleActivePin();
+        if (this.teasing && !reducedMotion) {
+          this.pulse += 0.11;
+          const wave = Math.abs(Math.sin(this.pulse));
+          this.pins.forEach((pin) => {
+            if (!pin.dest.featured) return;
+            pin.marker.scale.setScalar(1 + wave * 0.95);
+            if (pin.ring) {
+              pin.ring.scale.setScalar(1 + wave * 2.1);
+              pin.ring.material.opacity = 0.95 - wave * 0.75;
+            }
+          });
+        }
       }
       if (this.renderer) this.renderer.render(this.scene, this.camera);
     };
@@ -305,7 +427,7 @@
   const boot = () => {
     const container = document.getElementById("globe-container");
     if (!container) return;
-    new VoyageGlobe(container, document.getElementById("ny-pop"));
+    new VoyageGlobe(container);
   };
 
   if (document.readyState === "loading") {

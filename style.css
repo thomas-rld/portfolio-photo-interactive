@@ -965,6 +965,17 @@ svg {
   pointer-events: none;
 }
 
+.globe__hud.is-tease {
+  color: var(--paper);
+  animation: globe-hud-blink 0.55s steps(2, end) 5;
+}
+
+@keyframes globe-hud-blink {
+  50% {
+    opacity: 0.15;
+  }
+}
+
 html.is-globe-hot,
 html.is-globe-hot body,
 html.is-globe-hot .globe,
@@ -998,6 +1009,36 @@ html.is-globe-hot .viewfinder {
   visibility: visible;
   pointer-events: auto !important;
   cursor: auto !important;
+}
+
+.globe-pop.is-tease {
+  position: fixed;
+  inset: 0;
+  z-index: 10990;
+  width: auto;
+  height: auto;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: none !important;
+}
+
+.globe-pop.is-tease .globe-pop__panel {
+  animation: globe-gallery-tease 0.78s var(--ease-out) both;
+}
+
+@keyframes globe-gallery-tease {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+  32% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.03);
+  }
 }
 
 html.is-globe-open,
