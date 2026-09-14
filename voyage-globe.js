@@ -3,7 +3,9 @@
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const PREVIEW_SLIDE = 2000;
-  const PREVIEW_MIN_MS = 3200;
+  const PREVIEW_MIN_MS = 6500;
+  const PREVIEW_HOLD_MS = 6500;
+  const PREVIEW_FIRST_MS = 280;
   const PREVIEW_MISS = 54;
 
   const DESTINATIONS = [
@@ -40,6 +42,10 @@
       this.previewOnAt = 0;
       this.previewX = null;
       this.previewY = null;
+      this.sectionVisible = false;
+      this.sectionEnteredAt = 0;
+      this.holdPreviewUntil = 0;
+      this.pendingFirstReveal = false;
       this.open = false;
       this.closeToken = 0;
       this.hot = false;
@@ -137,7 +143,55 @@
       this.ro = new ResizeObserver(this.resize);
       this.ro.observe(this.container);
       this.resize();
+      this.observeSection();
       this.raf = requestAnimationFrame(this.tick);
+    }
+
+    observeSection() {
+      const section = document.getElementById("voyage") || this.container;
+      if (!("IntersectionObserver" in window)) {
+        this.armFirstReveal();
+        return;
+      }
+      this.sectionObserver = new IntersectionObserver(
+        (entries) => {
+          const on = Boolean(entries[0]?.isIntersecting);
+          if (on && !this.sectionVisible) this.armFirstReveal();
+          this.sectionVisible = on;
+          if (on) return;
+          this.pendingFirstReveal = false;
+          if (!this.open) this.hidePreview();
+        },
+        { threshold: 0.2, rootMargin: "0px 0px -6% 0px" }
+      );
+      this.sectionObserver.observe(section);
+    }
+
+    armFirstReveal() {
+      this.sectionVisible = true;
+      this.sectionEnteredAt = performance.now();
+      this.holdPreviewUntil = this.sectionEnteredAt + PREVIEW_HOLD_MS;
+      this.pendingFirstReveal = true;
+    }
+
+    faceFeatured(pin) {
+      if (!this.planet || !pin) return;
+      this.planet.rotation.y = -Math.atan2(pin.marker.position.x, pin.marker.position.z) + 0.08;
+    }
+
+    revealFeatured(snap) {
+      const dest = this.featured();
+      const pin = this.pins.find((item) => item.dest.id === dest?.id) || this.pins[0];
+      if (!dest || !pin || !this.preview) return;
+      if (this.pendingFirstReveal) {
+        this.faceFeatured(pin);
+        this.pendingFirstReveal = false;
+      }
+      const fresh = this.shownPreview !== dest;
+      this.bindPreview(dest);
+      this.placePreview(pin, snap || fresh);
+      this.preview.classList.add("is-on");
+      this.preview.setAttribute("aria-hidden", "false");
     }
 
     addRadarCage() {
@@ -211,7 +265,7 @@
 
       const face = this.pins.find((pin) => pin.dest.featured) || this.pins[0];
       if (face) {
-        this.planet.rotation.y = -Math.atan2(face.marker.position.x, face.marker.position.z) + 0.28;
+        this.planet.rotation.y = -Math.atan2(face.marker.position.x, face.marker.position.z) + 0.08;
       }
     }
 
@@ -433,7 +487,16 @@
         if (this.shownPreview) this.hidePreview();
         return;
       }
+      if (!this.sectionVisible) {
+        if (this.shownPreview) this.hidePreview();
+        return;
+      }
       this.camera.updateMatrixWorld();
+      const now = performance.now();
+      if (this.pendingFirstReveal && now - this.sectionEnteredAt >= PREVIEW_FIRST_MS) {
+        this.revealFeatured(true);
+      }
+
       const camLen = this.camera.position.length();
       let best = null;
       let bestFacing = -Infinity;
@@ -449,10 +512,21 @@
         }
       });
 
+      const holding = now < this.holdPreviewUntil;
+
       if (!best) {
+        if (holding) {
+          if (!this.shownPreview) this.revealFeatured(false);
+          else {
+            const pin = this.pins.find((item) => item.dest.id === this.shownPreview.id);
+            if (pin) this.placePreview(pin, false);
+            this.advancePreviewSlide();
+          }
+          return;
+        }
         if (!this.shownPreview) return;
         this.previewMiss += 1;
-        const held = performance.now() - this.previewOnAt > PREVIEW_MIN_MS;
+        const held = now - this.previewOnAt > PREVIEW_MIN_MS;
         if (held && this.previewMiss > PREVIEW_MISS) {
           this.hidePreview();
           return;

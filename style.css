@@ -983,9 +983,9 @@ svg {
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  transform: scale(1);
+  transform: translateY(12px) scale(0.96);
   transform-origin: center center;
-  transition: opacity 420ms ease, visibility 420ms ease, transform 280ms var(--ease-out), box-shadow 280ms ease;
+  transition: opacity 520ms var(--ease-out), visibility 520ms var(--ease-out), transform 520ms var(--ease-out), box-shadow 280ms ease;
   touch-action: manipulation;
 }
 
@@ -993,6 +993,7 @@ svg {
   pointer-events: auto;
   opacity: 1;
   visibility: visible;
+  transform: translateY(0) scale(1);
   animation: preview-glow 3s ease-in-out infinite;
 }
 
@@ -1125,11 +1126,21 @@ svg {
   }
 }
 
+.globe-preview__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 9px 9px;
+  min-width: 0;
+}
+
 .globe-preview__label {
   position: relative;
   display: block;
   overflow: hidden;
-  padding: 8px 9px 9px;
+  min-width: 0;
+  padding: 0;
   font-family: var(--font-mono);
   font-size: 8px;
   letter-spacing: 0.16em;
@@ -1138,6 +1149,26 @@ svg {
   text-align: left;
   white-space: nowrap;
   clip-path: inset(0 100% 0 0);
+}
+
+.globe-preview__click {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(244, 244, 244, 0.52);
+  animation: preview-click-hint 1.8s ease-in-out infinite;
+}
+
+@keyframes preview-click-hint {
+  0%,
+  100% {
+    opacity: 0.32;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .globe-preview.is-on .globe-preview__label.is-typed {
@@ -1748,9 +1779,13 @@ html:has(.cli-footer:hover) .viewfinder {
     height: 84px;
   }
 
+  .globe-preview__bar {
+    padding: 7px 8px 8px;
+  }
+
   .globe-preview__label {
     font-size: 7px;
-    padding: 7px 8px 8px;
+    padding: 0;
   }
 
   .globe-pop__panel {
@@ -1776,7 +1811,7 @@ html:has(.cli-footer:hover) .viewfinder {
 
   .globe-preview.is-on:hover,
   .globe-preview.is-on:focus-visible {
-    transform: scale(1);
+    transform: translateY(0) scale(1);
     animation: preview-glow 3s ease-in-out infinite;
     box-shadow: none;
   }
