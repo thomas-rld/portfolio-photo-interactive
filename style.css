@@ -1081,8 +1081,8 @@ svg {
   justify-content: center;
   background: rgba(0, 0, 0, 0.6);
   font-family: var(--font-mono);
-  font-size: 16px;
-  letter-spacing: 0.18em;
+  font-size: 13px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #f4f4f4;
   opacity: 0;
@@ -1182,7 +1182,7 @@ svg {
   padding: 5px 9px 6px;
   font-family: var(--font-mono);
   font-size: 6px;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #f4f4f4;
   text-align: left;
@@ -1870,11 +1870,13 @@ html:has(.cli-footer:hover) .viewfinder {
 
   .globe-preview__prompt {
     font-size: 5px;
+    letter-spacing: 0.06em;
     padding: 4px 8px 5px;
   }
 
   .globe-preview__aim {
-    font-size: 12px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
   }
 
   .globe-pop__panel {
