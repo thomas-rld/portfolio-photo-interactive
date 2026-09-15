@@ -201,7 +201,7 @@ svg {
 .counter {
   position: fixed;
   right: 28px;
-  bottom: 22px;
+  bottom: 68px;
   z-index: 7000;
   display: flex;
   flex-direction: column;
@@ -221,6 +221,39 @@ svg {
 .counter__value {
   font-size: 22px;
   letter-spacing: 0.08em;
+}
+
+/* ——— HUD Instagram ——— */
+.ig-hud {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  z-index: 9999;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  mix-blend-mode: difference;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.rec-dot {
+  color: #ff1f1f;
+  animation: rec-blink 1.8s ease-in-out infinite;
+}
+
+@keyframes rec-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 /* ——— Accueil terminal ——— */
@@ -1685,7 +1718,9 @@ html.is-globe-open .viewfinder {
 
 html:has(.contact-section:hover) .viewfinder,
 html:has(.contact-section:focus-within) .viewfinder,
-html:has(.cli-footer:hover) .viewfinder {
+html:has(.cli-footer:hover) .viewfinder,
+html:has(.ig-hud:hover) .viewfinder,
+html:has(.ig-hud:focus-visible) .viewfinder {
   display: none;
 }
 
@@ -1759,6 +1794,18 @@ html:has(.cli-footer:hover) .viewfinder {
   .chapter.club {
     padding-top: 56px;
     margin-top: 0;
+  }
+
+  .ig-hud {
+    right: 15px;
+    bottom: 15px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+
+  .counter {
+    right: 15px;
+    bottom: 42px;
   }
 
   .chapter__head {
