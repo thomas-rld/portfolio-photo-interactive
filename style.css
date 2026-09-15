@@ -1811,11 +1811,16 @@ html:has(.cli-footer:hover) .viewfinder {
     width: 100%;
     margin-bottom: 0;
     min-width: 0;
+    grid-column: span 1;
+  }
+
+  .artists__grid .shot:first-child,
+  .artists__grid .shot:last-child {
+    grid-column: span 2;
   }
 
   .artists__grid .shot--wide {
     column-span: none;
-    grid-column: auto;
   }
 
   .artists__grid .shot__media,
