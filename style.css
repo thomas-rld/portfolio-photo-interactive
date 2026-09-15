@@ -1752,6 +1752,15 @@ html:has(.cli-footer:hover) .viewfinder {
     padding-right: 5vw;
   }
 
+  .chapter.artists {
+    padding-bottom: 0;
+  }
+
+  .chapter.club {
+    padding-top: 56px;
+    margin-top: 0;
+  }
+
   .chapter__head {
     grid-template-columns: 1fr;
     gap: 12px;
