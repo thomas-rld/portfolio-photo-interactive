@@ -1994,6 +1994,7 @@ html[data-view="home"] body {
 }
 
 html[data-view="home"] .viewfinder,
+html[data-view="home"] .grain,
 html[data-view="home"] .ig-hud,
 html[data-view="home"] .chrome,
 html[data-view="home"] .counter {
@@ -2048,9 +2049,9 @@ html[data-view="home"] .back-home[href] {
   position: fixed;
   inset: 0;
   z-index: 7500;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
   padding: 32px 40px 28px;
   background: #000;
   color: #f4f4f4;
@@ -2058,23 +2059,26 @@ html[data-view="home"] .back-home[href] {
 }
 
 .landing__aura,
-.landing__grain {
+.landing__spot {
   position: absolute;
-  inset: 0;
   pointer-events: none;
 }
 
 .landing__aura {
-  background:
-    radial-gradient(ellipse 55% 45% at 82% 8%, rgba(255, 18, 67, 0.2), transparent 62%),
-    radial-gradient(ellipse 50% 40% at 8% 92%, rgba(255, 47, 139, 0.14), transparent 64%),
-    radial-gradient(ellipse 40% 30% at 50% 48%, rgba(255, 255, 255, 0.035), transparent 70%);
-  animation: landing-breathe 7s ease-in-out infinite;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 55% at 50% 42%, rgba(255, 255, 255, 0.035), transparent 68%);
 }
 
-.landing__grain {
-  opacity: 0.085;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+.landing__spot {
+  top: 0;
+  left: 0;
+  width: 420px;
+  height: 420px;
+  margin: -210px 0 0 -210px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 28, 86, 0.26) 0%, rgba(255, 47, 139, 0.1) 34%, transparent 70%);
+  transform: translate3d(50vw, 42vh, 0);
+  will-change: transform;
 }
 
 .landing__bar,
@@ -2122,25 +2126,27 @@ html[data-view="home"] .back-home[href] {
 .landing__nav {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  place-self: center;
   gap: 22px;
-  width: min(1120px, 100%);
-  margin: 0 auto;
+  width: min(1040px, 100%);
 }
 
 .landing__gate {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
   min-width: 0;
-  min-height: min(46vh, 420px);
-  padding: 36px 32px 32px;
+  min-height: min(40vh, 360px);
+  padding: 36px 28px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(5, 5, 5, 0.42));
   backdrop-filter: blur(18px) saturate(1.1);
   -webkit-backdrop-filter: blur(18px) saturate(1.1);
   color: #f4f4f4;
+  text-align: center;
   text-decoration: none;
   cursor: pointer;
   isolation: isolate;
@@ -2150,11 +2156,11 @@ html[data-view="home"] .back-home[href] {
     box-shadow 380ms var(--ease-out),
     opacity 380ms var(--ease-out),
     filter 380ms var(--ease-out);
-  animation: landing-boot 0.72s 0.18s var(--ease-out) backwards;
+  animation: landing-drop 0.85s 0.12s cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
 
 .landing__gate:nth-child(2) {
-  animation-delay: 0.36s;
+  animation-delay: 0.26s;
 }
 
 .landing__gate::before {
@@ -2194,9 +2200,7 @@ html[data-view="home"] .back-home[href] {
 }
 
 .landing__index {
-  position: absolute;
-  top: 26px;
-  left: 32px;
+  margin-bottom: 18px;
   font-size: 11px;
   letter-spacing: 0.24em;
   color: rgba(244, 244, 244, 0.4);
@@ -2205,41 +2209,44 @@ html[data-view="home"] .back-home[href] {
 .landing__copy {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 14px;
+  width: 100%;
   max-width: 100%;
-  padding-right: 2.6rem;
 }
 
 .landing__title {
   display: block;
+  width: 100%;
   font-family: var(--font-display);
-  font-size: clamp(1.45rem, 2.8vw, 2.55rem);
+  font-size: clamp(1.25rem, 2.2vw, 2rem);
   font-weight: 800;
-  line-height: 1.05;
+  line-height: 1.1;
   letter-spacing: 0.01em;
   text-transform: uppercase;
-  overflow-wrap: anywhere;
+  text-align: center;
+  overflow-wrap: break-word;
   word-break: break-word;
 }
 
 .landing__sub {
   display: block;
+  width: 100%;
   font-size: 12px;
   line-height: 1.5;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  text-align: center;
   color: rgba(244, 244, 244, 0.52);
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 .landing__go {
-  position: absolute;
-  right: 30px;
-  bottom: 30px;
+  margin-top: 22px;
   font-size: 18px;
   color: #ff2f8b;
   opacity: 0;
-  transform: translateX(-8px);
+  transform: translateY(6px);
   text-shadow: 0 0 12px rgba(255, 47, 139, 0.7);
   transition: opacity 280ms var(--ease-out), transform 280ms var(--ease-out);
 }
@@ -2254,18 +2261,6 @@ html[data-view="home"] .back-home[href] {
   letter-spacing: 0.2em;
 }
 
-@keyframes landing-breathe {
-  0%,
-  100% {
-    opacity: 0.85;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.04);
-  }
-}
-
 @keyframes landing-boot {
   from {
     opacity: 0;
@@ -2274,6 +2269,21 @@ html[data-view="home"] .back-home[href] {
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+@keyframes landing-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-72px);
+  }
+  72% {
+    opacity: 1;
+    transform: translateY(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -2460,8 +2470,11 @@ html:has(.dj-agency__form:focus-within) .viewfinder {
   }
 
   .landing__index {
-    left: 22px;
-    top: 20px;
+    margin-bottom: 14px;
+  }
+
+  .landing__spot {
+    display: none;
   }
 
   .landing__gate:hover,
@@ -2500,7 +2513,8 @@ html:has(.dj-agency__form:focus-within) .viewfinder {
     cursor: auto;
   }
 
-  .viewfinder {
+  .viewfinder,
+  .landing__spot {
     display: none;
   }
 

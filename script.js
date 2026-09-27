@@ -410,6 +410,39 @@
     }
   }
 
+  class LandingSpot {
+    constructor(root, spot) {
+      this.root = root;
+      this.spot = spot;
+      this.x = window.innerWidth * 0.5;
+      this.y = window.innerHeight * 0.42;
+      this.tx = this.x;
+      this.ty = this.y;
+      this.raf = 0;
+      if (!root || !spot || coarsePointer) return;
+      window.addEventListener("pointermove", this.onMove, { passive: true });
+      this.tick();
+    }
+
+    onMove = (event) => {
+      if (document.documentElement.dataset.view !== "home") return;
+      this.tx = event.clientX;
+      this.ty = event.clientY;
+      if (!this.raf) this.raf = requestAnimationFrame(this.tick);
+    };
+
+    tick = () => {
+      this.x = lerp(this.x, this.tx, reducedMotion ? 1 : 0.14);
+      this.y = lerp(this.y, this.ty, reducedMotion ? 1 : 0.14);
+      this.spot.style.transform = `translate3d(${this.x}px, ${this.y}px, 0)`;
+      if (Math.abs(this.tx - this.x) > 0.4 || Math.abs(this.ty - this.y) > 0.4) {
+        this.raf = requestAnimationFrame(this.tick);
+        return;
+      }
+      this.raf = 0;
+    };
+  }
+
   class ViewRouter {
     constructor(app) {
       this.app = app;
@@ -450,6 +483,7 @@
   const boot = () => {
     const app = new App();
     new ViewRouter(app);
+    new LandingSpot(document.getElementById("landing"), document.getElementById("landing-spot"));
     new ClubStrip(document.getElementById("nuit"));
   };
   if (document.readyState === "loading") {
