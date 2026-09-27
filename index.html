@@ -105,23 +105,31 @@
     <section class="landing" id="landing" aria-label="Entrée système">
       <div class="landing__aura" aria-hidden="true"></div>
       <div class="landing__spot" id="landing-spot" aria-hidden="true"></div>
+      <span class="landing__corner landing__corner--tl" aria-hidden="true"></span>
+      <span class="landing__corner landing__corner--tr" aria-hidden="true"></span>
+      <span class="landing__corner landing__corner--bl" aria-hidden="true"></span>
+      <span class="landing__corner landing__corner--br" aria-hidden="true"></span>
+
       <header class="landing__bar">
         <p class="landing__mark">[ THOMAS_ROLLAND ]</p>
-        <p class="landing__status">
-          <span class="landing__pulse" aria-hidden="true"></span>
-        </p>
+        <p class="landing__rec">[ <span class="landing__pulse" aria-hidden="true"></span> REC ]</p>
       </header>
+
+      <p class="landing__edge landing__edge--left">ISO 800</p>
+      <p class="landing__edge landing__edge--right">4K 60FPS</p>
 
       <nav class="landing__nav" aria-label="Sélection de module">
         <a class="landing__gate" href="#portfolio" data-route="portfolio">
-          <span class="landing__index">01</span>
+          <span class="landing__af" aria-hidden="true"></span>
+          <span class="landing__index">MODE A</span>
           <span class="landing__copy">
             <span class="landing__title">PORTFOLIO</span>
             <span class="landing__sub">Immersion 360 &amp; Nuit</span>
           </span>
         </a>
         <a class="landing__gate" href="#dj-agency" data-route="dj-agency">
-          <span class="landing__index">02</span>
+          <span class="landing__af" aria-hidden="true"></span>
+          <span class="landing__index">MODE B</span>
           <span class="landing__copy">
             <span class="landing__title">AGENCE DJ</span>
             <span class="landing__sub">Architecte Narratif &amp; B2B</span>
@@ -129,7 +137,11 @@
         </a>
       </nav>
 
-      <p class="landing__foot">TOULOUSE_FR</p>
+      <footer class="landing__foot">
+        <p>F2.8</p>
+        <p>TOULOUSE_FR</p>
+        <p>1/125</p>
+      </footer>
     </section>
 
     <div class="scroll-root" id="scroll-root">
