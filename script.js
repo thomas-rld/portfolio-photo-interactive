@@ -209,8 +209,9 @@
       this.resizeRaf = 0;
       this.frameLabel = "000";
       this.exposed = false;
+      this.scrollLocked = false;
+      this.portfolioReady = false;
 
-      this.lockScroll();
       this.viewfinder = new Viewfinder(document.getElementById("viewfinder"));
       this.terminal = new Terminal(
         document.getElementById("typed-prompt"),
@@ -230,12 +231,42 @@
 
       this.bind();
       this.observeShots();
-      this.terminal.start();
       this.scheduleResize();
       if (document.fonts?.ready) document.fonts.ready.then(() => this.scheduleResize());
     }
 
+    setView(view) {
+      const titles = {
+        home: "Thomas Rolland — Photographie",
+        portfolio: "Thomas Rolland — Portfolio visuel",
+        "dj-agency": "Thomas Rolland — Accompagnement DJ",
+      };
+      if (titles[view]) document.title = titles[view];
+      if (view === "portfolio") this.bootPortfolio();
+      if (view !== "portfolio") {
+        this.chrome?.classList.remove("is-live");
+        this.counter?.classList.remove("is-live");
+        window.scrollTo(0, 0);
+      }
+    }
+
+    bootPortfolio() {
+      if (!this.portfolioReady) {
+        this.portfolioReady = true;
+        this.lockScroll();
+        this.terminal.start();
+        this.scheduleResize();
+        if (document.fonts?.ready) document.fonts.ready.then(() => this.scheduleResize());
+        return;
+      }
+      if (!this.exposed) this.lockScroll();
+      this.scheduleResize();
+      window.dispatchEvent(new Event("resize"));
+    }
+
     lockScroll() {
+      if (this.scrollLocked) return;
+      this.scrollLocked = true;
       document.documentElement.classList.add("is-locked");
       document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
@@ -245,17 +276,20 @@
     }
 
     blockScroll = (event) => {
+      if (document.documentElement.dataset.view !== "portfolio") return;
       if (!this.exposed) event.preventDefault();
     };
 
     blockKeys = (event) => {
       const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Spacebar", "Home", "End"];
+      if (document.documentElement.dataset.view !== "portfolio") return;
       if (!this.exposed && keys.includes(event.key)) event.preventDefault();
     };
 
     unlockScroll = () => {
       if (this.exposed) return;
       this.exposed = true;
+      this.scrollLocked = false;
       document.documentElement.classList.remove("is-locked");
       document.documentElement.style.overflow = "auto";
       document.body.style.overflow = "auto";
@@ -280,6 +314,7 @@
 
     paintScroll = () => {
       this.scrollRaf = 0;
+      if (document.documentElement.dataset.view !== "portfolio") return;
       this.panorama.update();
       const pastHero = window.scrollY > window.innerHeight * 0.28;
       this.chrome?.classList.toggle("is-live", pastHero);
@@ -375,8 +410,46 @@
     }
   }
 
+  class ViewRouter {
+    constructor(app) {
+      this.app = app;
+      this.views = new Set(["home", "portfolio", "dj-agency"]);
+      window.addEventListener("hashchange", this.sync);
+      document.querySelectorAll("[data-route]").forEach((node) => {
+        node.addEventListener("click", (event) => {
+          const view = node.getAttribute("data-route");
+          if (!this.views.has(view)) return;
+          event.preventDefault();
+          this.go(view);
+        });
+      });
+      this.sync();
+    }
+
+    go(view) {
+      const next = view === "home" ? "" : view;
+      const current = location.hash.replace(/^#\/?/, "") || "home";
+      if (current === view) {
+        this.apply(view);
+        return;
+      }
+      location.hash = next;
+    }
+
+    sync = () => {
+      const raw = location.hash.replace(/^#\/?/, "") || "home";
+      this.apply(this.views.has(raw) ? raw : "home");
+    };
+
+    apply(view) {
+      document.documentElement.dataset.view = view;
+      this.app.setView(view);
+    }
+  }
+
   const boot = () => {
-    new App();
+    const app = new App();
+    new ViewRouter(app);
     new ClubStrip(document.getElementById("nuit"));
   };
   if (document.readyState === "loading") {

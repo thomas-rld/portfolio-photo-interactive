@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" class="is-locked">
+<html lang="fr" data-view="home">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,6 +15,14 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <script>
+      (function () {
+        var raw = location.hash.replace(/^#\/?/, "") || "home";
+        if (raw === "portfolio" || raw === "dj-agency") {
+          document.documentElement.dataset.view = raw;
+        }
+      })();
+    </script>
   </head>
   <body>
     <!--
@@ -91,6 +99,43 @@
       target="_blank"
       rel="noopener noreferrer"
     >[ <span class="rec-dot">•</span> REC ] INSTAGRAM // @THOMS_RLD_</a>
+
+    <a class="back-home" id="back-home" href="#home" data-route="home">[ ← RETOUR_ACCUEIL ]</a>
+
+    <section class="landing" id="landing" aria-label="Entrée système">
+      <header class="landing__bar">
+        <p class="landing__mark">[ THOMAS_ROLLAND ]</p>
+        <p class="landing__status">
+          <span class="landing__pulse" aria-hidden="true"></span>
+          SYS_ONLINE
+        </p>
+      </header>
+
+      <div class="landing__body">
+        <p class="landing__prompt">root@a7v:~# select --module</p>
+        <h1 class="landing__headline">DOUBLE_ENTRY // INIT</h1>
+        <div class="landing__grid">
+          <a class="landing__gate" href="#portfolio" data-route="portfolio">
+            <span class="landing__index">01</span>
+            <span class="landing__title">[ PORTFOLIO VISUEL ]</span>
+            <span class="landing__copy">
+              Photographe / vidéaste. Nuit, clubbing, artistes, territoires 360°.
+            </span>
+            <span class="landing__cta">ENTER_VISUAL →</span>
+          </a>
+          <a class="landing__gate" href="#dj-agency" data-route="dj-agency">
+            <span class="landing__index">02</span>
+            <span class="landing__title">[ ACCOMPAGNEMENT DJ ]</span>
+            <span class="landing__copy">
+              Architecte narratif B2B. Live, storytelling, EPK, retainer.
+            </span>
+            <span class="landing__cta">ENTER_AGENCY →</span>
+          </a>
+        </div>
+      </div>
+
+      <p class="landing__foot">TOULOUSE_FR // SELECT_A_NODE</p>
+    </section>
 
     <div class="scroll-root" id="scroll-root">
       <div class="scroll-content" id="scroll-content">
@@ -449,12 +494,86 @@
       </div>
     </div>
 
+    <section class="dj-agency" id="dj-agency" aria-label="Accompagnement DJ">
+      <header class="dj-agency__head">
+        <p class="dj-agency__index">02 // AGENCY</p>
+        <h2 class="dj-agency__title">ARCHITECTE<br />NARRATIF</h2>
+        <p class="dj-agency__lede">
+          J’accompagne les DJ et labels qui veulent une image aussi précise que leur set :
+          un récit visuel, un live filmé, un EPK qui ouvre des portes.
+        </p>
+      </header>
+
+      <div class="dj-agency__modules">
+        <article class="dj-agency__card">
+          <p class="dj-agency__tag">01 / LIVE</p>
+          <h3>CAPTURE DE SET</h3>
+          <p>
+            Multi-cam, 10mm et longues focales. Aftermovie, clips verticaux, archives
+            de scène. Le live reste brut, le montage reste chirurgical.
+          </p>
+        </article>
+        <article class="dj-agency__card">
+          <p class="dj-agency__tag">02 / STORYTELLING</p>
+          <h3>NARRATION D’ARTISTE</h3>
+          <p>
+            Direction d’identité, séquençage de carrière, images qui tiennent
+            hors du booth. Un fil rouge, pas une collection de posts.
+          </p>
+        </article>
+        <article class="dj-agency__card">
+          <p class="dj-agency__tag">03 / EPK</p>
+          <h3>PRESS KIT DIGITAL</h3>
+          <p>
+            Photos, bio, tech-rider visuel, extraits. Un dossier que bookers
+            et labels peuvent ouvrir en 30 secondes.
+          </p>
+        </article>
+        <article class="dj-agency__card">
+          <p class="dj-agency__tag">04 / RETAINER</p>
+          <h3>MODÈLE MENSUEL</h3>
+          <p>
+            Un créneau dédié chaque mois : contenus, tournages, suivi. Moins
+            de brief, plus de continuité. Pour les artistes en expansion.
+          </p>
+        </article>
+      </div>
+
+      <form
+        class="dj-agency__form"
+        action="https://formspree.io/f/xyeyrbvb"
+        method="POST"
+      >
+        <p class="dj-agency__form-title">[ CASTING / BRIEF ]</p>
+        <input type="hidden" name="contexte" value="ACCOMPAGNEMENT DJ" />
+        <input type="text" name="nom" autocomplete="name" placeholder="NOM / ALIAS" required />
+        <input type="email" name="email" autocomplete="email" placeholder="EMAIL" required />
+        <input type="text" name="projet" placeholder="PROJET / LABEL" />
+        <textarea name="message" rows="4" placeholder="BRIEF — DATES, VILLE, INTENTION" required></textarea>
+        <button type="submit" class="dj-agency__send">[ ENVOYER_BRIEF ]</button>
+      </form>
+    </section>
+
     <noscript>
       <style>
         html.is-locked,
-        html.is-locked body {
+        html.is-locked body,
+        html[data-view="home"],
+        html[data-view="home"] body {
           overflow: auto !important;
           height: auto !important;
+        }
+        .landing,
+        .scroll-root,
+        .dj-agency,
+        .back-home {
+          display: block !important;
+          position: relative !important;
+          inset: auto !important;
+          opacity: 1 !important;
+          visibility: visible !important;
+          pointer-events: auto !important;
+          transform: none !important;
         }
         .terminal__ghost {
           visibility: visible !important;
