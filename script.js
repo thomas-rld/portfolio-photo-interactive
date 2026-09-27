@@ -228,6 +228,7 @@
         document.getElementById("travel-place")
       );
       this.fitTitle = new FitTitle(document.querySelector(".hero-title"));
+      this.clubScene = new ClubScene(document.getElementById("dj-scene"));
 
       this.bind();
       this.observeShots();
@@ -243,6 +244,7 @@
       };
       if (titles[view]) document.title = titles[view];
       if (view === "portfolio") this.bootPortfolio();
+      if (view === "dj-agency") this.clubScene?.enter();
       if (view !== "portfolio") {
         this.chrome?.classList.remove("is-live");
         this.counter?.classList.remove("is-live");
@@ -441,6 +443,107 @@
       }
       this.raf = 0;
     };
+  }
+
+  class ClubScene {
+    constructor(root) {
+      this.root = root;
+      this.flash = root?.querySelector("#dj-flash");
+      this.spots = root ? [...root.querySelectorAll(".dj-spot")] : [];
+      this.cards = root ? [...root.querySelectorAll(".dj-card")] : [];
+      this.active = "";
+      this.introTimer = 0;
+      if (!root) return;
+      this.bind();
+    }
+
+    bind() {
+      this.spots.forEach((spot) => {
+        const id = spot.dataset.spot;
+        spot.addEventListener("mouseenter", () => this.preview(id));
+        spot.addEventListener("focus", () => this.preview(id));
+        spot.addEventListener("click", (event) => {
+          event.stopPropagation();
+          this.toggle(id);
+        });
+      });
+      this.root.addEventListener("mouseleave", () => {
+        if (!this.locked) this.close();
+      });
+      this.root.addEventListener("click", (event) => {
+        if (!event.target.closest(".dj-spot, .dj-card")) this.close(true);
+      });
+      document.addEventListener("click", (event) => {
+        if (!this.root.contains(event.target)) this.close(true);
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") this.close(true);
+      });
+    }
+
+    enter() {
+      this.close(true);
+      this.root.classList.remove("is-ready");
+      window.clearTimeout(this.introTimer);
+      if (reducedMotion) {
+        this.root.classList.add("is-ready");
+        return;
+      }
+      void this.root.offsetWidth;
+      this.introTimer = window.setTimeout(() => {
+        this.root.classList.add("is-ready");
+      }, 1400);
+    }
+
+    preview(id) {
+      this.open(id, false);
+      if (id === "photo") this.popFlash();
+    }
+
+    toggle(id) {
+      if (this.active === id && this.locked) {
+        this.close(true);
+        return;
+      }
+      this.open(id, true);
+      if (id === "photo") this.popFlash();
+    }
+
+    open(id, lock) {
+      this.active = id;
+      this.locked = Boolean(lock);
+      this.spots.forEach((spot) => {
+        const on = spot.dataset.spot === id;
+        spot.classList.toggle("is-on", on);
+        spot.setAttribute("aria-expanded", on ? "true" : "false");
+      });
+      this.cards.forEach((card) => {
+        const on = card.dataset.card === id;
+        card.classList.toggle("is-on", on);
+        card.setAttribute("aria-hidden", on ? "false" : "true");
+      });
+    }
+
+    close(force) {
+      if (!force && this.locked) return;
+      this.active = "";
+      this.locked = false;
+      this.spots.forEach((spot) => {
+        spot.classList.remove("is-on");
+        spot.setAttribute("aria-expanded", "false");
+      });
+      this.cards.forEach((card) => {
+        card.classList.remove("is-on");
+        card.setAttribute("aria-hidden", "true");
+      });
+    }
+
+    popFlash() {
+      if (!this.flash || reducedMotion) return;
+      this.flash.classList.remove("is-pop");
+      void this.flash.offsetWidth;
+      this.flash.classList.add("is-pop");
+    }
   }
 
   class ViewRouter {

@@ -513,60 +513,86 @@
         <p class="dj-hud__meta dj-hud__meta--br">F2.8</p>
       </div>
 
-      <header class="dj-agency__head">
-        <h2 class="dj-agency__title"><span class="dj-agency__prompt">&gt;_</span> ACCOMPAGNEMENT &amp; CONTENT STRATEGY DJ</h2>
-        <p class="dj-agency__lede">
-          Remplissez vos dates et captivez votre public grâce à une image irréprochable.
-        </p>
-      </header>
+      <section class="dj-scene" id="dj-scene" aria-labelledby="dj-prestations">
+        <div class="dj-scene__intro" id="dj-intro" aria-hidden="true">
+          <p>&gt;_ ACCÈS_BACKSTAGE</p>
+        </div>
 
-      <section class="dj-look" aria-labelledby="dj-prestations">
-        <p class="dj-agency__sec" id="dj-prestations">01 // PRESTATIONS</p>
+        <div class="dj-scene__stage">
+          <img
+            class="dj-scene__bg"
+            src="photos/photos/nuit-clubbing/5.JPG"
+            alt="Écosystème du club : DJ aux platines, foule, photographe et captation live"
+          />
+          <div class="dj-scene__shade" aria-hidden="true"></div>
+          <div class="dj-scene__grain" aria-hidden="true"></div>
+          <div class="dj-scene__flash" id="dj-flash" aria-hidden="true"></div>
 
-        <article class="dj-look__row">
-          <figure class="dj-look__frame dj-look__frame--wide">
-            <img
-              src="photos/photos%20artiste%20dj/DSC02475.jpg"
-              alt="DJ derrière une table Pioneer, traces lumineuses"
-            />
-          </figure>
-          <div class="dj-look__copy">
-            <p class="dj-look__tag">[ 01 // Énergie &amp; Format Court ]</p>
+          <header class="dj-scene__hud">
+            <h2 class="dj-agency__title" id="dj-prestations">
+              <span class="dj-agency__prompt">&gt;_</span> ACCOMPAGNEMENT &amp; CONTENT STRATEGY DJ
+            </h2>
+            <p class="dj-scene__hint">[ CIBLER UN PERSONNAGE ]</p>
+          </header>
+
+          <button
+            class="dj-spot dj-spot--live"
+            type="button"
+            data-spot="live"
+            aria-expanded="false"
+            aria-controls="dj-card-live"
+          >
+            <span class="dj-spot__af" aria-hidden="true">
+              <i></i><i></i><i></i><i></i>
+            </span>
+            <span class="dj-spot__rec" aria-hidden="true"></span>
+            <span class="sr-only">Vidéaste — Le Live Brut</span>
+          </button>
+          <article class="dj-card" id="dj-card-live" data-card="live" aria-hidden="true">
+            <p class="dj-look__tag">[ 01 // LE LIVE BRUT ]</p>
             <h3>LE LIVE BRUT</h3>
-            <p>Vidéos explosives et son haute qualité pour prouver votre énergie en club.</p>
-          </div>
-        </article>
+            <p>Vidéos explosives, formats verticaux et captation Sony A7 V.</p>
+          </article>
 
-        <article class="dj-look__row dj-look__row--flip">
-          <figure class="dj-look__frame dj-look__frame--wide">
-            <img
-              src="photos/photos%20artiste%20dj/DSC06093.JPG"
-              alt="Artiste de dos, bras ouverts au micro"
-              loading="lazy"
-            />
-          </figure>
-          <div class="dj-look__copy">
-            <p class="dj-look__tag">[ 02 // Documentaire &amp; Coulisses ]</p>
-            <h3>L’IMMERSION</h3>
-            <p>Backstage, studio et moments off pour créer un lien viscéral avec votre public.</p>
-          </div>
-        </article>
-
-        <article class="dj-look__row">
-          <figure class="dj-look__frame dj-look__frame--portrait">
-            <img
-              src="photos/photos%20artiste%20dj/IMG_4112.JPG"
-              alt="Portrait DJ casque Sennheiser et lunettes, noir et blanc"
-              loading="lazy"
-            />
-          </figure>
-          <div class="dj-look__copy">
-            <p class="dj-look__tag">[ 03 // Direction Visuelle ]</p>
+          <button
+            class="dj-spot dj-spot--photo"
+            type="button"
+            data-spot="photo"
+            aria-expanded="false"
+            aria-controls="dj-card-photo"
+          >
+            <span class="dj-spot__af" aria-hidden="true">
+              <i></i><i></i><i></i><i></i>
+            </span>
+            <span class="sr-only">Photographe — L’Impact Photo</span>
+          </button>
+          <article class="dj-card" id="dj-card-photo" data-card="photo" aria-hidden="true">
+            <p class="dj-look__tag">[ 02 // L’IMPACT PHOTO ]</p>
             <h3>L’IMPACT PHOTO</h3>
-            <p>Reportages de nuit et portraits fixes pour sublimer votre identité.</p>
-          </div>
-        </article>
+            <p>Reportages de nuit, direction artistique et visuels fixes.</p>
+          </article>
+
+          <button
+            class="dj-spot dj-spot--immersion"
+            type="button"
+            data-spot="immersion"
+            aria-expanded="false"
+            aria-controls="dj-card-immersion"
+          >
+            <span class="dj-spot__af" aria-hidden="true">
+              <i></i><i></i><i></i><i></i>
+            </span>
+            <span class="sr-only">DJ — L’Immersion</span>
+          </button>
+          <article class="dj-card" id="dj-card-immersion" data-card="immersion" aria-hidden="true">
+            <p class="dj-look__tag">[ 03 // L’IMMERSION ]</p>
+            <h3>L’IMMERSION</h3>
+            <p>Documentaire, backstage et arc narratif de l’artiste.</p>
+          </article>
+        </div>
       </section>
+
+      <div class="dj-agency__body">
 
       <section class="dj-agency__arsenal" aria-labelledby="dj-arsenal">
         <header class="dj-agency__arsenal-bar">
@@ -617,6 +643,7 @@
           </a>
         </div>
       </section>
+      </div>
     </section>
 
     <noscript>
@@ -649,6 +676,9 @@
         .terminal__hint {
           opacity: 1 !important;
           visibility: visible !important;
+        }
+        .dj-scene__intro {
+          display: none !important;
         }
       </style>
     </noscript>
