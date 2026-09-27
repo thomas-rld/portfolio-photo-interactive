@@ -454,6 +454,7 @@
       this.cards = root ? [...root.querySelectorAll(".dj-card")] : [];
       this.active = "";
       this.isEntered = false;
+      this.isAnimating = false;
       if (!root) return;
       this.bind();
     }
@@ -461,7 +462,7 @@
     bind() {
       this.enterBtn?.addEventListener("click", (event) => {
         event.stopPropagation();
-        this.setEntered(true);
+        this.playEntrance();
       });
       this.spots.forEach((spot) => {
         const id = spot.dataset.spot;
@@ -495,6 +496,27 @@
     enter() {
       this.close(true);
       this.setEntered(false);
+      this.root.classList.remove("is-walking", "is-opening");
+      this.isAnimating = false;
+      clearTimeout(this.walkTimer);
+      clearTimeout(this.openTimer);
+    }
+
+    playEntrance() {
+      if (this.isEntered || this.isAnimating) return;
+      this.isAnimating = true;
+      this.enterBtn?.setAttribute("aria-hidden", "true");
+      // Étape 1 — la marche : zoom lent et continu vers les portes.
+      this.root.classList.add("is-walking");
+      this.walkTimer = window.setTimeout(() => {
+        // Étape 2 — l'ouverture : les portes vitrées coulissent.
+        this.root.classList.add("is-opening");
+        this.openTimer = window.setTimeout(() => {
+          // Étape 3 — le fondu : la façade disparaît, l'intérieur se révèle.
+          this.setEntered(true);
+          this.isAnimating = false;
+        }, 950);
+      }, 1700);
     }
 
     setEntered(next) {
