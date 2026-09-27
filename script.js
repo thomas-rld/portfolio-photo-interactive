@@ -509,14 +509,14 @@
       // Étape 1 — la marche : zoom lent et continu vers les portes.
       this.root.classList.add("is-walking");
       this.walkTimer = window.setTimeout(() => {
-        // Étape 2 — l'ouverture : les portes vitrées coulissent.
+        // Étape 2 — l'ouverture : les portes massives coulissent.
         this.root.classList.add("is-opening");
         this.openTimer = window.setTimeout(() => {
-          // Étape 3 — le fondu : la façade disparaît, l'intérieur se révèle.
+          // Étape 3 — le sas : la façade disparaît, l'intérieur se révèle.
           this.setEntered(true);
           this.isAnimating = false;
-        }, 950);
-      }, 1700);
+        }, 1000);
+      }, 1500);
     }
 
     setEntered(next) {
