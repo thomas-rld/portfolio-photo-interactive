@@ -2422,7 +2422,9 @@ html[data-view="home"] .back-home {
   position: relative;
   z-index: 1;
   width: min(1240px, calc(100% - 100px));
+  max-width: 100%;
   margin: 16vh auto 16vh;
+  overflow-x: clip;
   color: #f4f4f4;
   font-family: var(--font-mono);
   animation: landing-boot 0.6s var(--ease-out) both;
@@ -2551,6 +2553,7 @@ html[data-view="dj-agency"] .dj-agency {
 }
 
 .dj-look {
+  overflow-x: clip;
   margin-bottom: 18vh;
 }
 
@@ -2561,28 +2564,18 @@ html[data-view="dj-agency"] .dj-agency {
 .dj-look__row {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-  align-items: center;
-  gap: clamp(32px, 7vw, 96px);
-  margin-bottom: 18vh;
+  grid-template-columns: minmax(0, 1fr);
+  margin-bottom: 16vh;
 }
 
 .dj-look__row:last-child {
   margin-bottom: 0;
 }
 
-.dj-look__row--flip {
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-}
-
-.dj-look__row--flip .dj-look__copy {
-  order: -1;
-}
-
 .dj-look__row::before {
   content: "";
   position: absolute;
-  inset: 8% 4%;
+  inset: 10% 6%;
   background: radial-gradient(ellipse at 40% 50%, rgba(168, 85, 247, 0.28), transparent 68%);
   opacity: 0;
   filter: blur(48px);
@@ -2595,13 +2588,19 @@ html[data-view="dj-agency"] .dj-agency {
   opacity: 1;
 }
 
+.dj-look__frame,
+.dj-look__copy {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+
 .dj-look__frame {
   position: relative;
   z-index: 1;
   overflow: hidden;
   margin: 0;
   aspect-ratio: 16 / 10;
-  border-radius: 2px;
+  border-radius: 8px;
   background: #0a0a0a;
 }
 
@@ -2631,40 +2630,56 @@ html[data-view="dj-agency"] .dj-agency {
 
 .dj-look__copy {
   position: relative;
-  z-index: 1;
-  max-width: 28rem;
-  padding: 36px 32px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  z-index: 2;
+  align-self: end;
+  justify-self: start;
+  width: min(34rem, calc(100% - 3rem));
+  max-width: 100%;
+  margin: 0 1.25rem 1.5rem;
+  padding: 2.25rem 2.5rem;
+  overflow: visible;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.5rem;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(40px) saturate(1.45);
+  -webkit-backdrop-filter: blur(40px) saturate(1.45);
+}
+
+.dj-look__row--flip .dj-look__copy {
+  justify-self: end;
 }
 
 .dj-look__tag {
-  margin: 0 0 18px;
+  margin: 0 0 14px;
   font-size: 11px;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .dj-look__copy h3 {
-  margin: 0 0 22px;
+  margin: 0 0 16px;
+  max-width: 100%;
   font-family: var(--font-display);
-  font-size: clamp(2.6rem, 7vw, 6.2rem);
+  font-size: clamp(2.25rem, 4vw + 0.6rem, 3.75rem);
   font-weight: 800;
-  line-height: 0.88;
-  letter-spacing: -0.03em;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-wrap: balance;
 }
 
 .dj-look__copy p:last-child {
-  max-width: 32ch;
+  max-width: 36ch;
   margin: 0;
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.65;
   letter-spacing: 0.03em;
-  color: rgba(255, 255, 255, 0.58);
+  color: rgba(255, 255, 255, 0.7);
+  text-wrap: pretty;
 }
 
 .dj-agency__arsenal {
@@ -2844,14 +2859,8 @@ html:has(.dj-look__row:focus-within) .viewfinder {
 }
 
 @media (max-width: 1024px) {
-  .dj-look__row,
-  .dj-look__row--flip,
   .dj-agency__split {
     grid-template-columns: 1fr;
-  }
-
-  .dj-look__row--flip .dj-look__copy {
-    order: 0;
   }
 
   .dj-look__row {
@@ -2859,10 +2868,9 @@ html:has(.dj-look__row:focus-within) .viewfinder {
   }
 
   .dj-look__copy {
-    max-width: none;
-    margin-top: -48px;
-    margin-left: 16px;
-    margin-right: 16px;
+    width: min(32rem, calc(100% - 2rem));
+    margin: 0 0.75rem 1rem;
+    padding: 1.75rem 1.5rem;
   }
 
   .dj-look__frame,
@@ -2917,14 +2925,14 @@ html:has(.dj-look__row:focus-within) .viewfinder {
   }
 
   .dj-look__copy {
-    padding: 24px 20px;
-    margin-top: -32px;
-    margin-left: 10px;
-    margin-right: 10px;
+    width: calc(100% - 1.25rem);
+    margin: 0 0.4rem 0.75rem;
+    padding: 1.5rem 1.25rem;
   }
 
   .dj-look__copy h3 {
-    font-size: clamp(2.2rem, 12vw, 3.4rem);
+    font-size: clamp(2rem, 8.5vw, 2.75rem);
+    line-height: 1.08;
   }
 
   .dj-look__frame,
