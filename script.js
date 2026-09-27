@@ -453,7 +453,7 @@
       this.spots = root ? [...root.querySelectorAll(".dj-post")] : [];
       this.cards = root ? [...root.querySelectorAll(".dj-card")] : [];
       this.active = "";
-      this.introTimer = 0;
+      this.isEntered = false;
       if (!root) return;
       this.bind();
     }
@@ -461,14 +461,18 @@
     bind() {
       this.enterBtn?.addEventListener("click", (event) => {
         event.stopPropagation();
-        this.openDoors();
+        this.setEntered(true);
       });
       this.spots.forEach((spot) => {
         const id = spot.dataset.spot;
-        spot.addEventListener("mouseenter", () => this.preview(id));
-        spot.addEventListener("focus", () => this.preview(id));
+        if (!coarsePointer) {
+          spot.addEventListener("mouseenter", () => {
+            if (this.isEntered) this.preview(id);
+          });
+        }
         spot.addEventListener("click", (event) => {
           event.stopPropagation();
+          if (!this.isEntered) return;
           this.toggle(id);
         });
       });
@@ -476,35 +480,27 @@
         if (!this.locked) this.close();
       });
       this.root.addEventListener("click", (event) => {
-        if (event.target.closest(".dj-scene__enter, .dj-scene__door")) {
-          this.openDoors();
-          return;
-        }
-        if (!this.root.classList.contains("is-open")) return;
+        if (!this.isEntered) return;
         if (!event.target.closest(".dj-post, .dj-card")) this.close(true);
       });
       document.addEventListener("click", (event) => {
         if (!this.root.contains(event.target)) this.close(true);
       });
       document.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" && event.target === this.enterBtn) return;
         if (event.key === "Escape") this.close(true);
       });
     }
 
     enter() {
       this.close(true);
-      this.root.classList.remove("is-open");
-      window.clearTimeout(this.introTimer);
-      if (reducedMotion) {
-        this.root.classList.add("is-open");
-        return;
-      }
-      this.introTimer = window.setTimeout(() => this.openDoors(), 1000);
+      this.setEntered(false);
     }
 
-    openDoors() {
-      window.clearTimeout(this.introTimer);
-      this.root.classList.add("is-open");
+    setEntered(next) {
+      this.isEntered = next;
+      this.root.classList.toggle("is-entered", next);
+      this.enterBtn?.setAttribute("aria-hidden", next ? "true" : "false");
     }
 
     preview(id) {
