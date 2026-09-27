@@ -2130,8 +2130,9 @@ html[data-view="home"] .back-home[href] {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  min-width: 0;
   min-height: 280px;
-  padding: 32px 30px 28px;
+  padding: 32px 28px 28px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(8, 8, 8, 0.55));
@@ -2146,11 +2147,11 @@ html[data-view="home"] .back-home[href] {
     border-color 320ms var(--ease-out),
     box-shadow 320ms var(--ease-out),
     background-color 320ms var(--ease-out);
-  animation: landing-in 0.8s 0.12s var(--ease-out) both;
+  animation: landing-pop 0.7s 0.12s var(--ease-out) backwards;
 }
 
 .landing__gate:nth-child(2) {
-  animation-delay: 0.22s;
+  animation-delay: 0.32s;
 }
 
 .landing__gate::before {
@@ -2192,21 +2193,26 @@ html[data-view="home"] .back-home[href] {
 
 .landing__title {
   font-family: var(--font-display);
-  font-size: clamp(1.7rem, 3.6vw, 3rem);
+  font-size: clamp(1.35rem, 2.4vw, 2.15rem);
   font-weight: 800;
-  line-height: 0.95;
+  line-height: 1.05;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  padding-right: 2.4rem;
 }
 
 .landing__sub {
   margin-top: 12px;
-  max-width: 28ch;
+  max-width: 100%;
+  padding-right: 2.4rem;
   font-size: 12px;
-  line-height: 1.6;
+  line-height: 1.45;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(244, 244, 244, 0.5);
+  overflow-wrap: break-word;
 }
 
 .landing__go {
@@ -2239,6 +2245,17 @@ html[data-view="home"] .back-home[href] {
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+@keyframes landing-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
