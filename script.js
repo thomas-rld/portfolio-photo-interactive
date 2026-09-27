@@ -449,7 +449,8 @@
     constructor(root) {
       this.root = root;
       this.flash = root?.querySelector("#dj-flash");
-      this.spots = root ? [...root.querySelectorAll(".dj-spot")] : [];
+      this.enterBtn = root?.querySelector("#dj-enter");
+      this.spots = root ? [...root.querySelectorAll(".dj-post")] : [];
       this.cards = root ? [...root.querySelectorAll(".dj-card")] : [];
       this.active = "";
       this.introTimer = 0;
@@ -458,6 +459,10 @@
     }
 
     bind() {
+      this.enterBtn?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        this.openDoors();
+      });
       this.spots.forEach((spot) => {
         const id = spot.dataset.spot;
         spot.addEventListener("mouseenter", () => this.preview(id));
@@ -471,7 +476,12 @@
         if (!this.locked) this.close();
       });
       this.root.addEventListener("click", (event) => {
-        if (!event.target.closest(".dj-spot, .dj-card")) this.close(true);
+        if (event.target.closest(".dj-scene__enter, .dj-scene__door")) {
+          this.openDoors();
+          return;
+        }
+        if (!this.root.classList.contains("is-open")) return;
+        if (!event.target.closest(".dj-post, .dj-card")) this.close(true);
       });
       document.addEventListener("click", (event) => {
         if (!this.root.contains(event.target)) this.close(true);
@@ -483,16 +493,18 @@
 
     enter() {
       this.close(true);
-      this.root.classList.remove("is-ready");
+      this.root.classList.remove("is-open");
       window.clearTimeout(this.introTimer);
       if (reducedMotion) {
-        this.root.classList.add("is-ready");
+        this.root.classList.add("is-open");
         return;
       }
-      void this.root.offsetWidth;
-      this.introTimer = window.setTimeout(() => {
-        this.root.classList.add("is-ready");
-      }, 1400);
+      this.introTimer = window.setTimeout(() => this.openDoors(), 1000);
+    }
+
+    openDoors() {
+      window.clearTimeout(this.introTimer);
+      this.root.classList.add("is-open");
     }
 
     preview(id) {
