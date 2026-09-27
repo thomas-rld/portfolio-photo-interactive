@@ -2723,75 +2723,123 @@ html[data-view="dj-agency"] .dj-agency {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 70% 46% at 50% 38%, rgba(109, 40, 217, 0.16), transparent 58%),
-    radial-gradient(ellipse 42% 36% at 18% 78%, rgba(30, 58, 138, 0.14), transparent 55%),
+    radial-gradient(ellipse 60% 42% at 50% 44%, rgba(109, 40, 217, 0.22), transparent 66%),
+    radial-gradient(ellipse 90% 34% at 50% 100%, rgba(76, 29, 149, 0.28), transparent 72%),
     #000;
 }
 
-.dj-scene__grid {
+.dj-scene__beams {
   position: absolute;
-  left: -10%;
-  right: -10%;
-  top: 42%;
-  height: 90%;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
-  background-size: 56px 56px;
-  transform: perspective(620px) rotateX(64deg);
-  transform-origin: center top;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
   pointer-events: none;
+  mix-blend-mode: screen;
 }
 
 .dj-scene__beam {
   position: absolute;
-  width: 26vw;
-  height: 72vh;
-  filter: blur(72px);
-  opacity: 0.2;
-  pointer-events: none;
-  animation: dj-beam 14s ease-in-out infinite;
+  top: -6%;
+  width: clamp(160px, 16vw, 260px);
+  height: 96%;
+  transform-origin: 50% 0;
+  filter: blur(16px);
+  animation: dj-sweep 8s ease-in-out infinite alternate;
+}
+
+.dj-scene__beam::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+  background: linear-gradient(to bottom, rgba(168, 85, 247, 0.34), rgba(147, 51, 234, 0) 86%);
 }
 
 .dj-scene__beam--a {
-  left: 6%;
-  top: -12%;
-  background: #6d28d9;
-  transform: rotate(18deg);
+  left: 14%;
+  --from: -18deg;
+  --to: 22deg;
 }
 
 .dj-scene__beam--b {
-  right: 8%;
-  top: -8%;
-  background: #1e3a8a;
-  transform: rotate(-20deg);
-  animation-delay: -5s;
+  left: 36%;
+  --from: 14deg;
+  --to: -20deg;
+  animation-duration: 9.5s;
 }
 
 .dj-scene__beam--c {
-  left: 38%;
-  top: -18%;
-  width: 18vw;
-  background: #4c1d95;
-  transform: rotate(4deg);
-  animation-delay: -9s;
+  left: 62%;
+  --from: -16deg;
+  --to: 18deg;
+  animation-duration: 7s;
 }
 
-@keyframes dj-beam {
+.dj-scene__beam--c::before {
+  background: linear-gradient(to bottom, rgba(129, 140, 248, 0.28), rgba(99, 102, 241, 0) 86%);
+}
+
+.dj-scene__beam--d {
+  left: 84%;
+  --from: 20deg;
+  --to: -16deg;
+  animation-duration: 10.5s;
+}
+
+@keyframes dj-sweep {
+  from {
+    transform: translateX(-50%) rotate(var(--from));
+  }
+  to {
+    transform: translateX(-50%) rotate(var(--to));
+  }
+}
+
+.dj-scene__screen {
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  z-index: 1;
+  width: min(760px, 72vw);
+  height: 40%;
+  transform: translateX(-50%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background:
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.55) 0 1px, transparent 1px 4px),
+    radial-gradient(ellipse 60% 70% at 50% 62%, rgba(168, 85, 247, 0.4), rgba(76, 29, 149, 0.14) 55%, transparent 80%),
+    #07050c;
+  box-shadow: 0 0 90px rgba(126, 34, 206, 0.2);
+  animation: dj-screen 1.88s ease-in-out infinite;
+}
+
+@keyframes dj-screen {
   0%,
   100% {
-    transform: translate3d(0, 0, 0) rotate(var(--beam-rot, 16deg));
-    opacity: 0.16;
+    opacity: 0.72;
   }
   50% {
-    transform: translate3d(4%, 3%, 0) rotate(var(--beam-rot, 16deg));
-    opacity: 0.28;
+    opacity: 1;
   }
+}
+
+.dj-scene__riser {
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  bottom: 0;
+  z-index: 2;
+  width: min(640px, 66vw);
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #0e0c14 0%, #050507 60%);
+  border-top: 1px solid rgba(168, 85, 247, 0.55);
+  box-shadow: 0 -1px 18px rgba(168, 85, 247, 0.35);
 }
 
 .dj-scene__grain {
   position: absolute;
   inset: 0;
+  z-index: 16;
   opacity: 0.12;
   pointer-events: none;
   mix-blend-mode: overlay;
@@ -2801,19 +2849,19 @@ html[data-view="dj-agency"] .dj-agency {
 .dj-scene__flash {
   position: absolute;
   inset: 0;
-  z-index: 12;
+  z-index: 18;
   background: #fff;
   opacity: 0;
   pointer-events: none;
 }
 
 .dj-scene__flash.is-pop {
-  animation: dj-flash 0.28s ease-out;
+  animation: dj-flash 0.22s ease-out;
 }
 
 @keyframes dj-flash {
   0% {
-    opacity: 0.88;
+    opacity: 0.5;
   }
   100% {
     opacity: 0;
@@ -2825,7 +2873,7 @@ html[data-view="dj-agency"] .dj-agency {
   top: 72px;
   left: 28px;
   right: 28px;
-  z-index: 6;
+  z-index: 22;
   max-width: 42rem;
 }
 
@@ -2837,41 +2885,106 @@ html[data-view="dj-agency"] .dj-agency {
   color: rgba(255, 255, 255, 0.45);
 }
 
+.dj-scene__haze {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 12;
+  height: 46%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 72%, rgba(147, 51, 234, 0.42), transparent 72%),
+    radial-gradient(ellipse 40% 45% at 18% 78%, rgba(109, 40, 217, 0.3), transparent 70%),
+    radial-gradient(ellipse 40% 45% at 82% 78%, rgba(109, 40, 217, 0.3), transparent 70%);
+  animation: dj-screen 1.88s ease-in-out infinite;
+}
+
+.dj-crowd {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 14;
+  height: clamp(170px, 30vh, 300px);
+  pointer-events: none;
+}
+
+.dj-crowd svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter:
+    drop-shadow(0 -1px 0 rgba(168, 85, 247, 0.4))
+    drop-shadow(0 -8px 22px rgba(126, 34, 206, 0.28));
+}
+
+.dj-crowd__row {
+  animation: dj-crowd-bounce 0.94s ease-in-out infinite;
+}
+
+.dj-crowd__row--front {
+  animation-delay: -0.47s;
+}
+
+.dj-crowd__phone {
+  fill: #e9e4ff;
+}
+
+@keyframes dj-crowd-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
 .dj-post {
   position: absolute;
   z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  width: 168px;
-  padding: 18px 12px 14px;
+  gap: 10px;
+  padding: 0 12px;
   border: 0;
   background: transparent;
-  color: rgba(244, 244, 244, 0.82);
+  color: rgba(244, 244, 244, 0.72);
   cursor: pointer;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -100%);
   transition: color 0.35s var(--ease-out);
 }
 
+.dj-post::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  z-index: -1;
+  width: 140%;
+  height: 90%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse at center, rgba(126, 34, 206, 0.34), transparent 68%);
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease-out);
+}
+
 .dj-post--live {
-  left: 20%;
-  top: 58%;
+  left: 19%;
+  top: 80%;
 }
 
 .dj-post--immersion {
   left: 50%;
-  top: 50%;
+  top: 62%;
 }
 
 .dj-post--photo {
-  left: 80%;
-  top: 58%;
-}
-
-.dj-post__icon {
-  width: 92px;
-  height: 70px;
+  left: 81%;
+  top: 80%;
 }
 
 .dj-post__label {
@@ -2883,16 +2996,26 @@ html[data-view="dj-agency"] .dj-agency {
 
 .dj-post__af {
   position: absolute;
-  inset: 6px;
+  top: 24px;
+  left: 0;
+  right: 0;
+  bottom: 22%;
   pointer-events: none;
+  animation: dj-af-pulse 2.4s ease-in-out infinite;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.dj-post--immersion .dj-post__af {
+  bottom: -4px;
 }
 
 .dj-post__af i {
   position: absolute;
-  width: 12px;
-  height: 12px;
-  border-color: rgba(255, 255, 255, 0.55);
+  width: 14px;
+  height: 14px;
+  border-color: rgba(255, 255, 255, 0.7);
   border-style: solid;
+  transition: border-color 0.35s var(--ease-out);
 }
 
 .dj-post__af i:nth-child(1) {
@@ -2919,16 +3042,112 @@ html[data-view="dj-agency"] .dj-agency {
   border-width: 0 1px 1px 0;
 }
 
-.dj-post__rec {
-  position: absolute;
-  top: 14px;
-  right: 18px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #ef4444;
-  box-shadow: 0 0 8px #ef4444;
+@keyframes dj-af-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1.04);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.dj-figure {
+  display: block;
+  width: clamp(110px, 11vw, 160px);
+  height: auto;
+  aspect-ratio: 160 / 200;
+  overflow: visible;
+  color: #07060a;
+  filter:
+    drop-shadow(0 0 1px rgba(196, 181, 253, 0.55))
+    drop-shadow(0 -4px 10px rgba(168, 85, 247, 0.32));
+  transition: filter 0.35s var(--ease-out);
+}
+
+.dj-figure--dj {
+  width: clamp(200px, 20vw, 280px);
+  aspect-ratio: 260 / 200;
+}
+
+.dj-figure__body {
+  fill: currentColor;
+}
+
+.dj-figure__limb {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+.dj-figure__bob {
+  animation: dj-bob 0.47s ease-in-out infinite alternate;
+}
+
+.dj-figure__booth {
+  fill: #0b0a10;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 1;
+}
+
+.dj-figure__led {
+  fill: #a855f7;
+  animation: dj-screen 0.94s ease-in-out infinite;
+}
+
+.dj-figure__eq rect {
+  fill: #a855f7;
+  opacity: 0.85;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: dj-eq 0.47s ease-in-out infinite alternate;
+}
+
+.dj-figure__eq rect:nth-child(2) {
+  animation-delay: -0.12s;
+}
+
+.dj-figure__eq rect:nth-child(3) {
+  animation-delay: -0.3s;
+}
+
+.dj-figure__eq rect:nth-child(4) {
+  animation-delay: -0.2s;
+}
+
+.dj-figure__eq rect:nth-child(5) {
+  animation-delay: -0.38s;
+}
+
+@keyframes dj-bob {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(3px);
+  }
+}
+
+@keyframes dj-eq {
+  from {
+    transform: scaleY(0.25);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.dj-figure__rec {
+  fill: #ef4444;
   animation: rec-blink 1.6s ease-in-out infinite;
+}
+
+.dj-figure__flash {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .dj-post:hover,
@@ -2938,15 +3157,50 @@ html[data-view="dj-agency"] .dj-agency {
   outline: none;
 }
 
+.dj-post:hover .dj-post__af,
+.dj-post.is-on .dj-post__af,
+.dj-post:focus-visible .dj-post__af {
+  opacity: 1;
+  transform: scale(0.96);
+  animation: none;
+}
+
 .dj-post:hover .dj-post__af i,
 .dj-post.is-on .dj-post__af i,
 .dj-post:focus-visible .dj-post__af i {
   border-color: #fff;
 }
 
+.dj-post:hover .dj-figure,
+.dj-post.is-on .dj-figure,
+.dj-post:focus-visible .dj-figure {
+  filter:
+    drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.9))
+    drop-shadow(0 -4px 16px rgba(168, 85, 247, 0.6));
+}
+
+.dj-post:hover .dj-figure__flash,
+.dj-post.is-on .dj-figure__flash,
+.dj-post:focus-visible .dj-figure__flash {
+  animation: dj-cam-flash 1.4s ease-out infinite;
+}
+
+@keyframes dj-cam-flash {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  16% {
+    opacity: 0;
+  }
+}
+
 .dj-card {
   position: absolute;
-  z-index: 9;
+  z-index: 20;
   width: min(22rem, calc(100% - 40px));
   padding: 1.75rem 1.6rem;
   overflow: visible;
@@ -2971,23 +3225,18 @@ html[data-view="dj-agency"] .dj-agency {
 }
 
 .dj-card[data-card="live"] {
-  left: max(20px, 8%);
-  top: 38%;
+  left: max(24px, 4%);
+  top: 28%;
 }
 
 .dj-card[data-card="photo"] {
-  right: max(20px, 5%);
-  top: 24%;
+  right: max(24px, 4%);
+  top: 28%;
 }
 
 .dj-card[data-card="immersion"] {
-  left: 50%;
-  top: 36%;
-  transform: translate(-50%, 8px);
-}
-
-.dj-card[data-card="immersion"].is-on {
-  transform: translate(-50%, 0);
+  left: calc(50% + clamp(110px, 11vw, 150px));
+  top: 24%;
 }
 
 .dj-card h3 {
@@ -3536,28 +3785,58 @@ html:has(.dj-card:hover) .viewfinder {
   }
 
   .dj-post {
-    width: 108px;
-    padding: 10px 4px 8px;
-    gap: 8px;
+    padding: 0 4px;
+    gap: 6px;
   }
 
-  .dj-post__icon {
-    width: 64px;
-    height: 48px;
+  .dj-post__label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+  }
+
+  .dj-post__af {
+    top: 18px;
+  }
+
+  .dj-figure {
+    width: 84px;
+  }
+
+  .dj-figure--dj {
+    width: 172px;
   }
 
   .dj-post--live {
-    left: 18%;
-    top: 64%;
+    left: 17%;
+    top: 84%;
   }
 
   .dj-post--immersion {
-    top: 56%;
+    top: 64%;
   }
 
   .dj-post--photo {
-    left: 82%;
+    left: 83%;
+    top: 84%;
+  }
+
+  .dj-scene__screen {
+    top: 26%;
+    width: 88vw;
+    height: 36%;
+  }
+
+  .dj-scene__riser {
     top: 64%;
+    width: 92vw;
+  }
+
+  .dj-crowd {
+    height: 24vh;
+  }
+
+  .dj-scene__beam {
+    width: 34vw;
   }
 
   .dj-card,
@@ -3567,7 +3846,7 @@ html:has(.dj-card:hover) .viewfinder {
   .dj-card[data-card="immersion"].is-on {
     left: 16px;
     right: 16px;
-    top: 108px;
+    top: 152px;
     bottom: auto;
     width: auto;
     transform: none;
