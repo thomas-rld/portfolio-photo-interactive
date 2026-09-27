@@ -516,14 +516,15 @@
       <section class="dj-scene" id="dj-scene" aria-labelledby="dj-prestations">
         <div class="dj-facade" aria-hidden="true">
           <div class="dj-facade__approach">
-            <div class="dj-facade__glow"></div>
             <div class="dj-facade__floor"></div>
             <p class="dj-facade__sign">AGENCE DJ</p>
             <div class="dj-facade__bay">
               <div class="dj-scene__door dj-scene__door--l">
+                <span class="dj-facade__sheen"></span>
                 <span class="dj-facade__handle dj-facade__handle--l"></span>
               </div>
               <div class="dj-scene__door dj-scene__door--r">
+                <span class="dj-facade__sheen"></span>
                 <span class="dj-facade__handle dj-facade__handle--r"></span>
               </div>
             </div>
@@ -769,6 +770,9 @@
         }
         .dj-scene__stage {
           transform: none !important;
+        }
+        .dj-scene__hud {
+          opacity: 1 !important;
         }
       </style>
     </noscript>
