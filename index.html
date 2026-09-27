@@ -507,7 +507,7 @@
         <span class="dj-hud__corner dj-hud__corner--tr"></span>
         <span class="dj-hud__corner dj-hud__corner--bl"></span>
         <span class="dj-hud__corner dj-hud__corner--br"></span>
-        <p class="dj-hud__meta dj-hud__meta--tl">[ REC ]</p>
+        <p class="dj-hud__meta dj-hud__meta--tl">[ <span class="landing__pulse"></span> REC ]</p>
         <p class="dj-hud__meta dj-hud__meta--tr">4K 60FPS</p>
         <p class="dj-hud__meta dj-hud__meta--bl">ISO 800</p>
         <p class="dj-hud__meta dj-hud__meta--br">F2.8</p>
@@ -520,40 +520,79 @@
         </p>
       </header>
 
-      <div class="dj-agency__modules">
-        <article class="dj-agency__card">
-          <p class="dj-agency__tag">[ MODE 01 ]</p>
-          <h3>Le Live Brut</h3>
-          <p><span>Ce qu’on fait</span> Vidéos de live explosives, formats verticaux rythmés et son haute qualité.</p>
-          <p><span>Pourquoi</span> Prouver instantanément votre énergie sur scène pour décrocher des bookings.</p>
-        </article>
-        <article class="dj-agency__card">
-          <p class="dj-agency__tag">[ MODE 02 ]</p>
-          <h3>L’Immersion &amp; les Coulisses</h3>
-          <p><span>Ce qu’on fait</span> Documentaire, studio, backstage et partage des moments off.</p>
-          <p><span>Pourquoi</span> Créer un lien fort et humain avec votre communauté.</p>
-        </article>
-        <article class="dj-agency__card">
-          <p class="dj-agency__tag">[ MODE 03 ]</p>
-          <h3>L’Impact Photo</h3>
-          <p><span>Ce qu’on fait</span> Reportages photo de nuit et visuels fixes percutants.</p>
-          <p><span>Pourquoi</span> Sublimer votre identité visuelle sur vos réseaux et dossiers de presse.</p>
-        </article>
-      </div>
+      <section class="dj-agency__block" aria-labelledby="dj-prestations">
+        <p class="dj-agency__sec" id="dj-prestations">01 // PRESTATIONS</p>
+        <div class="dj-agency__modules">
+          <article class="dj-agency__card">
+            <p class="dj-agency__tag">[ MODE 01 ]</p>
+            <h3>Le Live Brut</h3>
+            <p><span>Ce qu’on fait</span> Vidéos de live explosives, formats verticaux rythmés et son haute qualité.</p>
+            <p><span>Pourquoi</span> Prouver instantanément votre énergie sur scène pour décrocher des bookings.</p>
+          </article>
+          <article class="dj-agency__card">
+            <p class="dj-agency__tag">[ MODE 02 ]</p>
+            <h3>L’Immersion &amp; les Coulisses</h3>
+            <p><span>Ce qu’on fait</span> Documentaire, studio, backstage et partage des moments off.</p>
+            <p><span>Pourquoi</span> Créer un lien fort et humain avec votre communauté.</p>
+          </article>
+          <article class="dj-agency__card">
+            <p class="dj-agency__tag">[ MODE 03 ]</p>
+            <h3>L’Impact Photo</h3>
+            <p><span>Ce qu’on fait</span> Reportages photo de nuit et visuels fixes percutants.</p>
+            <p><span>Pourquoi</span> Sublimer votre identité visuelle sur vos réseaux et dossiers de presse.</p>
+          </article>
+        </div>
+      </section>
 
-      <form
-        class="dj-agency__form"
-        action="https://formspree.io/f/xyeyrbvb"
-        method="POST"
-      >
-        <p class="dj-agency__form-title">[ CASTING / BRIEF ]</p>
-        <input type="hidden" name="contexte" value="ACCOMPAGNEMENT DJ" />
-        <input type="text" name="nom" autocomplete="name" placeholder="NOM / ALIAS" required />
-        <input type="email" name="email" autocomplete="email" placeholder="EMAIL" required />
-        <input type="text" name="projet" placeholder="PROJET / LABEL" />
-        <textarea name="message" rows="4" placeholder="BRIEF — DATES, VILLE, INTENTION" required></textarea>
-        <button type="submit" class="dj-agency__send">[ ENVOYER_BRIEF ]</button>
-      </form>
+      <section class="dj-agency__arsenal" aria-labelledby="dj-arsenal">
+        <header class="dj-agency__arsenal-bar">
+          <p class="dj-agency__sec" id="dj-arsenal">02 // ARSENAL</p>
+          <p class="dj-agency__monitor">MONITORING // SPEC SHEET</p>
+        </header>
+        <dl class="dj-spec">
+          <div class="dj-spec__row">
+            <dt>Boîtier principal</dt>
+            <dd>Sony A7 V</dd>
+          </div>
+          <div class="dj-spec__row">
+            <dt>Boîtiers &amp; captation complémentaires</dt>
+            <dd>Sony A7S II · Insta360 X5 — immersion 360°</dd>
+          </div>
+          <div class="dj-spec__row">
+            <dt>Optiques &amp; audio</dt>
+            <dd>Focales fixes lumineuses · enregistrement audio haute fidélité direct table de mixage</dd>
+          </div>
+        </dl>
+      </section>
+
+      <section class="dj-agency__convert" aria-labelledby="dj-contact">
+        <p class="dj-agency__sec" id="dj-contact">03 // CONTACT</p>
+        <div class="dj-agency__split">
+          <form
+            class="dj-agency__form"
+            action="https://formspree.io/f/xyeyrbvb"
+            method="POST"
+          >
+            <p class="dj-agency__form-title">[ CASTING / BRIEF ]</p>
+            <input type="hidden" name="contexte" value="ACCOMPAGNEMENT DJ" />
+            <input type="text" name="nom" autocomplete="name" placeholder="NOM / ALIAS" required />
+            <input type="text" name="liens" inputmode="url" placeholder="LIENS RÉSEAUX" required />
+            <textarea name="defis" rows="4" placeholder="DÉFIS ACTUELS" required></textarea>
+            <button type="submit" class="dj-agency__send">[ ENVOYER_BRIEF ]</button>
+          </form>
+
+          <a
+            class="dj-agency__ig"
+            href="https://ig.me/m/thoms_rld_"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="dj-agency__ig-label">ACCÈS DIRECT</span>
+            <span class="dj-agency__ig-title">[ INSTAGRAM DIRECT // @THOMS_RLD_ ]</span>
+            <span class="dj-agency__ig-hint">Ouvrir les DM — réponse prioritaire</span>
+          </a>
+        </div>
+      </section>
     </section>
 
     <noscript>
