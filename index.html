@@ -107,34 +107,19 @@
         <p class="landing__mark">[ THOMAS_ROLLAND ]</p>
         <p class="landing__status">
           <span class="landing__pulse" aria-hidden="true"></span>
-          SYS_ONLINE
         </p>
       </header>
 
-      <div class="landing__body">
-        <p class="landing__prompt">root@a7v:~# select --module</p>
-        <h1 class="landing__headline">DOUBLE_ENTRY // INIT</h1>
-        <div class="landing__grid">
-          <a class="landing__gate" href="#portfolio" data-route="portfolio">
-            <span class="landing__index">01</span>
-            <span class="landing__title">[ PORTFOLIO VISUEL ]</span>
-            <span class="landing__copy">
-              Photographe / vidéaste. Nuit, clubbing, artistes, territoires 360°.
-            </span>
-            <span class="landing__cta">ENTER_VISUAL →</span>
-          </a>
-          <a class="landing__gate" href="#dj-agency" data-route="dj-agency">
-            <span class="landing__index">02</span>
-            <span class="landing__title">[ ACCOMPAGNEMENT DJ ]</span>
-            <span class="landing__copy">
-              Architecte narratif B2B. Live, storytelling, EPK, retainer.
-            </span>
-            <span class="landing__cta">ENTER_AGENCY →</span>
-          </a>
-        </div>
-      </div>
+      <nav class="landing__nav" aria-label="Sélection de module">
+        <a class="landing__gate" href="#portfolio" data-route="portfolio">
+          <span class="landing__caret">&gt;</span> [01] PORTFOLIO_VISUEL
+        </a>
+        <a class="landing__gate" href="#dj-agency" data-route="dj-agency">
+          <span class="landing__caret">&gt;</span> [02] ACCOMPAGNEMENT_DJ
+        </a>
+      </nav>
 
-      <p class="landing__foot">TOULOUSE_FR // SELECT_A_NODE</p>
+      <p class="landing__foot">TOULOUSE_FR</p>
     </section>
 
     <div class="scroll-root" id="scroll-root">
