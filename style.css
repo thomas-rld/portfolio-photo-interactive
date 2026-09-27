@@ -2040,8 +2040,7 @@ html[data-view="home"] .back-home[href] {
 .landing__bar,
 .landing__foot,
 .landing__index,
-.landing__sub,
-.landing__go {
+.landing__sub {
   font-family: var(--font-mono);
 }
 
@@ -2065,8 +2064,12 @@ html[data-view="home"] .back-home[href] {
 }
 
 .landing__aura {
-  inset: 0;
-  background: radial-gradient(ellipse 70% 55% at 50% 42%, rgba(255, 255, 255, 0.035), transparent 68%);
+  inset: -25%;
+  background:
+    radial-gradient(ellipse 48% 42% at 28% 32%, rgba(72, 28, 110, 0.28), transparent 58%),
+    radial-gradient(ellipse 42% 38% at 74% 70%, rgba(36, 12, 64, 0.32), transparent 60%),
+    radial-gradient(ellipse 55% 48% at 50% 48%, rgba(14, 8, 22, 0.5), transparent 72%);
+  animation: landing-flow 18s ease-in-out infinite alternate;
 }
 
 .landing__spot {
@@ -2076,7 +2079,7 @@ html[data-view="home"] .back-home[href] {
   height: 420px;
   margin: -210px 0 0 -210px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 28, 86, 0.26) 0%, rgba(255, 47, 139, 0.1) 34%, transparent 70%);
+  background: radial-gradient(circle, rgba(152, 72, 255, 0.24) 0%, rgba(110, 40, 200, 0.1) 34%, transparent 70%);
   transform: translate3d(50vw, 42vh, 0);
   will-change: transform;
 }
@@ -2138,24 +2141,19 @@ html[data-view="home"] .back-home[href] {
   align-items: center;
   justify-content: center;
   min-width: 0;
-  min-height: min(40vh, 360px);
-  padding: 36px 28px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(5, 5, 5, 0.42));
-  backdrop-filter: blur(18px) saturate(1.1);
-  -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  min-height: min(36vh, 300px);
+  padding: 40px 24px;
+  overflow: visible;
+  border: 0;
+  background: transparent;
   color: #f4f4f4;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
   isolation: isolate;
   transition:
-    transform 380ms var(--ease-out),
-    border-color 380ms var(--ease-out),
-    box-shadow 380ms var(--ease-out),
-    opacity 380ms var(--ease-out),
-    filter 380ms var(--ease-out);
+    transform 420ms var(--ease-out),
+    opacity 420ms var(--ease-out);
   animation: landing-drop 0.85s 0.12s cubic-bezier(0.16, 1, 0.3, 1) backwards;
 }
 
@@ -2166,37 +2164,40 @@ html[data-view="home"] .back-home[href] {
 .landing__gate::before {
   content: "";
   position: absolute;
-  inset: auto -30% -45% 10%;
-  height: 80%;
-  background: radial-gradient(circle, rgba(255, 20, 80, 0.22), transparent 64%);
+  inset: 8%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(162, 80, 255, 0.32), rgba(88, 28, 180, 0.08) 42%, transparent 70%);
   pointer-events: none;
   z-index: -1;
-  opacity: 0.45;
-  transition: opacity 380ms var(--ease-out), transform 380ms var(--ease-out);
+  opacity: 0;
+  transform: scale(0.86);
+  filter: blur(8px);
+  transition: opacity 480ms var(--ease-out), transform 480ms var(--ease-out);
 }
 
 .landing__nav:has(.landing__gate:hover) .landing__gate:not(:hover),
 .landing__nav:has(.landing__gate:focus-visible) .landing__gate:not(:focus-visible) {
-  opacity: 0.36;
-  transform: scale(0.975);
-  filter: saturate(0.55);
+  opacity: 0.42;
 }
 
 .landing__gate:hover,
 .landing__gate:focus-visible {
   outline: none;
   z-index: 2;
-  border-color: rgba(255, 47, 139, 0.72);
-  transform: translateY(-8px) scale(1.035);
-  box-shadow:
-    0 0 28px rgba(255, 0, 0, 0.16),
-    0 0 64px rgba(255, 47, 139, 0.14);
+  transform: scale(1.04);
 }
 
 .landing__gate:hover::before,
 .landing__gate:focus-visible::before {
   opacity: 1;
-  transform: translateY(-10px) scale(1.1);
+  transform: scale(1.08);
+}
+
+.landing__gate:hover .landing__title,
+.landing__gate:focus-visible .landing__title {
+  text-shadow:
+    0 0 16px rgba(176, 96, 255, 0.75),
+    0 0 36px rgba(124, 58, 237, 0.4);
 }
 
 .landing__index {
@@ -2241,24 +2242,17 @@ html[data-view="home"] .back-home[href] {
   overflow-wrap: break-word;
 }
 
-.landing__go {
-  margin-top: 22px;
-  font-size: 18px;
-  color: #ff2f8b;
-  opacity: 0;
-  transform: translateY(6px);
-  text-shadow: 0 0 12px rgba(255, 47, 139, 0.7);
-  transition: opacity 280ms var(--ease-out), transform 280ms var(--ease-out);
-}
-
-.landing__gate:hover .landing__go,
-.landing__gate:focus-visible .landing__go {
-  opacity: 1;
-  transform: none;
-}
-
 .landing__foot {
   letter-spacing: 0.2em;
+}
+
+@keyframes landing-flow {
+  0% {
+    transform: translate3d(-3%, -2%, 0) scale(1.04);
+  }
+  100% {
+    transform: translate3d(4%, 3%, 0) scale(1.12);
+  }
 }
 
 @keyframes landing-boot {
