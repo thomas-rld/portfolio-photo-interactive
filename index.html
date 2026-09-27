@@ -514,12 +514,22 @@
       </div>
 
       <section class="dj-scene" id="dj-scene" aria-labelledby="dj-prestations">
-        <div class="dj-scene__doors" aria-hidden="true">
-          <div class="dj-scene__door dj-scene__door--l"></div>
-          <div class="dj-scene__door dj-scene__door--r"></div>
+        <div class="dj-facade" aria-hidden="true">
+          <div class="dj-facade__wall"></div>
+          <p class="dj-facade__sign">AGENCE</p>
+          <div class="dj-facade__bay">
+            <div class="dj-scene__door dj-scene__door--l">
+              <span class="dj-facade__rib"></span>
+              <span class="dj-facade__handle dj-facade__handle--l"></span>
+            </div>
+            <div class="dj-scene__door dj-scene__door--r">
+              <span class="dj-facade__rib"></span>
+              <span class="dj-facade__handle dj-facade__handle--r"></span>
+            </div>
+          </div>
         </div>
         <button class="dj-scene__enter" id="dj-enter" type="button">
-          &gt;_ ENTRER_DANS_LE_CLUB
+          &gt;_ ENTRER
         </button>
 
         <div class="dj-scene__stage">
@@ -698,7 +708,7 @@
           opacity: 1 !important;
           visibility: visible !important;
         }
-        .dj-scene__doors,
+        .dj-facade,
         .dj-scene__enter {
           display: none !important;
         }
