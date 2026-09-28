@@ -2442,6 +2442,26 @@ html[data-view="dj-agency"] .dj-agency {
   display: block;
 }
 
+html[data-view="dj-agency"],
+html[data-view="dj-agency"] body,
+html[data-view="dj-agency"] .dj-card {
+  cursor: url("public/custom-cursor.svg") 0 0, url("public/custom-cursor.png") 0 0, auto !important;
+}
+
+html[data-view="dj-agency"] .viewfinder {
+  display: none;
+}
+
+html[data-view="dj-agency"] a,
+html[data-view="dj-agency"] button,
+html[data-view="dj-agency"] .dj-post,
+html[data-view="dj-agency"] .dj-scene__enter,
+html[data-view="dj-agency"] .dj-card__cta,
+html[data-view="dj-agency"] .back-home,
+html[data-view="dj-agency"] .cursor-pointer {
+  cursor: url("public/custom-pointer.svg") 0 0, url("public/custom-pointer.png") 0 0, pointer !important;
+}
+
 .dj-scene {
   position: relative;
   width: 100%;
@@ -4310,8 +4330,17 @@ html:has(.dj-card:hover) .viewfinder {
 }
 
 @media (pointer: coarse) {
-  body {
-    cursor: auto;
+  body,
+  html[data-view="dj-agency"],
+  html[data-view="dj-agency"] body,
+  html[data-view="dj-agency"] a,
+  html[data-view="dj-agency"] button,
+  html[data-view="dj-agency"] .dj-post,
+  html[data-view="dj-agency"] .dj-scene__enter,
+  html[data-view="dj-agency"] .dj-card__cta,
+  html[data-view="dj-agency"] .back-home,
+  html[data-view="dj-agency"] .dj-card {
+    cursor: auto !important;
   }
 
   .viewfinder,
