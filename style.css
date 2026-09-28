@@ -4206,17 +4206,15 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
   position: absolute;
   z-index: 20;
   container-type: inline-size;
-  width: min(22rem, calc(100% - 40px));
+  width: min(32rem, calc(100% - 48px));
   padding: 1.75rem 1.6rem;
   overflow: visible;
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.1), transparent);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 1rem;
-  box-shadow:
-    inset 0 0 20px rgba(255, 255, 255, 0.03),
-    0 24px 60px rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(64px) saturate(1.2);
-  -webkit-backdrop-filter: blur(64px) saturate(1.2);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
   cursor: auto;
   opacity: 0;
   visibility: hidden;
@@ -4241,14 +4239,17 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 
 .dj-card .dj-look__tag {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.24em;
-  color: rgba(196, 181, 253, 0.75);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .dj-card h3.dj-card__title {
-  margin: 0 0 18px;
-  font-size: clamp(2.6rem, 4.2vw, 3.4rem);
+  margin: 0 0 22px;
+  color: #fff;
+  font-weight: 800;
+  font-size: clamp(3rem, 4.6vw, 3.75rem);
   line-height: 0.9;
   letter-spacing: -0.045em;
   white-space: nowrap;
@@ -4256,7 +4257,8 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 }
 
 .dj-card[data-card="immersion"] h3.dj-card__title {
-  font-size: clamp(1.35rem, 8cqi, 2rem);
+  font-size: 8.4cqi;
+  letter-spacing: -0.05em;
 }
 
 .dj-card__list {
@@ -4267,36 +4269,39 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 
 .dj-card__list li {
   display: flex;
-  gap: 10px;
-  padding: 7px 0;
+  gap: 12px;
+  padding: 8px 0;
   font-family: var(--font-display);
-  font-size: 14px;
+  font-size: 1.25rem;
   font-weight: 400;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .dj-card__list li + li {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .dj-card__list li::before {
   content: ">";
+  flex: none;
   font-family: var(--font-mono);
-  color: rgba(196, 181, 253, 0.75);
+  font-weight: 700;
+  color: #3de0ff;
 }
 
 .dj-card__cta {
   display: inline-flex;
   align-items: center;
   margin-top: 22px;
-  padding: 12px 18px;
+  padding: 1rem 1.5rem;
   border: 1px solid #fff;
   background: transparent;
   color: #fff;
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.2em;
+  font-size: 1.125rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
   text-decoration: none;
   cursor: pointer !important;
   transition: background-color 0.15s ease-out, color 0.15s ease-out;
@@ -4325,12 +4330,13 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 }
 
 .dj-card h3 {
-  margin: 0 0 12px;
+  margin: 0 0 22px;
   font-family: var(--font-display);
-  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  font-size: clamp(3rem, 4.6vw, 3.75rem);
   font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.02em;
+  line-height: 0.9;
+  letter-spacing: -0.045em;
+  color: #fff;
   text-transform: uppercase;
   overflow-wrap: anywhere;
   text-wrap: balance;
@@ -5041,10 +5047,6 @@ html:has(.dj-card:hover) .viewfinder {
     top: 72px;
     bottom: auto;
     width: auto;
-  }
-
-  .dj-card[data-card="immersion"] h3.dj-card__title {
-    font-size: clamp(1.35rem, 8.4vw, 1.7rem);
   }
 
   .dj-agency__head,
