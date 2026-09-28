@@ -511,16 +511,12 @@
         this.enterBtn.disabled = true;
         this.enterBtn.setAttribute("aria-hidden", "true");
       }
-      this.root.classList.add("is-walking");
-      this.walkTimer = window.setTimeout(() => {
+      this.root.classList.add("is-opening");
+      this.openTimer = window.setTimeout(() => {
         if (!this.isAnimating) return;
-        this.root.classList.add("is-opening");
-        this.openTimer = window.setTimeout(() => {
-          if (!this.isAnimating) return;
-          this.setEntered(true);
-          this.isAnimating = false;
-        }, 1400);
-      }, 1500);
+        this.setEntered(true);
+        this.isAnimating = false;
+      }, 800);
     }
 
     setEntered(next) {
