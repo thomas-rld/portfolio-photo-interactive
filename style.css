@@ -3867,18 +3867,19 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 
 .dj-figure {
   display: block;
-  width: clamp(110px, 11vw, 160px);
+  width: clamp(128px, 13vw, 176px);
   height: auto;
-  aspect-ratio: 160 / 200;
+  aspect-ratio: 220 / 252;
   overflow: visible;
   color: #070707;
   filter: none;
+  shape-rendering: geometricPrecision;
   transition: filter 0.2s ease-out, color 0.2s ease-out, transform 0.25s ease-out;
 }
 
 .dj-figure--dj {
-  width: clamp(200px, 20vw, 280px);
-  aspect-ratio: 260 / 200;
+  width: clamp(240px, 26vw, 340px);
+  aspect-ratio: 320 / 230;
   color: #070707;
   filter: none;
 }
@@ -3890,10 +3891,52 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
   transition: filter 0.2s ease-out, color 0.2s ease-out, transform 0.25s ease-out;
 }
 
+.dj-post--live .dj-figure {
+  aspect-ratio: 230 / 252;
+}
+
 .dj-figure__body,
 .dj-figure__booth {
   fill: currentColor;
+  stroke: #f7f4ff;
+  stroke-width: 1.35px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.dj-figure__body *,
+.dj-figure__booth * {
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.dj-post--live .dj-figure__body {
+  stroke: #e7fdff;
+}
+
+.dj-post--photo .dj-figure__body {
+  stroke: #ffe4c2;
+}
+
+.dj-figure__rim {
+  fill: none;
+  stroke: inherit;
+  stroke-width: 1.25px;
+}
+
+.dj-figure__monitor {
+  fill: #bff9ff;
+  stroke: #f3feff;
+  stroke-width: 1px;
+}
+
+.dj-figure__monitor-glow {
+  fill: #67e8f9;
   stroke: none;
+  opacity: 0.34;
+  filter: blur(3px);
 }
 
 .dj-figure__limb {
@@ -3915,7 +3958,7 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 }
 
 .dj-post--photo .dj-figure__body {
-  transform-origin: 68% 42%;
+  transform-origin: 32% 28%;
   animation: dj-photo-sway 6.5s ease-in-out infinite;
   will-change: transform;
 }
@@ -4010,13 +4053,18 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 .dj-figure__flash {
   opacity: 0;
   pointer-events: none;
+  stroke: none;
   animation: dj-cam-burst 11s linear infinite;
+}
+
+.dj-figure__rec {
+  stroke: none;
 }
 
 .dj-cam-burst {
   position: absolute;
-  left: 22%;
-  top: 34%;
+  left: 0;
+  top: 46%;
   z-index: 1;
   width: 46px;
   height: 46px;
@@ -4937,11 +4985,11 @@ html:has(.dj-card:hover) .viewfinder {
   }
 
   .dj-figure {
-    width: 84px;
+    width: 108px;
   }
 
   .dj-figure--dj {
-    width: 172px;
+    width: 210px;
   }
 
   .dj-post--live {
