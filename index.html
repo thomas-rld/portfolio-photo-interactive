@@ -514,23 +514,7 @@
       <section class="dj-scene" id="dj-scene" aria-label="Prestations">
         <div class="dj-facade" aria-hidden="true">
           <div class="dj-facade__approach">
-            <div class="dj-facade__bricks" aria-hidden="true">
-              <svg class="dj-facade__relief" aria-hidden="true">
-                <defs>
-                  <filter id="dj-brick-relief" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
-                    <feTurbulence type="fractalNoise" baseFrequency="0.035 0.09" numOctaves="4" stitchTiles="stitch" result="noise" />
-                    <feDiffuseLighting in="noise" surfaceScale="3.4" diffuseConstant="0.9" lighting-color="#efe6da" result="light">
-                      <feDistantLight azimuth="225" elevation="48" />
-                    </feDiffuseLighting>
-                    <feColorMatrix in="light" type="matrix" values="0.72 0 0 0 0.04  0 0.52 0 0 0.025  0 0 0.38 0 0.015  0 0 0 1 0" />
-                  </filter>
-                  <pattern id="dj-brick-relief-tile" width="252" height="126" patternUnits="userSpaceOnUse">
-                    <rect width="252" height="126" filter="url(#dj-brick-relief)" />
-                  </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#dj-brick-relief-tile)" />
-              </svg>
-            </div>
+            <div class="dj-facade__bricks" aria-hidden="true"></div>
             <div class="dj-facade__floor"></div>
             <div class="dj-facade__walls" aria-hidden="true">
               <div class="dj-facade__wall dj-facade__wall--l">
@@ -551,7 +535,7 @@
                 <span class="dj-facade__stud dj-facade__stud--tr" aria-hidden="true"></span>
                 <span class="dj-facade__stud dj-facade__stud--bl" aria-hidden="true"></span>
                 <span class="dj-facade__stud dj-facade__stud--br" aria-hidden="true"></span>
-                <p class="dj-facade__booking"><span>BOOKING</span></p>
+                <p class="dj-facade__booking">BOOKING</p>
               </div>
               <div class="dj-facade__lintel" aria-hidden="true"></div>
             </div>
