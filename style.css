@@ -2452,7 +2452,7 @@ html[data-view="dj-agency"] .dj-agency {
 }
 
 .dj-facade {
-  --dj-steel-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  --dj-wood-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='360'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8 0.03' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0.5 0 0 0 0.07 0.28 0 0 0 0.035 0.12 0 0 0 0.015 0 0 0 0.65 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
   position: absolute;
   inset: 0;
   z-index: 50;
@@ -2538,17 +2538,15 @@ html[data-view="dj-agency"] .dj-agency {
   width: min(768px, 92vw);
   height: min(64vh, 68%);
   transform: translateX(-50%);
-  border: 16px solid #101010;
-  border-top-color: #1c1c1c;
-  border-left-color: #191919;
-  border-right-color: #050505;
-  border-bottom-color: #050505;
+  border: 18px solid #120f0d;
+  border-top-color: #1b1613;
+  border-left-color: #181410;
+  border-right-color: #090807;
+  border-bottom-color: #090807;
   perspective: 1200px;
   box-shadow:
-    inset 1px 1px 0 rgba(255, 255, 255, 0.07),
-    inset -1px -1px 0 #000,
-    inset 0 0 0 7px #0c0c0c,
-    inset 0 0 16px #000,
+    inset 0 0 0 5px #0e0c0a,
+    inset 0 0 22px rgba(0, 0, 0, 0.55),
     0 0 0 200vmax #000;
 }
 
@@ -2558,16 +2556,27 @@ html[data-view="dj-agency"] .dj-agency {
   height: 100%;
   overflow: hidden;
   z-index: 1;
-  background-color: #080808;
+  background-color: #0d0b0a;
   background-image:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.1) 0 1px,
-      rgba(0, 0, 0, 0.65) 1px 2px,
-      transparent 2px 5px
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.28) 0%,
+      transparent 8%,
+      rgba(104, 62, 34, 0.16) 14%,
+      transparent 27%,
+      rgba(0, 0, 0, 0.22) 41%,
+      transparent 53%,
+      rgba(86, 48, 26, 0.14) 67%,
+      transparent 79%,
+      rgba(0, 0, 0, 0.3) 100%
     ),
-    radial-gradient(ellipse at 50% 42%, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.45) 70%);
-  box-shadow: inset 0 0 10px #000;
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 2px,
+      rgba(92, 54, 32, 0.11) 2px 3px,
+      transparent 3px 9px
+    );
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.4);
   transition:
     transform 1.5s cubic-bezier(0.25, 1, 0.5, 1),
     filter 1.5s cubic-bezier(0.25, 1, 0.5, 1);
@@ -2580,10 +2589,10 @@ html[data-view="dj-agency"] .dj-agency {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.5;
-  background-image: var(--dj-steel-noise);
-  background-size: 140px 140px;
-  mix-blend-mode: overlay;
+  opacity: 0.55;
+  background-image: var(--dj-wood-grain);
+  background-size: 280px 420px;
+  mix-blend-mode: soft-light;
 }
 
 .dj-scene__door--l {
@@ -2598,168 +2607,30 @@ html[data-view="dj-agency"] .dj-agency {
 
 .dj-facade__panel {
   position: absolute;
-  inset: 8% 18% 9% 12%;
+  inset: 7% 15% 8%;
   z-index: 1;
-  border: 1px solid rgba(38, 38, 38, 0.55);
-  border-top-color: rgba(255, 255, 255, 0.06);
-  border-left-color: rgba(255, 255, 255, 0.04);
-  border-right-color: #000;
-  border-bottom-color: #000;
-  background-color: #080808;
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  background-color: #0d0b0a;
   background-image:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0.09) 0 1px,
-      rgba(0, 0, 0, 0.55) 1px 2px,
-      transparent 2px 5px
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(98, 58, 32, 0.14) 18%,
+      transparent 36%,
+      rgba(0, 0, 0, 0.2) 58%,
+      transparent 76%,
+      rgba(84, 46, 24, 0.12) 100%
     ),
-    radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.09), rgba(0, 0, 0, 0.4) 72%);
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 2px,
+      rgba(92, 54, 32, 0.1) 2px 3px,
+      transparent 3px 9px
+    );
   box-shadow:
-    inset 0 0 10px #000,
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    inset 0 0 22px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(92, 62, 40, 0.12);
   pointer-events: none;
-}
-
-.dj-scene__door--r .dj-facade__panel {
-  inset: 8% 12% 9% 18%;
-}
-
-.dj-facade__stile {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 2;
-  width: 22px;
-  pointer-events: none;
-  background-color: #0b0b0b;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.08) 0 1px,
-    rgba(0, 0, 0, 0.5) 1px 2px,
-    transparent 2px 5px
-  );
-  box-shadow:
-    inset 1px 0 0 rgba(255, 255, 255, 0.08),
-    inset -2px 0 0 #000;
-}
-
-.dj-scene__door--l .dj-facade__stile {
-  left: 0;
-}
-
-.dj-scene__door--r .dj-facade__stile {
-  right: 0;
-  box-shadow:
-    inset -1px 0 0 rgba(255, 255, 255, 0.06),
-    inset 2px 0 0 #000;
-}
-
-.dj-facade__hinges {
-  position: absolute;
-  top: 7%;
-  bottom: 7%;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 16px;
-  pointer-events: none;
-}
-
-.dj-scene__door--l .dj-facade__hinges {
-  left: 3px;
-}
-
-.dj-scene__door--r .dj-facade__hinges {
-  right: 3px;
-}
-
-.dj-facade__hinges span {
-  display: block;
-  height: 52px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, #121212 0%, #2a2a2a 46%, #0a0a0a 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    inset 0 -1px 0 #000;
-}
-
-.dj-facade__rivet {
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  background: radial-gradient(circle at 38% 32%, rgba(255, 255, 255, 0.28) 0 1px, #3f3f3f 2px, #141414 64%, #080808);
-  clip-path: polygon(25% 4%, 75% 4%, 100% 50%, 75% 96%, 25% 96%, 0 50%);
-  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.2);
-}
-
-.dj-facade__rivet:nth-child(1) {
-  top: 14px;
-  left: 14px;
-}
-
-.dj-facade__rivet:nth-child(2) {
-  top: 14px;
-  right: 14px;
-}
-
-.dj-facade__rivet:nth-child(3) {
-  bottom: 14px;
-  left: 14px;
-}
-
-.dj-facade__rivet:nth-child(4) {
-  bottom: 14px;
-  right: 14px;
-}
-
-.dj-facade__plate {
-  position: absolute;
-  top: 50%;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  width: 46px;
-  height: 54%;
-  padding: 12px 0;
-  transform: translateY(-50%);
-  pointer-events: none;
-  background-color: #0c0c0c;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.08) 0 1px,
-    rgba(0, 0, 0, 0.5) 1px 2px,
-    transparent 2px 5px
-  );
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-  border-left: 1px solid rgba(255, 255, 255, 0.05);
-  border-right: 1px solid #000;
-  border-bottom: 1px solid #000;
-  box-shadow:
-    inset 0 0 8px #000,
-    0 8px 16px rgba(0, 0, 0, 0.5);
-}
-
-.dj-facade__plate--l {
-  right: 14px;
-}
-
-.dj-facade__plate--r {
-  left: 14px;
-}
-
-.dj-facade__screw {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background:
-    linear-gradient(#080808, #080808) center / 1px 70% no-repeat,
-    radial-gradient(circle at 35% 30%, #6a6a6a, #1c1c1c 58%, #0a0a0a);
-  box-shadow:
-    inset 0 1px 2px rgba(255, 255, 255, 0.2),
-    0 1px 2px #000;
 }
 
 .dj-facade__seam,
@@ -2819,35 +2690,30 @@ html[data-view="dj-agency"] .dj-agency {
 }
 
 .dj-facade__handle {
-  position: relative;
-  width: 14px;
-  height: 58%;
-  border-radius: 8px;
-  background: #141414;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
-  transition: background 0.45s ease-out, filter 0.45s ease-out;
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 8px;
+  height: 26%;
+  border-radius: 1px;
+  transform: translateY(-50%);
+  background: #2a2622;
+  box-shadow: inset 0 0 0 1px rgba(180, 140, 100, 0.08);
+  transition: background 0.45s ease-out, box-shadow 0.45s ease-out;
 }
 
-.dj-facade__handle::before,
-.dj-facade__handle::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  width: 26px;
-  height: 16px;
-  border-radius: 3px;
-  transform: translateX(-50%);
-  background: #171717;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.85);
+.dj-facade__handle--l {
+  right: 22px;
+}
+
+.dj-facade__handle--r {
+  left: 22px;
 }
 
 .dj-scene:has(.dj-scene__enter:hover) .dj-facade__handle,
 .dj-scene:has(.dj-scene__enter:focus-visible) .dj-facade__handle {
-  background: #d8b4fe;
-  box-shadow: none;
-  filter:
-    drop-shadow(0 0 8px #f5f3ff)
-    drop-shadow(0 0 22px #a855f7);
+  background: #c4b5fd;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.45);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2855,14 +2721,6 @@ html[data-view="dj-agency"] .dj-agency {
   .dj-facade__sill {
     animation: none;
   }
-}
-
-.dj-facade__handle::before {
-  top: 8px;
-}
-
-.dj-facade__handle::after {
-  bottom: 8px;
 }
 
 .dj-scene.is-opening .dj-scene__door--l,
@@ -4394,69 +4252,17 @@ html:has(.dj-card:hover) .viewfinder {
     border-width: 10px;
   }
 
-  .dj-facade__stile {
-    width: 14px;
-  }
-
-  .dj-facade__hinges {
-    width: 11px;
-  }
-
-  .dj-facade__hinges span {
-    height: 34px;
-  }
-
-  .dj-facade__rivet {
-    width: 8px;
-    height: 8px;
-  }
-
-  .dj-facade__rivet:nth-child(1),
-  .dj-facade__rivet:nth-child(2) {
-    top: 8px;
-  }
-
-  .dj-facade__rivet:nth-child(3),
-  .dj-facade__rivet:nth-child(4) {
-    bottom: 8px;
-  }
-
-  .dj-facade__rivet:nth-child(odd) {
-    left: 8px;
-  }
-
-  .dj-facade__rivet:nth-child(even) {
-    right: 8px;
-  }
-
-  .dj-facade__plate {
-    width: 32px;
-    height: 50%;
-    padding: 8px 0;
-  }
-
-  .dj-facade__plate--l {
-    right: 8px;
-  }
-
-  .dj-facade__plate--r {
-    left: 8px;
-  }
-
-  .dj-facade__screw {
-    width: 7px;
-    height: 7px;
-  }
-
   .dj-facade__handle {
-    width: 10px;
-    height: 56%;
+    width: 6px;
+    height: 22%;
   }
 
-  .dj-facade__handle::before,
-  .dj-facade__handle::after {
-    width: 16px;
-    height: 8px;
+  .dj-facade__handle--l {
+    right: 12px;
+  }
+
+  .dj-facade__handle--r {
+    left: 12px;
   }
 
   .dj-post {
