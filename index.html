@@ -514,19 +514,26 @@
       <section class="dj-scene" id="dj-scene" aria-label="Prestations">
         <div class="dj-facade" aria-hidden="true">
           <div class="dj-facade__approach">
-            <div class="dj-facade__bricks" aria-hidden="true"></div>
+            <div class="dj-facade__bricks" aria-hidden="true">
+              <svg class="dj-facade__grime" aria-hidden="true">
+                <filter id="dj-grime" x="0" y="0" width="100%" height="100%">
+                  <feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" stitchTiles="stitch" />
+                </filter>
+                <rect width="100%" height="100%" filter="url(#dj-grime)" />
+              </svg>
+            </div>
             <div class="dj-facade__floor"></div>
             <div class="dj-facade__walls" aria-hidden="true">
               <div class="dj-facade__wall dj-facade__wall--l">
                 <span class="dj-neon dj-neon--v"></span>
-                <span class="dj-neon dj-neon--d1"></span>
-                <span class="dj-neon dj-neon--d2"></span>
+                <span class="dj-neon dj-neon--d1"><i class="dj-neon__lead" aria-hidden="true"></i></span>
+                <span class="dj-neon dj-neon--d2"><i class="dj-neon__lead" aria-hidden="true"></i></span>
               </div>
               <div class="dj-facade__wall dj-facade__wall--r">
                 <span class="dj-neon dj-neon--v"></span>
-                <span class="dj-neon dj-neon--d1"></span>
-                <span class="dj-neon dj-neon--d2"></span>
-                <span class="dj-neon dj-neon--d3"></span>
+                <span class="dj-neon dj-neon--d1"><i class="dj-neon__lead" aria-hidden="true"></i></span>
+                <span class="dj-neon dj-neon--d2"><i class="dj-neon__lead" aria-hidden="true"></i></span>
+                <span class="dj-neon dj-neon--d3"><i class="dj-neon__lead" aria-hidden="true"></i></span>
               </div>
             </div>
             <div class="dj-facade__crown">
@@ -551,6 +558,7 @@
               <span class="dj-facade__seam"></span>
             </div>
             <span class="dj-facade__sill"></span>
+            <span class="dj-facade__fog" aria-hidden="true"></span>
             <div class="dj-facade__spot" aria-hidden="true"></div>
             <div class="dj-facade__vignette" aria-hidden="true"></div>
             <div class="film-grain" aria-hidden="true">

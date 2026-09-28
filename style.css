@@ -2518,6 +2518,16 @@ html[data-view="dj-agency"] .dj-agency {
   );
 }
 
+.dj-facade__grime {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
 .dj-facade__floor {
   display: none;
 }
@@ -2551,9 +2561,10 @@ html[data-view="dj-agency"] .dj-agency {
   inset: -18%;
   z-index: 0;
   background:
-    radial-gradient(ellipse at 62% 42%, rgba(34, 211, 238, 0.14), transparent 68%),
-    radial-gradient(ellipse at 28% 72%, rgba(34, 211, 238, 0.1), transparent 62%);
+    radial-gradient(ellipse at 62% 42%, rgba(34, 211, 238, 0.55), transparent 64%),
+    radial-gradient(ellipse at 28% 74%, rgba(168, 85, 247, 0.36), transparent 58%);
   filter: blur(36px);
+  mix-blend-mode: color-dodge;
   pointer-events: none;
   transform: translate3d(0, 0, 0);
   animation: dj-brick-glow 3.6s ease-in-out infinite;
@@ -2561,8 +2572,8 @@ html[data-view="dj-agency"] .dj-agency {
 
 .dj-facade__wall--r::before {
   background:
-    radial-gradient(ellipse at 38% 40%, rgba(34, 211, 238, 0.13), transparent 66%),
-    radial-gradient(ellipse at 72% 74%, rgba(34, 211, 238, 0.1), transparent 60%);
+    radial-gradient(ellipse at 38% 40%, rgba(34, 211, 238, 0.5), transparent 64%),
+    radial-gradient(ellipse at 72% 74%, rgba(168, 85, 247, 0.32), transparent 58%);
   animation-duration: 4.6s;
   animation-delay: -1.8s;
 }
@@ -2589,14 +2600,25 @@ html[data-view="dj-agency"] .dj-agency {
 .dj-neon::after {
   content: "";
   position: absolute;
-  left: 0;
   top: 0;
-  width: 100%;
-  height: 32%;
-  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.9), transparent);
-  transform: translate3d(0, -140%, 0);
-  animation: dj-neon-sweep 2.8s linear infinite;
-  will-change: transform;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.dj-neon__lead {
+  position: absolute;
+  left: 50%;
+  bottom: -34px;
+  z-index: 0;
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent);
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
 .dj-facade__wall--l .dj-neon--v {
@@ -2780,14 +2802,20 @@ html[data-view="dj-agency"] .dj-agency {
   padding: 16px 22px 12px;
   overflow: visible;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 32%),
-    linear-gradient(180deg, rgba(24, 26, 30, 0.72), rgba(6, 7, 9, 0.9));
-  border: 1px solid rgba(255, 255, 255, 0.14);
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.07) 0 1px,
+      rgba(0, 0, 0, 0.16) 1px 2px,
+      transparent 2px 4px
+    ),
+    linear-gradient(180deg, #8a8682 0%, #3c3a38 16%, #161616 48%, #2e2c2a 78%, #0c0c0c 100%),
+    linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.16) 48%, transparent 62%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    inset 0 0 36px rgba(34, 211, 238, 0.16),
-    inset 0 14px 20px rgba(0, 0, 0, 0.55),
-    inset 0 -12px 16px rgba(0, 0, 0, 0.62),
+    inset 12px 10px 18px rgba(0, 0, 0, 0.72),
+    inset -10px -8px 16px rgba(0, 0, 0, 0.58),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 0 24px rgba(34, 211, 238, 0.08),
     0 -12px 18px rgba(0, 0, 0, 0.55),
     0 3px 0 #3a3a3a,
     0 8px 0 #141414,
@@ -2912,21 +2940,27 @@ html[data-view="dj-agency"] .dj-agency {
   height: var(--dj-door-h);
   transform: translate3d(-50%, 0, 0);
   transform-style: preserve-3d;
-  border: 22px solid #2a241e;
-  border-top-color: #6a5e52;
-  border-left-color: #4a4036;
-  border-right-color: #1c1814;
-  border-bottom-color: #120f0c;
+  border: 22px solid transparent;
   perspective: 1200px;
+  background-image:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.14) 0 1px,
+      rgba(0, 0, 0, 0.22) 1px 2px,
+      transparent 2px 5px
+    ),
+    linear-gradient(90deg, #5c5956 0%, #d4d0ca 14%, #4a4744 32%, #a8a49e 48%, #2a2826 66%, #c2beb8 84%, #3a3836 100%),
+    linear-gradient(180deg, #9a968f, #1a1918 42%, #6a6662);
+  background-origin: border-box;
+  background-clip: border-box;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    inset 0 -12px 16px rgba(0, 0, 0, 0.72),
-    inset 10px 0 14px rgba(0, 0, 0, 0.45),
-    inset 0 0 0 2px rgba(233, 213, 255, 0.35),
+    inset 16px 14px 22px rgba(0, 0, 0, 0.78),
+    inset -14px 16px 20px rgba(0, 0, 0, 0.66),
+    inset 12px -18px 22px rgba(0, 0, 0, 0.74),
+    inset -12px -14px 18px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
     0 0 0 1px #0a0908,
-    0 18px 28px rgba(0, 0, 0, 0.75),
-    0 0 0 1px rgba(216, 180, 254, 0.45),
-    0 0 24px 3px rgba(168, 85, 247, 0.4);
+    0 18px 28px rgba(0, 0, 0, 0.75);
 }
 
 .dj-scene__door {
@@ -3029,38 +3063,21 @@ html[data-view="dj-agency"] .dj-agency {
 
 .dj-facade__seam {
   left: 50%;
-  top: 4%;
-  bottom: 2%;
-  width: 18px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
   transform: translateX(-50%);
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(243, 232, 255, 0.18) 28%,
-    rgba(255, 255, 255, 0.85) 47%,
-    rgba(233, 213, 255, 0.35) 61%,
-    transparent 100%
-  );
-  filter: blur(7px);
+  background: #000;
+  filter: none;
+  animation: none;
+  box-shadow:
+    inset 0 0 2px #000,
+    1px 0 3px rgba(0, 0, 0, 0.9),
+    -1px 0 3px rgba(0, 0, 0, 0.9);
 }
 
 .dj-facade__seam::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: -6%;
-  bottom: -4%;
-  width: 140px;
-  transform: translateX(-46%);
-  background: linear-gradient(
-    90deg,
-    transparent 8%,
-    rgba(192, 132, 252, 0.16) 34%,
-    rgba(250, 245, 255, 0.42) 52%,
-    transparent 88%
-  );
-  filter: blur(22px);
-  pointer-events: none;
+  content: none;
 }
 
 .dj-facade__sill {
@@ -3072,6 +3089,19 @@ html[data-view="dj-agency"] .dj-agency {
   transform: translateX(-50%);
   background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.7), transparent 70%);
   filter: blur(6px);
+}
+
+.dj-facade__fog {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--dj-door-bottom) - 10px);
+  z-index: 4;
+  width: calc(var(--dj-door-w) * 1.4);
+  height: 78px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 55%, rgba(245, 240, 255, 0.18), rgba(168, 85, 247, 0.07) 46%, transparent 74%);
+  filter: blur(8px);
+  pointer-events: none;
 }
 
 .dj-facade__sill::before {
@@ -3102,8 +3132,6 @@ html[data-view="dj-agency"] .dj-agency {
   }
 }
 
-.dj-scene:has(.dj-scene__enter:hover) .dj-facade__seam,
-.dj-scene:has(.dj-scene__enter:focus-visible) .dj-facade__seam,
 .dj-scene:has(.dj-scene__enter:hover) .dj-facade__sill,
 .dj-scene:has(.dj-scene__enter:focus-visible) .dj-facade__sill {
   box-shadow:
