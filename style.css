@@ -3483,6 +3483,7 @@ html[data-view="dj-agency"] .dj-agency {
 .dj-card {
   position: absolute;
   z-index: 20;
+  container-type: inline-size;
   width: min(22rem, calc(100% - 40px));
   padding: 1.75rem 1.6rem;
   overflow: visible;
@@ -3530,6 +3531,10 @@ html[data-view="dj-agency"] .dj-agency {
   letter-spacing: -0.045em;
   white-space: nowrap;
   overflow-wrap: normal;
+}
+
+.dj-card[data-card="immersion"] h3.dj-card__title {
+  font-size: clamp(1.35rem, 8cqi, 2rem);
 }
 
 .dj-card__list {
@@ -4246,6 +4251,10 @@ html:has(.dj-card:hover) .viewfinder {
     top: 72px;
     bottom: auto;
     width: auto;
+  }
+
+  .dj-card[data-card="immersion"] h3.dj-card__title {
+    font-size: clamp(1.35rem, 8.4vw, 1.7rem);
   }
 
   .dj-agency__head,
