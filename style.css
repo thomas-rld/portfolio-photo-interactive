@@ -2911,13 +2911,13 @@ html[data-view="dj-agency"] .dj-agency {
   width: 50%;
   height: 100%;
   overflow: hidden;
-  z-index: 1;
-  background: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.7);
   background-image: none;
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: none;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   transform: translate3d(0, 0, 0);
   transform-style: preserve-3d;
   -webkit-backface-visibility: hidden;
@@ -2938,6 +2938,63 @@ html[data-view="dj-agency"] .dj-agency {
 
 .dj-scene__door--r {
   transform-origin: right center;
+}
+
+@keyframes float1 {
+  0%,
+  100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(40px, 30px) scale(1.2); }
+}
+
+@keyframes float2 {
+  0%,
+  100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-50px, -20px) scale(0.8); }
+}
+
+.dj-facade__club {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #0a0a0a;
+  pointer-events: none;
+}
+
+.dj-facade__orb {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+.dj-facade__orb--magenta {
+  top: 25%;
+  left: -2.5rem;
+  width: 8rem;
+  height: 8rem;
+  background: rgba(192, 38, 211, 0.8);
+  filter: blur(40px);
+  animation: float1 4s ease-in-out infinite;
+}
+
+.dj-facade__orb--cyan {
+  right: -2.5rem;
+  bottom: 25%;
+  width: 10rem;
+  height: 10rem;
+  background: rgba(6, 182, 212, 0.8);
+  filter: blur(50px);
+  animation: float2 5s ease-in-out infinite;
+}
+
+.dj-facade__orb--violet {
+  top: 50%;
+  left: 25%;
+  width: 6rem;
+  height: 6rem;
+  background: rgba(168, 85, 247, 0.6);
+  filter: blur(30px);
+  animation: float1 3s ease-in-out infinite reverse;
 }
 
 .dj-facade__reflect {
