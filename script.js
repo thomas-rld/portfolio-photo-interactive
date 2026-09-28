@@ -461,11 +461,28 @@
     }
 
     bind() {
-      this.root.addEventListener("mousemove", (event) => {
+      this.facadeRect = null;
+      this.mouseFrame = 0;
+      this.pendingMouse = null;
+      const syncFacadeRect = () => {
         if (!this.facade) return;
-        const rect = this.facade.getBoundingClientRect();
-        this.facade.style.setProperty("--mouse-x", `${event.clientX - rect.left}px`);
-        this.facade.style.setProperty("--mouse-y", `${event.clientY - rect.top}px`);
+        this.facadeRect = this.facade.getBoundingClientRect();
+      };
+      syncFacadeRect();
+      window.addEventListener("resize", syncFacadeRect, { passive: true });
+      this.root.addEventListener("mousemove", (event) => {
+        if (!this.facade || this.isEntered) return;
+        this.pendingMouse = { x: event.clientX, y: event.clientY };
+        if (this.mouseFrame) return;
+        this.mouseFrame = requestAnimationFrame(() => {
+          this.mouseFrame = 0;
+          const point = this.pendingMouse;
+          this.pendingMouse = null;
+          const rect = this.facadeRect;
+          if (!point || !rect || !this.facade || this.isEntered) return;
+          this.facade.style.setProperty("--mouse-x", `${point.x - rect.left}px`);
+          this.facade.style.setProperty("--mouse-y", `${point.y - rect.top}px`);
+        });
       }, { passive: true });
       this.enterBtn?.addEventListener("click", (event) => {
         event.preventDefault();
