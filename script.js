@@ -481,6 +481,11 @@
         if (!this.locked) this.close();
       });
       this.root.addEventListener("click", (event) => {
+        if (!this.isEntered && !this.isAnimating) {
+          if (event.target.closest("a, button") && event.target.closest("a, button") !== this.enterBtn) return;
+          this.playEntrance();
+          return;
+        }
         if (!this.isEntered) return;
         if (!event.target.closest(".dj-post, .dj-card")) this.close(true);
       });

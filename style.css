@@ -2893,7 +2893,7 @@ html[data-view="dj-agency"] .dj-agency {
     0 0 20px 4px #e9d5ff,
     0 0 46px 12px rgba(168, 85, 247, 0.95),
     0 0 78px 18px rgba(217, 70, 239, 0.5);
-  animation: dj-leak 5.5s ease-in-out infinite;
+  animation: dj-leak 4.2s ease-in-out infinite;
 }
 
 .dj-facade__seam {
@@ -2935,7 +2935,7 @@ html[data-view="dj-agency"] .dj-agency {
 @keyframes dj-leak {
   0%,
   100% {
-    opacity: 0.78;
+    opacity: 0.55;
   }
   50% {
     opacity: 1;
@@ -3004,15 +3004,13 @@ html[data-view="dj-agency"] .dj-agency {
 .dj-scene__enter {
   position: absolute;
   z-index: 60;
-  left: 50%;
-  bottom: 6%;
-  width: min(600px, 52vw);
-  height: min(62vh, 66%);
+  inset: 0;
+  width: auto;
+  height: auto;
   padding: 0;
   border: 0;
   background: transparent;
   cursor: pointer;
-  transform: translateX(-50%);
   transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
 }
 
@@ -3020,54 +3018,8 @@ html[data-view="dj-agency"] .dj-agency {
   outline: none;
 }
 
-.dj-scene__enter-af {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: min(220px, 34%);
-  height: min(150px, 26%);
-  transform: translate(-50%, -50%) scale(1);
-  pointer-events: none;
-  transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out);
-  opacity: 0.7;
-}
-
-.dj-scene__enter:hover .dj-scene__enter-af,
-.dj-scene__enter:focus-visible .dj-scene__enter-af {
-  transform: translate(-50%, -50%) scale(1.14);
-  opacity: 1;
-}
-
-.dj-scene__enter-corner {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-color: rgba(255, 255, 255, 0.85);
-  border-style: solid;
-}
-
-.dj-scene__enter-corner--tl {
-  top: 0;
-  left: 0;
-  border-width: 1px 0 0 1px;
-}
-
-.dj-scene__enter-corner--tr {
-  top: 0;
-  right: 0;
-  border-width: 1px 1px 0 0;
-}
-
-.dj-scene__enter-corner--bl {
-  bottom: 0;
-  left: 0;
-  border-width: 0 0 1px 1px;
-}
-
-.dj-scene__enter-corner--br {
-  bottom: 0;
-  right: 0;
-  border-width: 0 1px 1px 0;
+html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
+  opacity: 0;
 }
 
 .dj-scene.is-walking .dj-scene__enter,
@@ -4559,7 +4511,6 @@ html:has(.dj-card:hover) .viewfinder {
   }
 
   .dj-facade__bay,
-  .dj-scene__enter,
   .dj-facade__sill {
     width: min(70vw, 300px);
     height: 58%;
