@@ -450,6 +450,7 @@
       this.root = root;
       this.flash = root?.querySelector("#dj-flash");
       this.enterBtn = root?.querySelector("#dj-enter");
+      this.facade = root?.querySelector(".dj-facade");
       this.spots = root ? [...root.querySelectorAll(".dj-post")] : [];
       this.cards = root ? [...root.querySelectorAll(".dj-card")] : [];
       this.active = "";
@@ -460,6 +461,12 @@
     }
 
     bind() {
+      this.root.addEventListener("mousemove", (event) => {
+        if (!this.facade) return;
+        const rect = this.facade.getBoundingClientRect();
+        this.facade.style.setProperty("--mouse-x", `${event.clientX - rect.left}px`);
+        this.facade.style.setProperty("--mouse-y", `${event.clientY - rect.top}px`);
+      }, { passive: true });
       this.enterBtn?.addEventListener("click", (event) => {
         event.preventDefault();
         event.stopPropagation();
