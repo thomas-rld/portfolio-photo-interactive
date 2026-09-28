@@ -2787,7 +2787,9 @@ html[data-view="dj-agency"] .dj-agency {
   overflow: visible;
   background: #0f0f0f;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 22px 32px rgba(0, 0, 0, 0.65);
+  box-shadow:
+    inset 0 0 40px rgba(0, 255, 255, 0.15),
+    0 22px 32px rgba(0, 0, 0, 0.65);
 }
 
 .dj-facade__marquee::after {
@@ -2815,17 +2817,23 @@ html[data-view="dj-agency"] .dj-agency {
 .dj-facade__booking {
   margin: 0;
   color: #fff;
-  font-family: var(--font-display);
+  font-family: "Tilt Neon", var(--font-display);
   font-size: clamp(1.85rem, 4.4vw, 3.55rem);
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1;
-  letter-spacing: 0.18em;
-  text-indent: 0.18em;
+  letter-spacing: 0.1em;
+  text-indent: 0.1em;
   text-align: center;
+  -webkit-text-stroke: 1px #fff;
   text-shadow:
-    0 0 8px rgba(255, 255, 255, 0.95),
-    0 0 22px rgba(255, 255, 255, 0.55),
-    0 0 48px rgba(34, 211, 238, 0.4);
+    0 0 2px #fff,
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 20px #0ff,
+    0 0 40px #0ff,
+    0 0 60px #0ff,
+    0 0 80px #0ff,
+    0 0 120px #0ff;
   transform: translate3d(0, 0, 0);
   will-change: opacity;
   animation: dj-booking-flicker 3.1s steps(1, end) infinite;
