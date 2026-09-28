@@ -3296,20 +3296,23 @@ html[data-view="dj-agency"] .dj-agency {
   height: auto;
   aspect-ratio: 160 / 200;
   overflow: visible;
-  color: #171717;
-  filter: drop-shadow(0 -2px 6px rgba(168, 85, 247, 0.6));
-  transition: filter 0.15s ease-out;
+  color: #262626;
+  filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
+  transition: filter 0.15s ease-out, color 0.15s ease-out;
 }
 
 .dj-figure--dj {
   width: clamp(200px, 20vw, 280px);
   aspect-ratio: 260 / 200;
-  color: #000;
-  filter: drop-shadow(0 -1px 1px rgba(255, 255, 255, 0.5));
+  color: #262626;
+  filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
 }
 
-.dj-figure__body {
+.dj-figure__body,
+.dj-figure__booth {
   fill: currentColor;
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 1.25;
 }
 
 .dj-figure__limb {
@@ -3321,10 +3324,6 @@ html[data-view="dj-agency"] .dj-agency {
 
 .dj-figure__bob {
   animation: dj-bob 0.47s ease-in-out infinite alternate;
-}
-
-.dj-figure__booth {
-  fill: #000;
 }
 
 .dj-figure__led {
@@ -3424,20 +3423,12 @@ html[data-view="dj-agency"] .dj-agency {
 
 .dj-post:hover .dj-figure,
 .dj-post.is-on .dj-figure,
-.dj-post:focus-visible .dj-figure {
-  filter:
-    brightness(2.2)
-    drop-shadow(0 -2px 10px rgba(233, 213, 255, 0.95))
-    drop-shadow(0 0 26px rgba(168, 85, 247, 0.55));
-}
-
+.dj-post:focus-visible .dj-figure,
 .dj-post:hover .dj-figure--dj,
 .dj-post.is-on .dj-figure--dj,
 .dj-post:focus-visible .dj-figure--dj {
-  filter:
-    brightness(1.7)
-    drop-shadow(0 -1px 2px rgba(255, 255, 255, 0.95))
-    drop-shadow(0 0 28px rgba(168, 85, 247, 0.5));
+  color: #404040;
+  filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.9));
 }
 
 .dj-post:hover::before,
