@@ -2396,10 +2396,13 @@ html[data-view="home"] .back-home[href] {
   padding: 0;
   border: 0;
   background: transparent;
-  color: rgba(244, 244, 244, 0.7);
+  color: #fff;
   font-size: 11px;
+  font-weight: 500;
   letter-spacing: 0.16em;
   text-decoration: none;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  transition: text-shadow 0.2s ease-out;
   text-transform: uppercase;
   cursor: pointer;
   white-space: nowrap;
@@ -2414,8 +2417,8 @@ html[data-view="home"] .back-home {
   color: #fff;
   outline: none;
   text-shadow:
-    0 0 8px rgba(255, 255, 255, 0.8),
-    0 0 20px rgba(255, 47, 139, 0.45);
+    0 0 8px rgba(255, 255, 255, 0.85),
+    0 0 16px rgba(255, 255, 255, 0.45);
 }
 
 /* ——— DJ Agency ——— */
@@ -5056,8 +5059,10 @@ html:has(.dj-card:hover) .viewfinder {
   .back-home:hover,
   .back-home:active,
   .back-home:focus {
-    color: rgba(244, 244, 244, 0.7);
-    text-shadow: none;
+    color: #fff;
+    text-shadow:
+      0 0 8px rgba(255, 255, 255, 0.85),
+      0 0 16px rgba(255, 255, 255, 0.45);
   }
 }
 
