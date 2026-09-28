@@ -461,6 +461,7 @@
 
     bind() {
       this.enterBtn?.addEventListener("click", (event) => {
+        event.preventDefault();
         event.stopPropagation();
         this.playEntrance();
       });
@@ -481,12 +482,7 @@
         if (!this.locked) this.close();
       });
       this.root.addEventListener("click", (event) => {
-        if (!this.isEntered && !this.isAnimating) {
-          if (event.target.closest("a, button") && event.target.closest("a, button") !== this.enterBtn) return;
-          this.playEntrance();
-          return;
-        }
-        if (!this.isEntered) return;
+        if (!this.isEntered || this.isAnimating) return;
         if (!event.target.closest(".dj-post, .dj-card")) this.close(true);
       });
       document.addEventListener("click", (event) => {
@@ -505,19 +501,22 @@
       this.isAnimating = false;
       clearTimeout(this.walkTimer);
       clearTimeout(this.openTimer);
+      if (this.enterBtn) this.enterBtn.disabled = false;
     }
 
     playEntrance() {
       if (this.isEntered || this.isAnimating) return;
       this.isAnimating = true;
-      this.enterBtn?.setAttribute("aria-hidden", "true");
-      // Étape 1 — la marche : zoom lent et continu vers les portes.
+      if (this.enterBtn) {
+        this.enterBtn.disabled = true;
+        this.enterBtn.setAttribute("aria-hidden", "true");
+      }
       this.root.classList.add("is-walking");
       this.walkTimer = window.setTimeout(() => {
-        // Étape 2 — l'ouverture : les portes pivotent vers l'intérieur.
+        if (!this.isAnimating) return;
         this.root.classList.add("is-opening");
         this.openTimer = window.setTimeout(() => {
-          // Étape 3 — le sas : la façade disparaît, l'intérieur se révèle.
+          if (!this.isAnimating) return;
           this.setEntered(true);
           this.isAnimating = false;
         }, 1400);
