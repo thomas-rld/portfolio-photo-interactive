@@ -2781,6 +2781,62 @@ html[data-view="dj-agency"] .dj-agency {
   background: #000;
 }
 
+.dj-spotlights {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.dj-spotlight {
+  position: absolute;
+  top: 0;
+  height: 120%;
+  transform-origin: top center;
+  filter: blur(42px);
+  clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
+  animation: dj-sway 8s ease-in-out infinite alternate;
+}
+
+.dj-spotlight--cyan {
+  left: 15%;
+  width: 30vw;
+  background: linear-gradient(to bottom, rgba(6, 182, 212, 0.18), transparent 82%);
+  animation-duration: 7s;
+}
+
+.dj-spotlight--fuchsia {
+  left: 45%;
+  width: 42vw;
+  background: linear-gradient(to bottom, rgba(217, 70, 239, 0.16), transparent 84%);
+  animation-duration: 9s;
+  animation-delay: -3s;
+}
+
+.dj-spotlight--indigo {
+  left: 75%;
+  width: 30vw;
+  background: linear-gradient(to bottom, rgba(99, 102, 241, 0.18), transparent 82%);
+  animation-duration: 11s;
+  animation-delay: -6s;
+}
+
+@keyframes dj-sway {
+  from {
+    transform: rotate(-15deg);
+  }
+  to {
+    transform: rotate(15deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dj-spotlight {
+    animation: none;
+  }
+}
+
 @property --led-x {
   syntax: "<percentage>";
   inherits: false;
