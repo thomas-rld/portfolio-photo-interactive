@@ -532,7 +532,45 @@
             </div>
             <div class="dj-facade__crown">
               <div class="dj-facade__marquee">
-                <p class="dj-facade__offres">OFFRES</p>
+                <span class="dj-facade__stud dj-facade__stud--tl" aria-hidden="true"></span>
+                <span class="dj-facade__stud dj-facade__stud--tr" aria-hidden="true"></span>
+                <span class="dj-facade__stud dj-facade__stud--bl" aria-hidden="true"></span>
+                <span class="dj-facade__stud dj-facade__stud--br" aria-hidden="true"></span>
+                <svg class="dj-facade__booking" viewBox="0 0 900 156" role="img" aria-label="BOOKING">
+                  <defs>
+                    <linearGradient id="dj-booking-glass" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#f0fdff" />
+                      <stop offset="0.28" stop-color="#a5f3fc" />
+                      <stop offset="0.62" stop-color="#22d3ee" />
+                      <stop offset="1" stop-color="#0e7490" />
+                    </linearGradient>
+                    <linearGradient id="dj-booking-spark-fill" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0" stop-color="#fff" stop-opacity="0" />
+                      <stop offset="0.45" stop-color="#fff" stop-opacity="0.15" />
+                      <stop offset="0.5" stop-color="#fff" />
+                      <stop offset="0.62" stop-color="#a5f3fc" stop-opacity="0.35" />
+                      <stop offset="1" stop-color="#fff" stop-opacity="0" />
+                    </linearGradient>
+                    <filter id="dj-booking-glow" x="-50%" y="-90%" width="200%" height="280%" color-interpolation-filters="sRGB">
+                      <feGaussianBlur stdDeviation="7" />
+                    </filter>
+                    <filter id="dj-booking-glass-skin" x="-15%" y="-40%" width="130%" height="180%" color-interpolation-filters="sRGB">
+                      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="noise" />
+                      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.1" xChannelSelector="R" yChannelSelector="G" />
+                    </filter>
+                    <text id="dj-booking-glyphs" x="450" y="104" text-anchor="middle" font-family="Syne, sans-serif" font-weight="800" font-size="96" textLength="760" lengthAdjust="spacing">BOOKING</text>
+                    <mask id="dj-booking-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="900" height="156">
+                      <rect width="900" height="156" fill="#000" />
+                      <use href="#dj-booking-glyphs" class="dj-facade__booking-mask" />
+                    </mask>
+                  </defs>
+                  <use href="#dj-booking-glyphs" class="dj-facade__booking-halo" />
+                  <use href="#dj-booking-glyphs" class="dj-facade__booking-glass" />
+                  <use href="#dj-booking-glyphs" class="dj-facade__booking-core" />
+                  <g mask="url(#dj-booking-mask)">
+                    <rect class="dj-facade__booking-spark" x="-40" y="0" width="150" height="156" fill="url(#dj-booking-spark-fill)" />
+                  </g>
+                </svg>
               </div>
               <div class="dj-facade__lintel" aria-hidden="true"></div>
             </div>
