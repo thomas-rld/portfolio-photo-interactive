@@ -3620,7 +3620,7 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
   right: -4%;
   bottom: 0;
   z-index: 14;
-  height: clamp(200px, 36vh, 360px);
+  height: clamp(150px, 28vh, 260px);
   pointer-events: none;
 }
 
@@ -3629,16 +3629,38 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
   width: 100%;
   height: 100%;
   overflow: visible;
-  filter: blur(16px) drop-shadow(0 -10px 16px rgba(196, 181, 253, 0.22));
+  shape-rendering: geometricPrecision;
 }
 
 .dj-crowd__row {
   animation: dj-crowd-sway 6.5s ease-in-out infinite alternate;
 }
 
+.dj-crowd__row--mid {
+  animation-duration: 5.6s;
+  animation-delay: -1.6s;
+}
+
 .dj-crowd__row--front {
-  filter: blur(6px);
   animation-duration: 4.8s;
+}
+
+.dj-crowd__arm {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dj-crowd__row--back .dj-crowd__arm {
+  stroke-width: 8;
+}
+
+.dj-crowd__row--mid .dj-crowd__arm {
+  stroke-width: 11;
+}
+
+.dj-crowd__row--front .dj-crowd__arm {
+  stroke-width: 16;
 }
 
 @keyframes dj-crowd-sway {
