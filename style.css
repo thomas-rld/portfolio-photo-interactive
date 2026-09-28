@@ -3916,7 +3916,7 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 .dj-figure--dj {
   width: clamp(200px, 20vw, 280px);
   aspect-ratio: 260 / 200;
-  color: #262626;
+  color: #050505;
   filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
 }
 
@@ -4132,6 +4132,12 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 .dj-post:focus-visible .dj-figure--dj {
   color: #404040;
   filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.9));
+}
+
+.dj-post:hover .dj-figure--dj,
+.dj-post.is-on .dj-figure--dj,
+.dj-post:focus-visible .dj-figure--dj {
+  color: #050505;
 }
 
 .dj-post--live:hover .dj-figure,
