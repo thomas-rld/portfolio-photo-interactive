@@ -2456,7 +2456,8 @@ html[data-view="dj-agency"] .dj-agency {
   --dj-door-h: 62vh;
   --dj-door-bottom: 6%;
   --dj-wood-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='360'%3E%3Cfilter id='w'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8 0.03' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0.5 0 0 0 0.07 0.28 0 0 0 0.035 0.12 0 0 0 0.015 0 0 0 0.65 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23w)'/%3E%3C/svg%3E");
-  --dj-brick: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='168' height='84'%3E%3Crect width='168' height='84' fill='%230e0c0b'/%3E%3Crect x='2' y='2' width='80' height='38' fill='%231b1816'/%3E%3Crect x='2' y='2' width='80' height='3' fill='%232c2826'/%3E%3Crect x='86' y='2' width='80' height='38' fill='%23161311'/%3E%3Crect x='86' y='2' width='80' height='3' fill='%23262220'/%3E%3Crect x='-40' y='44' width='80' height='38' fill='%23181513'/%3E%3Crect x='44' y='44' width='80' height='38' fill='%23201c1a'/%3E%3Crect x='44' y='44' width='80' height='3' fill='%232a2624'/%3E%3Crect x='128' y='44' width='80' height='38' fill='%23141210'/%3E%3Crect x='128' y='44' width='80' height='3' fill='%2324201e'/%3E%3C/svg%3E");
+  --dj-grit: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.9%27%20numOctaves%3D%272%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20values%3D%270%200%200%200%200.45%20%200%200%200%200%200.4%20%200%200%200%200%200.36%20%200%200%200%200.28%200%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url%28%23n%29%27%2F%3E%3C%2Fsvg%3E");
+  --dj-brick: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22252%22%20height%3D%22126%22%3E%3Crect%20width%3D%22252%22%20height%3D%22126%22%20fill%3D%22%23070605%22%2F%3E%3Cg%20fill%3D%22%23100e0c%22%3E%3Crect%20x%3D%220%22%20y%3D%2239%22%20width%3D%22252%22%20height%3D%226%22%2F%3E%3Crect%20x%3D%220%22%20y%3D%2281%22%20width%3D%22252%22%20height%3D%226%22%2F%3E%3Crect%20x%3D%220%22%20y%3D%22123%22%20width%3D%22252%22%20height%3D%223%22%2F%3E%3Crect%20x%3D%2281%22%20y%3D%220%22%20width%3D%226%22%20height%3D%2239%22%2F%3E%3Crect%20x%3D%22165%22%20y%3D%220%22%20width%3D%226%22%20height%3D%2239%22%2F%3E%3Crect%20x%3D%2239%22%20y%3D%2245%22%20width%3D%226%22%20height%3D%2236%22%2F%3E%3Crect%20x%3D%22123%22%20y%3D%2245%22%20width%3D%226%22%20height%3D%2236%22%2F%3E%3Crect%20x%3D%22207%22%20y%3D%2245%22%20width%3D%226%22%20height%3D%2236%22%2F%3E%3Crect%20x%3D%2281%22%20y%3D%2287%22%20width%3D%226%22%20height%3D%2236%22%2F%3E%3Crect%20x%3D%22168%22%20y%3D%2287%22%20width%3D%226%22%20height%3D%2236%22%2F%3E%3C%2Fg%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2278%22%20height%3D%2236%22%20fill%3D%22%231b1714%22%2F%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2278%22%20height%3D%222%22%20fill%3D%22%23322c27%22%2F%3E%3Crect%20x%3D%222%22%20y%3D%2232%22%20width%3D%2278%22%20height%3D%226%22%20fill%3D%22%230a0908%22%2F%3E%3Crect%20x%3D%2275%22%20y%3D%224%22%20width%3D%225%22%20height%3D%2228%22%20fill%3D%22%230b0a09%22%2F%3E%3Crect%20x%3D%2288%22%20y%3D%223%22%20width%3D%2276%22%20height%3D%2235%22%20fill%3D%22%23141210%22%2F%3E%3Crect%20x%3D%2288%22%20y%3D%223%22%20width%3D%2276%22%20height%3D%222%22%20fill%3D%22%232a2521%22%2F%3E%3Crect%20x%3D%2288%22%20y%3D%2232%22%20width%3D%2276%22%20height%3D%226%22%20fill%3D%22%23080706%22%2F%3E%3Crect%20x%3D%22159%22%20y%3D%225%22%20width%3D%225%22%20height%3D%2227%22%20fill%3D%22%230b0a09%22%2F%3E%3Crect%20x%3D%22172%22%20y%3D%221%22%20width%3D%2278%22%20height%3D%2237%22%20fill%3D%22%23221c18%22%2F%3E%3Crect%20x%3D%22172%22%20y%3D%221%22%20width%3D%2278%22%20height%3D%222%22%20fill%3D%22%233a332c%22%2F%3E%3Crect%20x%3D%22172%22%20y%3D%2232%22%20width%3D%2278%22%20height%3D%226%22%20fill%3D%22%230c0a09%22%2F%3E%3Crect%20x%3D%22245%22%20y%3D%223%22%20width%3D%225%22%20height%3D%2229%22%20fill%3D%22%230b0a09%22%2F%3E%3Crect%20x%3D%22-36%22%20y%3D%2246%22%20width%3D%2274%22%20height%3D%2234%22%20fill%3D%22%23161311%22%2F%3E%3Crect%20x%3D%22-36%22%20y%3D%2246%22%20width%3D%2274%22%20height%3D%222%22%20fill%3D%22%232c2622%22%2F%3E%3Crect%20x%3D%22-36%22%20y%3D%2274%22%20width%3D%2274%22%20height%3D%226%22%20fill%3D%22%23090807%22%2F%3E%3Crect%20x%3D%2233%22%20y%3D%2248%22%20width%3D%225%22%20height%3D%2226%22%20fill%3D%22%230b0a09%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2245%22%20width%3D%2276%22%20height%3D%2236%22%20fill%3D%22%231e1915%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2245%22%20width%3D%2276%22%20height%3D%222%22%20fill%3D%22%23342e28%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2275%22%20width%3D%2276%22%20height%3D%226%22%20fill%3D%22%230b0908%22%2F%3E%3Crect%20x%3D%22117%22%20y%3D%2247%22%20width%3D%225%22%20height%3D%2228%22%20fill%3D%22%230b0a09%22%2F%3E%3Crect%20x%3D%22130%22%20y%3D%2247%22%20width%3D%2276%22%20height%3D%2233%22%20fill%3D%22%2312100e%22%2F%3E%3Crect%20x%3D%22130%22%20y%3D%2247%22%20width%3D%2276%22%20height%3D%222%22%20fill%3D%22%23282420%22%2F%3E%3Crect%20x%3D%22130%22%20y%3D%2274%22%20width%3D%2276%22%20height%3D%226%22%20fill%3D%22%23070606%22%2F%3E%3Crect%20x%3D%22201%22%20y%3D%2249%22%20width%3D%225%22%20height%3D%2225%22%20fill%3D%22%230b0a09%22%2F%3E%3Crect%20x%3D%22214%22%20y%3D%2244%22%20width%3D%2272%22%20height%3D%2236%22%20fill%3D%22%231a1412%22%2F%3E%3Crect%20x%3D%22214%22%20y%3D%2244%22%20width%3D%2272%22%20height%3D%222%22%20fill%3D%22%23302a25%22%2F%3E%3Crect%20x%3D%22214%22%20y%3D%2274%22%20width%3D%2272%22%20height%3D%226%22%20fill%3D%22%230a0807%22%2F%3E%3Crect%20x%3D%22281%22%20y%3D%2246%22%20width%3D%225%22%20height%3D%2228%22%20fill%3D%22%230b0a09%22%2F%3E%3Crect%20x%3D%221%22%20y%3D%2288%22%20width%3D%2279%22%20height%3D%2234%22%20fill%3D%22%23191512%22%2F%3E%3Crect%20x%3D%221%22%20y%3D%2288%22%20width%3D%2279%22%20height%3D%222%22%20fill%3D%22%232e2924%22%2F%3E%3Crect%20x%3D%221%22%20y%3D%22116%22%20width%3D%2279%22%20height%3D%226%22%20fill%3D%22%23090807%22%2F%3E%3Crect%20x%3D%2275%22%20y%3D%2290%22%20width%3D%225%22%20height%3D%2226%22%20fill%3D%22%230b0a09%22%2F%3E%3Crect%20x%3D%2288%22%20y%3D%2287%22%20width%3D%2279%22%20height%3D%2236%22%20fill%3D%22%23241e19%22%2F%3E%3Crect%20x%3D%2288%22%20y%3D%2287%22%20width%3D%2279%22%20height%3D%222%22%20fill%3D%22%233c342c%22%2F%3E%3Crect%20x%3D%2288%22%20y%3D%22117%22%20width%3D%2279%22%20height%3D%226%22%20fill%3D%22%230d0b0a%22%2F%3E%3Crect%20x%3D%22162%22%20y%3D%2289%22%20width%3D%225%22%20height%3D%2228%22%20fill%3D%22%230b0a09%22%2F%3E%3Crect%20x%3D%22175%22%20y%3D%2289%22%20width%3D%2275%22%20height%3D%2233%22%20fill%3D%22%23151210%22%2F%3E%3Crect%20x%3D%22175%22%20y%3D%2289%22%20width%3D%2275%22%20height%3D%222%22%20fill%3D%22%232b2622%22%2F%3E%3Crect%20x%3D%22175%22%20y%3D%22116%22%20width%3D%2275%22%20height%3D%226%22%20fill%3D%22%23080706%22%2F%3E%3Crect%20x%3D%22245%22%20y%3D%2291%22%20width%3D%225%22%20height%3D%2225%22%20fill%3D%22%230b0a09%22%2F%3E%3Crect%20x%3D%2220%22%20y%3D%2214%22%20width%3D%229%22%20height%3D%224%22%20fill%3D%22%230c0b0a%22%20opacity%3D%220.7%22%2F%3E%3Crect%20x%3D%22190%22%20y%3D%2218%22%20width%3D%2214%22%20height%3D%223%22%20fill%3D%22%232a241f%22%20opacity%3D%220.55%22%2F%3E%3Crect%20x%3D%2260%22%20y%3D%2258%22%20width%3D%2218%22%20height%3D%228%22%20fill%3D%22%230e1a1c%22%20opacity%3D%220.45%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%22100%22%20width%3D%2222%22%20height%3D%226%22%20fill%3D%22%23101816%22%20opacity%3D%220.4%22%2F%3E%3Crect%20x%3D%22100%22%20y%3D%228%22%20width%3D%224%22%20height%3D%223%22%20fill%3D%22%233a342e%22%20opacity%3D%220.4%22%2F%3E%3C%2Fsvg%3E");
   position: absolute;
   inset: 0;
   z-index: 50;
@@ -2483,11 +2484,16 @@ html[data-view="dj-agency"] .dj-agency {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-color: #0e0c0b;
+  background-color: #070605;
   background-image:
+    radial-gradient(ellipse at 22% 68%, rgba(12, 28, 32, 0.55), transparent 16%),
+    radial-gradient(ellipse at 74% 28%, rgba(18, 36, 40, 0.32), transparent 20%),
+    radial-gradient(ellipse at 48% 84%, rgba(0, 0, 0, 0.45), transparent 28%),
     radial-gradient(ellipse at 50% 42%, transparent 18%, rgba(0, 0, 0, 0.62) 82%),
+    var(--dj-grit),
     var(--dj-brick);
-  background-size: auto, 168px 84px;
+  background-size: auto, auto, auto, auto, 160px 160px, 252px 126px;
+  background-blend-mode: multiply, multiply, multiply, normal, overlay, normal;
   clip-path: polygon(
     evenodd,
     0 0,
@@ -2533,15 +2539,21 @@ html[data-view="dj-agency"] .dj-agency {
 .dj-facade__wall::before {
   content: "";
   position: absolute;
-  inset: -8%;
+  inset: -18%;
   z-index: 0;
-  background: radial-gradient(ellipse at 55% 48%, rgba(34, 211, 238, 0.28), transparent 68%);
+  background:
+    radial-gradient(ellipse at 62% 42%, rgba(165, 243, 252, 0.55), transparent 42%),
+    radial-gradient(ellipse at 30% 70%, rgba(34, 211, 238, 0.28), transparent 58%);
+  filter: blur(28px);
   pointer-events: none;
+  transform: translate3d(0, 0, 0);
   animation: dj-brick-glow 3.6s ease-in-out infinite;
 }
 
 .dj-facade__wall--r::before {
-  background: radial-gradient(ellipse at 42% 46%, rgba(34, 211, 238, 0.26), transparent 70%);
+  background:
+    radial-gradient(ellipse at 38% 40%, rgba(165, 243, 252, 0.5), transparent 44%),
+    radial-gradient(ellipse at 70% 72%, rgba(34, 211, 238, 0.26), transparent 60%);
   animation-duration: 4.6s;
   animation-delay: -1.8s;
 }
@@ -2549,10 +2561,16 @@ html[data-view="dj-agency"] .dj-agency {
 .dj-neon {
   position: absolute;
   z-index: 1;
-  width: 4px;
-  border-radius: 4px;
-  background-color: #22d3ee;
-  box-shadow: 0 0 30px rgba(6, 182, 212, 0.8);
+  width: 6px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #67e8f9 0%, #f0fdff 42%, #cffafe 58%, #22d3ee 100%);
+  box-shadow:
+    0 0 1px 1px #fff,
+    0 0 8px 2px rgba(224, 254, 255, 0.95),
+    0 0 22px 6px rgba(34, 211, 238, 0.85),
+    0 0 48px 14px rgba(6, 182, 212, 0.55),
+    0 0 96px 28px rgba(8, 145, 178, 0.32),
+    5px 10px 22px rgba(0, 20, 28, 0.55);
   overflow: hidden;
   transform: translate3d(0, 0, 0);
   will-change: opacity, transform;
@@ -2720,10 +2738,22 @@ html[data-view="dj-agency"] .dj-agency {
   position: relative;
   width: min(560px, 72vw);
   margin: 0 0 22px;
-  padding: 14px 32px 12px;
-  background: #0a0a0a;
-  border: 0;
+  padding: 16px 36px 14px;
+  background:
+    radial-gradient(ellipse at 50% 55%, rgba(255, 255, 255, 0.2), transparent 58%),
+    linear-gradient(180deg, #1a1a1a 0%, #050505 100%);
+  border: 1px solid #000;
   text-align: center;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 0 42px rgba(255, 255, 255, 0.16),
+    inset 0 16px 24px rgba(0, 0, 0, 0.72),
+    inset 0 -14px 18px rgba(0, 0, 0, 0.7),
+    0 -12px 18px rgba(0, 0, 0, 0.55),
+    0 3px 0 #3a3a3a,
+    0 8px 0 #141414,
+    0 14px 0 #050505,
+    0 22px 32px rgba(0, 0, 0, 0.85);
 }
 
 .dj-facade__lintel {
@@ -2731,11 +2761,12 @@ html[data-view="dj-agency"] .dj-agency {
   width: 100%;
   height: 28px;
   flex: 0 0 28px;
-  background: linear-gradient(180deg, #4a433c 0%, #2c261f 16%, #161310 58%, #070605 100%);
+  background: linear-gradient(180deg, #5c534a 0%, #3a332c 12%, #1a1612 46%, #070605 100%);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    inset 0 -8px 0 #050403,
-    0 22px 36px rgba(0, 0, 0, 0.8);
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -10px 12px rgba(0, 0, 0, 0.65),
+    0 28px 40px rgba(0, 0, 0, 0.88),
+    0 8px 0 #050403;
 }
 
 .dj-facade__lintel::after {
@@ -2758,7 +2789,11 @@ html[data-view="dj-agency"] .dj-agency {
   letter-spacing: 0.38em;
   text-indent: 0.38em;
   color: #fff;
-  filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));
+  text-shadow:
+    0 0 4px #fff,
+    0 0 16px rgba(255, 255, 255, 0.95),
+    0 0 42px rgba(255, 255, 255, 0.55);
+  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.8));
   transform: translate3d(0, 0, 0);
   will-change: opacity;
   animation: dj-flicker 5.2s ease-in-out infinite;
@@ -2797,18 +2832,21 @@ html[data-view="dj-agency"] .dj-agency {
   height: var(--dj-door-h);
   transform: translate3d(-50%, 0, 0);
   transform-style: preserve-3d;
-  border: 16px solid #3a322c;
-  border-top-color: #52483f;
-  border-left-color: #4a4038;
-  border-right-color: #2a241f;
-  border-bottom-color: #221c18;
+  border: 22px solid #2a241e;
+  border-top-color: #6a5e52;
+  border-left-color: #4a4036;
+  border-right-color: #1c1814;
+  border-bottom-color: #120f0c;
   perspective: 1200px;
   box-shadow:
-    inset 0 0 0 1px rgba(233, 213, 255, 0.45),
-    inset 0 0 22px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(216, 180, 254, 0.7),
-    0 0 22px 2px rgba(168, 85, 247, 0.55),
-    0 0 48px 8px rgba(168, 85, 247, 0.28);
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -12px 16px rgba(0, 0, 0, 0.72),
+    inset 10px 0 14px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 2px rgba(233, 213, 255, 0.35),
+    0 0 0 1px #0a0908,
+    0 18px 28px rgba(0, 0, 0, 0.75),
+    0 0 0 1px rgba(216, 180, 254, 0.45),
+    0 0 24px 3px rgba(168, 85, 247, 0.4);
 }
 
 .dj-scene__door {
@@ -2919,6 +2957,19 @@ html[data-view="dj-agency"] .dj-agency {
   transform: translateX(-50%);
 }
 
+.dj-facade__seam::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -2%;
+  bottom: -8%;
+  width: 84px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgba(250, 245, 255, 0.72), transparent);
+  filter: blur(14px);
+  pointer-events: none;
+}
+
 .dj-facade__sill {
   left: 50%;
   bottom: var(--dj-door-bottom);
@@ -2926,6 +2977,19 @@ html[data-view="dj-agency"] .dj-agency {
   width: var(--dj-door-w);
   height: 3px;
   transform: translateX(-50%);
+}
+
+.dj-facade__sill::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 92%;
+  height: 140px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(250, 245, 255, 0.72), rgba(192, 132, 252, 0.28) 36%, transparent 72%);
+  filter: blur(16px);
+  pointer-events: none;
 }
 
 .dj-scene:has(.dj-scene__enter:hover) .dj-facade__seam,
