@@ -470,8 +470,9 @@
       };
       syncFacadeRect();
       window.addEventListener("resize", syncFacadeRect, { passive: true });
-      this.root.addEventListener("mousemove", (event) => {
-        if (!this.facade || this.isEntered) return;
+      const spotlight = this.enterBtn || this.facade;
+      spotlight.addEventListener("mousemove", (event) => {
+        if (!this.facade || this.isEntered || this.isAnimating) return;
         this.pendingMouse = { x: event.clientX, y: event.clientY };
         if (this.mouseFrame) return;
         this.mouseFrame = requestAnimationFrame(() => {
@@ -479,7 +480,7 @@
           const point = this.pendingMouse;
           this.pendingMouse = null;
           const rect = this.facadeRect;
-          if (!point || !rect || !this.facade || this.isEntered) return;
+          if (!point || !rect || this.isEntered || this.isAnimating) return;
           this.facade.style.setProperty("--mouse-x", `${point.x - rect.left}px`);
           this.facade.style.setProperty("--mouse-y", `${point.y - rect.top}px`);
         });

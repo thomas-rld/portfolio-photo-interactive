@@ -2471,6 +2471,7 @@ html[data-view="dj-agency"] .dj-agency {
   overflow: hidden;
   isolation: isolate;
   pointer-events: none;
+  background: #000;
   opacity: 1;
   transition: opacity 0.6s ease-in-out;
 }
@@ -3264,6 +3265,7 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 }
 
 .dj-scene__stage {
+  display: none;
   position: absolute;
   inset: 0;
   z-index: 1;
@@ -3271,6 +3273,16 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
   height: 100%;
   background: #000;
   transform: translate3d(0, 0, 0);
+  pointer-events: none;
+}
+
+.dj-scene.is-opening .dj-scene__stage,
+.dj-scene.is-entered .dj-scene__stage {
+  display: block;
+}
+
+.dj-scene.is-entered .dj-scene__stage {
+  pointer-events: auto;
 }
 
 .dj-scene__defs {
