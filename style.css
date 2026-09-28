@@ -2489,7 +2489,7 @@ html[data-view="dj-agency"] .dj-agency {
     radial-gradient(ellipse at 22% 68%, rgba(12, 28, 32, 0.55), transparent 16%),
     radial-gradient(ellipse at 74% 28%, rgba(18, 36, 40, 0.32), transparent 20%),
     radial-gradient(ellipse at 48% 84%, rgba(0, 0, 0, 0.45), transparent 28%),
-    radial-gradient(ellipse at 50% 42%, transparent 18%, rgba(0, 0, 0, 0.62) 82%),
+    radial-gradient(ellipse at 50% 38%, transparent 12%, rgba(0, 0, 0, 0.82) 100%),
     var(--dj-grit),
     var(--dj-brick);
   background-size: auto, auto, auto, auto, 160px 160px, 252px 126px;
@@ -2542,9 +2542,9 @@ html[data-view="dj-agency"] .dj-agency {
   inset: -18%;
   z-index: 0;
   background:
-    radial-gradient(ellipse at 62% 42%, rgba(165, 243, 252, 0.55), transparent 42%),
-    radial-gradient(ellipse at 30% 70%, rgba(34, 211, 238, 0.28), transparent 58%);
-  filter: blur(28px);
+    radial-gradient(ellipse at 62% 42%, rgba(34, 211, 238, 0.14), transparent 68%),
+    radial-gradient(ellipse at 28% 72%, rgba(34, 211, 238, 0.1), transparent 62%);
+  filter: blur(36px);
   pointer-events: none;
   transform: translate3d(0, 0, 0);
   animation: dj-brick-glow 3.6s ease-in-out infinite;
@@ -2552,8 +2552,8 @@ html[data-view="dj-agency"] .dj-agency {
 
 .dj-facade__wall--r::before {
   background:
-    radial-gradient(ellipse at 38% 40%, rgba(165, 243, 252, 0.5), transparent 44%),
-    radial-gradient(ellipse at 70% 72%, rgba(34, 211, 238, 0.26), transparent 60%);
+    radial-gradient(ellipse at 38% 40%, rgba(34, 211, 238, 0.13), transparent 66%),
+    radial-gradient(ellipse at 72% 74%, rgba(34, 211, 238, 0.1), transparent 60%);
   animation-duration: 4.6s;
   animation-delay: -1.8s;
 }
@@ -2720,6 +2720,36 @@ html[data-view="dj-agency"] .dj-agency {
   animation-delay: -2.8s, -0.9s;
 }
 
+.dj-neon--d1,
+.dj-neon--d2,
+.dj-neon--d3 {
+  overflow: visible;
+}
+
+.dj-neon--d1::before,
+.dj-neon--d2::before,
+.dj-neon--d3::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  z-index: 2;
+  width: 16px;
+  height: 6px;
+  border-radius: 1px;
+  background: linear-gradient(180deg, #6b6b70, #2a2a2e 45%, #141416);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.18),
+    0 2px 2px rgba(0, 0, 0, 0.65);
+  transform: translate3d(-50%, 0, 0);
+  pointer-events: none;
+}
+
+.dj-facade__wall--l .dj-neon--d1::before { top: 31%; }
+.dj-facade__wall--l .dj-neon--d2::before { top: 57%; width: 13px; height: 5px; }
+.dj-facade__wall--r .dj-neon--d1::before { top: 24%; }
+.dj-facade__wall--r .dj-neon--d2::before { top: 48%; width: 18px; }
+.dj-facade__wall--r .dj-neon--d3::before { top: 36%; height: 7px; }
+
 .dj-facade__crown {
   position: absolute;
   top: 0;
@@ -2788,73 +2818,50 @@ html[data-view="dj-agency"] .dj-agency {
 .dj-facade__stud--br { bottom: 7px; right: 8px; }
 
 .dj-facade__booking {
-  display: block;
-  width: 100%;
-  height: auto;
-  overflow: visible;
-  transform: translate3d(0, 0, 0);
-  animation: dj-booking-ignite 1.2s ease-out both;
-}
-
-.dj-facade__booking-halo,
-.dj-facade__booking-glass,
-.dj-facade__booking-core,
-.dj-facade__booking-mask {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.dj-facade__booking-halo {
-  stroke: #22d3ee;
-  stroke-width: 22;
-  opacity: 0.72;
-  filter: url("#dj-booking-glow");
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 4.4vw, 3.55rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-indent: 0.12em;
+  text-align: center;
+  text-shadow:
+    0 0 1px #ffffff,
+    0 0 4px #ffffff,
+    0 0 12px rgba(255, 255, 255, 0.95),
+    0 0 24px rgba(34, 211, 238, 0.9),
+    0 0 52px rgba(34, 211, 238, 0.55),
+    0 0 96px rgba(8, 145, 178, 0.38);
   transform: translate3d(0, 0, 0);
   will-change: opacity;
-  animation: dj-booking-breath 3.6s ease-in-out infinite;
+  animation: dj-booking-flicker 3.1s steps(1, end) infinite;
 }
 
-.dj-facade__booking-glass {
-  stroke: url("#dj-booking-glass");
-  stroke-width: 15;
-  filter: url("#dj-booking-glass-skin");
-}
-
-.dj-facade__booking-core {
-  stroke: #f7feff;
-  stroke-width: 3.5;
-}
-
-.dj-facade__booking-mask {
-  stroke: #fff;
-  stroke-width: 16;
-}
-
-.dj-facade__booking-spark {
-  transform: translate3d(-180px, 0, 0);
-  will-change: transform;
-  animation: dj-booking-chase 2.6s linear infinite;
-}
-
-@keyframes dj-booking-ignite {
-  0% { opacity: 0.15; }
-  14% { opacity: 1; }
-  24% { opacity: 0.38; }
-  38% { opacity: 0.96; }
-  48% { opacity: 0.62; }
-  64%,
-  100% { opacity: 1; }
-}
-
-@keyframes dj-booking-breath {
+@keyframes dj-booking-flicker {
   0%,
-  100% { opacity: 0.48; }
-  50% { opacity: 0.92; }
-}
-
-@keyframes dj-booking-chase {
-  to { transform: translate3d(980px, 0, 0); }
+  6% { opacity: 1; }
+  7%,
+  9% { opacity: 0.4; }
+  10%,
+  21% { opacity: 1; }
+  22%,
+  24% { opacity: 0.9; }
+  25%,
+  27% { opacity: 0.2; }
+  28%,
+  49% { opacity: 1; }
+  50%,
+  51% { opacity: 0.4; }
+  52%,
+  74% { opacity: 1; }
+  75%,
+  78% { opacity: 0.9; }
+  79%,
+  81% { opacity: 0.2; }
+  82%,
+  100% { opacity: 1; }
 }
 
 .dj-facade__lintel {
@@ -2866,8 +2873,9 @@ html[data-view="dj-agency"] .dj-agency {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.28),
     inset 0 -10px 12px rgba(0, 0, 0, 0.65),
-    0 28px 40px rgba(0, 0, 0, 0.88),
-    0 8px 0 #050403;
+    0 8px 0 #050403,
+    0 22px 14px rgba(0, 0, 0, 0.92),
+    0 54px 42px rgba(0, 0, 0, 0.88);
 }
 
 .dj-facade__lintel::after {
@@ -2876,8 +2884,8 @@ html[data-view="dj-agency"] .dj-agency {
   left: 0;
   right: 0;
   top: 100%;
-  height: 34px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), transparent);
+  height: 72px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.28) 58%, transparent);
   pointer-events: none;
 }
 
@@ -2941,7 +2949,10 @@ html[data-view="dj-agency"] .dj-agency {
       rgba(92, 54, 32, 0.11) 2px 3px,
       transparent 3px 9px
     );
-  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.4);
+  box-shadow:
+    inset 0 0 28px 10px rgba(0, 0, 0, 0.88),
+    inset 0 36px 48px rgba(0, 0, 0, 0.72),
+    inset 22px 0 28px rgba(0, 0, 0, 0.45);
   transform: translate3d(0, 0, 0);
   transform-style: preserve-3d;
   -webkit-backface-visibility: hidden;
@@ -3006,33 +3017,43 @@ html[data-view="dj-agency"] .dj-agency {
   position: absolute;
   z-index: 3;
   pointer-events: none;
-  background: #fff;
-  box-shadow:
-    0 0 6px #fff,
-    0 0 20px 4px #e9d5ff,
-    0 0 46px 12px rgba(168, 85, 247, 0.95),
-    0 0 78px 18px rgba(217, 70, 239, 0.5);
+  background: transparent;
   animation: dj-leak 4.2s ease-in-out infinite;
 }
 
 .dj-facade__seam {
   left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 3px;
+  top: 4%;
+  bottom: 2%;
+  width: 18px;
   transform: translateX(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(243, 232, 255, 0.18) 28%,
+    rgba(255, 255, 255, 0.85) 47%,
+    rgba(233, 213, 255, 0.35) 61%,
+    transparent 100%
+  );
+  filter: blur(7px);
 }
 
 .dj-facade__seam::before {
   content: "";
   position: absolute;
   left: 50%;
-  top: -2%;
-  bottom: -8%;
-  width: 84px;
-  transform: translateX(-50%);
-  background: linear-gradient(90deg, transparent, rgba(250, 245, 255, 0.72), transparent);
-  filter: blur(14px);
+  top: -6%;
+  bottom: -4%;
+  width: 140px;
+  transform: translateX(-46%);
+  background: linear-gradient(
+    90deg,
+    transparent 8%,
+    rgba(192, 132, 252, 0.16) 34%,
+    rgba(250, 245, 255, 0.42) 52%,
+    transparent 88%
+  );
+  filter: blur(22px);
   pointer-events: none;
 }
 
@@ -3041,8 +3062,10 @@ html[data-view="dj-agency"] .dj-agency {
   bottom: var(--dj-door-bottom);
   z-index: 4;
   width: var(--dj-door-w);
-  height: 3px;
+  height: 10px;
   transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.7), transparent 70%);
+  filter: blur(6px);
 }
 
 .dj-facade__sill::before {
@@ -3050,11 +3073,12 @@ html[data-view="dj-agency"] .dj-agency {
   position: absolute;
   left: 50%;
   top: 0;
-  width: 92%;
-  height: 140px;
+  width: 130%;
+  height: 180px;
+  border-radius: 0 0 50% 50%;
   transform: translateX(-50%);
-  background: radial-gradient(ellipse at 50% 0%, rgba(250, 245, 255, 0.72), rgba(192, 132, 252, 0.28) 36%, transparent 72%);
-  filter: blur(16px);
+  background: radial-gradient(ellipse at 50% 0%, rgba(250, 245, 255, 0.55), rgba(168, 85, 247, 0.22) 38%, transparent 72%);
+  filter: blur(20px);
   pointer-events: none;
 }
 
@@ -3137,8 +3161,6 @@ html[data-view="dj-agency"] .dj-agency {
   .dj-facade__seam,
   .dj-facade__sill,
   .dj-facade__booking,
-  .dj-facade__booking-halo,
-  .dj-facade__booking-spark,
   .dj-neon,
   .dj-neon::after,
   .dj-facade__wall::before {
@@ -3154,6 +3176,25 @@ html[data-view="dj-agency"] .dj-agency {
 .dj-scene.is-opening .dj-scene__door--r,
 .dj-scene.is-entered .dj-scene__door--r {
   transform: rotateY(-105deg) translate3d(0, 0, 0);
+}
+
+.dj-facade__vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 40%, transparent 22%, rgba(0, 0, 0, 0.78) 100%);
+}
+
+.dj-facade__grain {
+  position: absolute;
+  inset: -2%;
+  z-index: 8;
+  pointer-events: none;
+  opacity: 0.2;
+  mix-blend-mode: overlay;
+  background-image: var(--dj-grit);
+  background-size: 180px 180px;
 }
 
 .dj-scene__enter {
@@ -4616,6 +4657,12 @@ html:has(.dj-card:hover) .viewfinder {
   .dj-facade__stud--bl { left: 6px; }
   .dj-facade__stud--tr,
   .dj-facade__stud--br { right: 6px; }
+
+  .dj-facade__booking {
+    font-size: 1.28rem;
+    letter-spacing: 0.06em;
+    text-indent: 0.06em;
+  }
 
   .dj-facade__lintel {
     height: 16px;
