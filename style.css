@@ -3847,6 +3847,52 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
   stroke-linecap: round;
 }
 
+.dj-post--live .dj-figure,
+.dj-post--photo .dj-figure {
+  color: rgba(255, 255, 255, 0.48);
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.45));
+  transition: filter 0.2s ease-out, color 0.2s ease-out, transform 0.25s ease-out;
+}
+
+.dj-post--live .dj-figure__body,
+.dj-post--photo .dj-figure__body {
+  stroke: rgba(255, 255, 255, 0.62);
+  stroke-width: 1.6;
+  transform-box: fill-box;
+  transform-origin: 50% 70%;
+}
+
+.dj-post--live .dj-figure__body {
+  animation: dj-vid-pan 5.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.dj-post--photo .dj-figure__body {
+  transform-origin: 68% 42%;
+  animation: dj-photo-sway 6.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes dj-vid-pan {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(5px, -3px, 0);
+  }
+}
+
+@keyframes dj-photo-sway {
+  0%,
+  100% {
+    transform: rotate(-1.6deg);
+  }
+  50% {
+    transform: rotate(1.6deg);
+  }
+}
+
 .dj-figure__bob {
   animation: dj-bob 0.47s ease-in-out infinite alternate;
 }
@@ -3899,23 +3945,63 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 }
 
 .dj-figure__rec {
-  fill: #ff3b3b;
-  animation: dj-rec-blink 1.6s ease-in-out infinite;
+  fill: #ff2a2a;
+  animation: dj-rec-blink 2s steps(1, end) infinite;
 }
 
 @keyframes dj-rec-blink {
   0%,
-  100% {
+  49% {
     opacity: 1;
   }
-  50% {
-    opacity: 0.35;
+  50%,
+  100% {
+    opacity: 0;
   }
 }
 
 .dj-figure__flash {
   opacity: 0;
   pointer-events: none;
+  animation: dj-cam-burst 11s linear infinite;
+}
+
+.dj-cam-burst {
+  position: absolute;
+  left: 22%;
+  top: 34%;
+  z-index: 1;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle, #fff 0%, rgba(255, 255, 255, 0.35) 38%, transparent 70%);
+  box-shadow:
+    0 0 12px 4px #fff,
+    0 0 36px 12px rgba(255, 255, 255, 0.85);
+  animation: dj-cam-burst 11s linear infinite;
+}
+
+@keyframes dj-cam-burst {
+  0%,
+  1% {
+    opacity: 0;
+  }
+  1.6% {
+    opacity: 1;
+  }
+  3.4%,
+  57% {
+    opacity: 0;
+  }
+  58% {
+    opacity: 1;
+  }
+  60%,
+  100% {
+    opacity: 0;
+  }
 }
 
 .dj-post:hover,
@@ -3954,6 +4040,22 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 .dj-post:focus-visible .dj-figure--dj {
   color: #404040;
   filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.9));
+}
+
+.dj-post--live:hover .dj-figure,
+.dj-post--live.is-on .dj-figure,
+.dj-post--live:focus-visible .dj-figure {
+  color: #fff;
+  filter: drop-shadow(0 0 14px rgba(34, 211, 238, 0.95));
+  transform: scale(1.05);
+}
+
+.dj-post--photo:hover .dj-figure,
+.dj-post--photo.is-on .dj-figure,
+.dj-post--photo:focus-visible .dj-figure {
+  color: #fff;
+  filter: drop-shadow(0 0 14px rgba(255, 214, 170, 0.95));
+  transform: scale(1.05);
 }
 
 .dj-post:hover::before,
