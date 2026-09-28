@@ -3645,24 +3645,6 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
   animation-duration: 4.8s;
 }
 
-.dj-crowd__arm {
-  fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.dj-crowd__row--back .dj-crowd__arm {
-  stroke-width: 8;
-}
-
-.dj-crowd__row--mid .dj-crowd__arm {
-  stroke-width: 11;
-}
-
-.dj-crowd__row--front .dj-crowd__arm {
-  stroke-width: 16;
-}
-
 @keyframes dj-crowd-sway {
   from {
     transform: translate3d(0, 0, 0);
