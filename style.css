@@ -3260,33 +3260,85 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 
 .dj-spotlight {
   position: absolute;
-  top: 0;
-  height: 120%;
+  top: -4%;
+  height: 130%;
   transform-origin: top center;
-  filter: blur(42px);
-  clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%);
+  filter: blur(8px);
+  mix-blend-mode: screen;
   animation: dj-sway 8s ease-in-out infinite alternate;
 }
 
+.dj-spotlight::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transform: translate3d(-50%, -20%, 0);
+  background: radial-gradient(circle, #fff 0%, rgba(255, 255, 255, 0.55) 22%, transparent 68%);
+  box-shadow:
+    0 0 18px 6px #fff,
+    0 0 48px 16px rgba(186, 230, 253, 0.85),
+    0 40px 80px 10px rgba(125, 211, 252, 0.35);
+  pointer-events: none;
+}
+
 .dj-spotlight--cyan {
-  left: 15%;
-  width: 30vw;
-  background: linear-gradient(to bottom, rgba(6, 182, 212, 0.18), transparent 82%);
+  left: 6%;
+  width: 38vw;
+  background: conic-gradient(
+    at 50% 0%,
+    transparent 0deg 162deg,
+    rgba(34, 211, 238, 0.12) 172deg,
+    rgba(224, 254, 255, 0.72) 180deg,
+    rgba(34, 211, 238, 0.16) 188deg,
+    transparent 200deg 360deg
+  );
   animation-duration: 7s;
 }
 
+.dj-spotlight--cyan::before {
+  box-shadow:
+    0 0 16px 4px #fff,
+    0 0 42px 14px rgba(34, 211, 238, 0.9),
+    0 36px 70px 8px rgba(34, 211, 238, 0.35);
+}
+
 .dj-spotlight--fuchsia {
-  left: 45%;
-  width: 42vw;
-  background: linear-gradient(to bottom, rgba(217, 70, 239, 0.16), transparent 84%);
+  left: 32%;
+  width: 46vw;
+  background: conic-gradient(
+    at 50% 0%,
+    transparent 0deg 164deg,
+    rgba(232, 121, 249, 0.14) 173deg,
+    rgba(255, 244, 255, 0.62) 180deg,
+    rgba(192, 38, 211, 0.16) 188deg,
+    transparent 202deg 360deg
+  );
   animation-duration: 9s;
   animation-delay: -3s;
 }
 
+.dj-spotlight--fuchsia::before {
+  box-shadow:
+    0 0 16px 4px #fff,
+    0 0 46px 16px rgba(217, 70, 239, 0.8),
+    0 36px 72px 8px rgba(192, 38, 211, 0.32);
+}
+
 .dj-spotlight--indigo {
-  left: 75%;
-  width: 30vw;
-  background: linear-gradient(to bottom, rgba(99, 102, 241, 0.18), transparent 82%);
+  left: 64%;
+  width: 38vw;
+  background: conic-gradient(
+    at 50% 0%,
+    transparent 0deg 162deg,
+    rgba(129, 140, 248, 0.14) 172deg,
+    rgba(238, 242, 255, 0.6) 180deg,
+    rgba(99, 102, 241, 0.16) 188deg,
+    transparent 200deg 360deg
+  );
   animation-duration: 11s;
   animation-delay: -6s;
 }
@@ -3494,7 +3546,7 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
   position: absolute;
   inset: -10%;
   z-index: 50;
-  opacity: 0.04;
+  opacity: 0.15;
   pointer-events: none;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -3522,11 +3574,9 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 .dj-scene__vignette {
   position: absolute;
   inset: 0;
-  z-index: 15;
+  z-index: 45;
   pointer-events: none;
-  background:
-    linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.5) 7%, transparent 16%),
-    radial-gradient(ellipse 70% 64% at 50% 44%, transparent 42%, rgba(0, 0, 0, 0.9) 100%);
+  background: radial-gradient(circle, transparent 40%, #000 100%);
 }
 
 .dj-scene__flash {
@@ -3553,23 +3603,24 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
 
 .dj-scene__haze {
   position: absolute;
-  left: -10%;
-  right: -10%;
-  bottom: 0;
+  inset: -8%;
   z-index: 12;
-  height: 46%;
   pointer-events: none;
-  background: radial-gradient(ellipse 46% 44% at 50% 66%, rgba(126, 90, 190, 0.3), transparent 72%);
-  filter: blur(50px);
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(ellipse 42% 32% at 20% 36%, rgba(34, 211, 238, 0.16), transparent 70%),
+    radial-gradient(ellipse 38% 34% at 76% 40%, rgba(192, 132, 252, 0.14), transparent 68%),
+    radial-gradient(ellipse 55% 30% at 50% 72%, rgba(255, 255, 255, 0.1), transparent 72%);
+  filter: blur(46px);
 }
 
 .dj-crowd {
   position: absolute;
-  left: 0;
-  right: 0;
+  left: -4%;
+  right: -4%;
   bottom: 0;
   z-index: 14;
-  height: clamp(170px, 30vh, 300px);
+  height: clamp(200px, 36vh, 360px);
   pointer-events: none;
 }
 
@@ -3578,28 +3629,24 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
   width: 100%;
   height: 100%;
   overflow: visible;
-  filter: blur(3.5px) drop-shadow(0 -1px 3px rgba(255, 255, 255, 0.15));
+  filter: blur(16px) drop-shadow(0 -10px 16px rgba(196, 181, 253, 0.22));
 }
 
 .dj-crowd__row {
-  animation: dj-crowd-bounce 0.94s ease-in-out infinite;
+  animation: dj-crowd-sway 6.5s ease-in-out infinite alternate;
 }
 
 .dj-crowd__row--front {
-  animation-delay: -0.47s;
+  filter: blur(6px);
+  animation-duration: 4.8s;
 }
 
-.dj-crowd__phone {
-  display: none;
-}
-
-@keyframes dj-crowd-bounce {
-  0%,
-  100% {
-    transform: translateY(0);
+@keyframes dj-crowd-sway {
+  from {
+    transform: translate3d(0, 0, 0);
   }
-  50% {
-    transform: translateY(4px);
+  to {
+    transform: translate3d(0, 7px, 0);
   }
 }
 
@@ -3719,6 +3766,9 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   color: rgba(255, 255, 255, 0.7);
+  text-shadow:
+    -1px 0 rgba(255, 42, 72, 0.9),
+    1px 0 rgba(34, 211, 238, 0.9);
   transition:
     color 0.15s ease-out,
     filter 0.15s ease-out;
@@ -3821,23 +3871,29 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
   height: auto;
   aspect-ratio: 160 / 200;
   overflow: visible;
-  color: #262626;
-  filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
-  transition: filter 0.15s ease-out, color 0.15s ease-out;
+  color: #070707;
+  filter: none;
+  transition: filter 0.2s ease-out, color 0.2s ease-out, transform 0.25s ease-out;
 }
 
 .dj-figure--dj {
   width: clamp(200px, 20vw, 280px);
   aspect-ratio: 260 / 200;
-  color: #262626;
-  filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
+  color: #070707;
+  filter: none;
+}
+
+.dj-post--live .dj-figure,
+.dj-post--photo .dj-figure {
+  color: #070707;
+  filter: none;
+  transition: filter 0.2s ease-out, color 0.2s ease-out, transform 0.25s ease-out;
 }
 
 .dj-figure__body,
 .dj-figure__booth {
   fill: currentColor;
-  stroke: rgba(255, 255, 255, 0.2);
-  stroke-width: 1.25;
+  stroke: none;
 }
 
 .dj-figure__limb {
@@ -3847,17 +3903,8 @@ html[data-view="dj-agency"]:not(:has(.dj-scene.is-entered)) .viewfinder {
   stroke-linecap: round;
 }
 
-.dj-post--live .dj-figure,
-.dj-post--photo .dj-figure {
-  color: rgba(255, 255, 255, 0.48);
-  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.45));
-  transition: filter 0.2s ease-out, color 0.2s ease-out, transform 0.25s ease-out;
-}
-
 .dj-post--live .dj-figure__body,
 .dj-post--photo .dj-figure__body {
-  stroke: rgba(255, 255, 255, 0.62);
-  stroke-width: 1.6;
   transform-box: fill-box;
   transform-origin: 50% 70%;
 }
