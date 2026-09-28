@@ -2488,55 +2488,162 @@ html[data-view="dj-agency"] .dj-agency {
   right: 0;
   bottom: 0;
   z-index: 2;
-  height: 40%;
-  transform-origin: bottom center;
-  transform: perspective(1000px) rotateX(70deg);
-  background: linear-gradient(0deg, #171717 0%, #000 100%);
+  height: 22%;
+  background: #000;
 }
 
-.dj-facade__sign {
+.dj-facade__walls {
   position: absolute;
-  left: 50%;
-  top: 9%;
+  inset: 0;
   z-index: 3;
-  width: min(92vw, 760px);
+  pointer-events: none;
+}
+
+.dj-facade__wall {
+  position: absolute;
+  top: 24%;
+  bottom: 7%;
+  width: calc(50% - min(260px, 23vw));
+  overflow: hidden;
+}
+
+.dj-facade__wall--l {
+  left: 0;
+}
+
+.dj-facade__wall--r {
+  right: 0;
+}
+
+.dj-neon {
+  position: absolute;
+  width: 4px;
+  border-radius: 4px;
+  background: #22d3ee;
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.8);
+}
+
+.dj-facade__wall--l .dj-neon--v {
+  right: 10%;
+  top: 4%;
+  height: 88%;
+}
+
+.dj-facade__wall--l .dj-neon--d1 {
+  left: 28%;
+  top: 8%;
+  height: 78%;
+  transform: rotate(24deg);
+  transform-origin: center center;
+}
+
+.dj-facade__wall--l .dj-neon--d2 {
+  left: 46%;
+  top: 14%;
+  height: 70%;
+  transform: rotate(-28deg);
+  transform-origin: center center;
+}
+
+.dj-facade__wall--r .dj-neon--v {
+  left: 14%;
+  top: 0;
+  height: 46%;
+}
+
+.dj-facade__wall--r .dj-neon--d1 {
+  left: 22%;
+  top: 18%;
+  height: 72%;
+  transform: rotate(-18deg);
+  transform-origin: center center;
+}
+
+.dj-facade__wall--r .dj-neon--d2 {
+  left: 48%;
+  top: 8%;
+  height: 64%;
+  transform: rotate(32deg);
+  transform-origin: center center;
+}
+
+.dj-facade__wall--r .dj-neon--d3 {
+  right: 8%;
+  top: 42%;
+  height: 48%;
+  transform: rotate(-36deg);
+  transform-origin: center center;
+}
+
+.dj-facade__marquee {
+  position: absolute;
+  top: 76px;
+  left: 50%;
+  z-index: 4;
+  width: min(560px, 72vw);
+  padding: 16px 28px 14px;
   transform: translateX(-50%);
+  background: #050505;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 0 0 0 7px #0a0a0a,
+    0 16px 40px rgba(0, 0, 0, 0);
   text-align: center;
 }
 
-.dj-facade__kicker {
-  margin: 0 0 14px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 0.5em;
-  text-indent: 0.5em;
-  color: #737373;
+.dj-facade__offres {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5.2vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.38em;
+  text-indent: 0.38em;
+  color: #fff;
+  filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));
+  animation: dj-flicker 5.2s steps(1, end) infinite;
 }
 
-.dj-facade__cta {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: clamp(0.95rem, 2vw, 1.4rem);
-  font-weight: 300;
-  line-height: 1.4;
-  letter-spacing: 0.24em;
-  text-indent: 0.24em;
-  color: #fff;
-  text-shadow:
-    0 0 14px rgba(168, 85, 247, 0.5),
-    0 0 40px rgba(126, 34, 206, 0.3);
+@keyframes dj-flicker {
+  0%,
+  18%,
+  22%,
+  26%,
+  62%,
+  66%,
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9));
+  }
+  20%,
+  24% {
+    opacity: 0.62;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
+  }
+  64% {
+    opacity: 0.4;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.15));
+  }
+  82% {
+    opacity: 0.84;
+    filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.55));
+  }
+}
+
+.dj-agency:not(:has(.dj-scene.is-entered)) .dj-hud {
+  opacity: 0;
+  visibility: hidden;
 }
 
 .dj-facade__bay {
   position: absolute;
   left: 50%;
-  bottom: 10%;
+  bottom: 8%;
   z-index: 1;
   display: flex;
   overflow: hidden;
-  width: min(768px, 92vw);
-  height: min(64vh, 68%);
+  width: min(520px, 46vw);
+  height: min(58vh, 62%);
   transform: translateX(-50%);
   border: 18px solid #120f0d;
   border-top-color: #1b1613;
@@ -2653,9 +2760,9 @@ html[data-view="dj-agency"] .dj-agency {
 
 .dj-facade__sill {
   left: 50%;
-  bottom: 10%;
+  bottom: 8%;
   z-index: 4;
-  width: min(768px, 92vw);
+  width: min(520px, 46vw);
   height: 2px;
   transform: translateX(-50%);
 }
@@ -2718,7 +2825,8 @@ html[data-view="dj-agency"] .dj-agency {
 
 @media (prefers-reduced-motion: reduce) {
   .dj-facade__seam,
-  .dj-facade__sill {
+  .dj-facade__sill,
+  .dj-facade__offres {
     animation: none;
   }
 }
@@ -2739,9 +2847,9 @@ html[data-view="dj-agency"] .dj-agency {
   position: absolute;
   z-index: 60;
   left: 50%;
-  bottom: 10%;
-  width: min(768px, 92vw);
-  height: min(64vh, 68%);
+  bottom: 8%;
+  width: min(520px, 46vw);
+  height: min(58vh, 62%);
   padding: 0;
   border: 0;
   background: transparent;
@@ -4221,27 +4329,71 @@ html:has(.dj-card:hover) .viewfinder {
     min-height: 0;
   }
 
-  .dj-facade__sign {
-    top: 8%;
+  .dj-facade__marquee {
+    top: 58px;
+    width: calc(100vw - 32px);
+    max-width: 340px;
+    padding: 10px 8px 8px;
+    box-sizing: border-box;
   }
 
-  .dj-facade__kicker {
-    margin-bottom: 10px;
-    font-size: 10px;
-    letter-spacing: 0.4em;
-    text-indent: 0.4em;
+  .dj-facade__offres {
+    font-size: 1.55rem;
+    letter-spacing: 0.14em;
+    text-indent: 0.14em;
   }
 
-  .dj-facade__cta {
-    letter-spacing: 0.16em;
-    text-indent: 0.16em;
+  .dj-facade__wall {
+    top: 26%;
+    bottom: 6%;
+    width: calc(50% - min(32vw, 130px));
+  }
+
+  .dj-neon {
+    width: 3px;
+  }
+
+  .dj-facade__wall--l .dj-neon--v,
+  .dj-facade__wall--r .dj-neon--v {
+    top: 10%;
+    height: 76%;
+  }
+
+  .dj-facade__wall--l .dj-neon--v {
+    right: 8%;
+    left: auto;
+  }
+
+  .dj-facade__wall--r .dj-neon--v {
+    left: 8%;
+    right: auto;
+  }
+
+  .dj-facade__wall--l .dj-neon--d1,
+  .dj-facade__wall--r .dj-neon--d1 {
+    left: 8%;
+    top: 14%;
+    height: 68%;
+    transform: rotate(20deg);
+  }
+
+  .dj-facade__wall--l .dj-neon--d2,
+  .dj-facade__wall--r .dj-neon--d2 {
+    left: 34%;
+    top: 18%;
+    height: 60%;
+    transform: rotate(-22deg);
+  }
+
+  .dj-facade__wall--r .dj-neon--d3 {
+    display: none;
   }
 
   .dj-facade__bay,
   .dj-scene__enter,
   .dj-facade__sill {
-    width: min(92vw, 380px);
-    height: 58%;
+    width: min(64vw, 260px);
+    height: 52%;
   }
 
   .dj-facade__sill {
