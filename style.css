@@ -2010,8 +2010,10 @@ html[data-view="dj-agency"],
 html[data-view="dj-agency"] body,
 html[data-view="dj-agency"].is-locked,
 html[data-view="dj-agency"].is-locked body {
-  overflow: auto;
-  height: auto;
+  overflow: hidden;
+  width: 100%;
+  height: 100svh;
+  overscroll-behavior: none;
   background: #000;
 }
 
@@ -2421,10 +2423,11 @@ html[data-view="home"] .back-home {
   display: none;
   position: relative;
   z-index: 1;
-  width: 100%;
+  width: 100vw;
+  height: 100svh;
   max-width: none;
   margin: 0;
-  overflow-x: clip;
+  overflow: hidden;
   color: #f4f4f4;
   font-family: var(--font-mono);
 }
@@ -2442,8 +2445,8 @@ html[data-view="dj-agency"] .dj-agency {
 .dj-scene {
   position: relative;
   width: 100%;
-  height: 100svh;
-  min-height: 640px;
+  height: 100%;
+  min-height: 0;
   overflow: hidden;
   background: #000;
 }
@@ -4108,13 +4111,9 @@ html:has(.dj-card:hover) .viewfinder {
     margin: 0;
   }
 
-  .dj-agency__body {
-    width: calc(100% - 36px);
-    margin: 10vh auto;
-  }
-
   .dj-scene {
-    min-height: 100svh;
+    height: 100%;
+    min-height: 0;
   }
 
   .dj-facade__sign {
