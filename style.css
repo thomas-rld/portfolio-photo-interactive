@@ -2507,10 +2507,14 @@ html[data-view="dj-agency"] .dj-agency {
     inset -14px 0 22px -10px rgba(34, 211, 238, 0.22),
     0 0 100px rgba(0, 0, 0, 0.9);
   opacity: 1;
-  transition: opacity 0.6s ease-in-out;
+  transform-origin: 50% 68%;
+  transform-style: preserve-3d;
+  transition: transform 1.5s ease-in-out, opacity 1.5s ease-in-out;
 }
 
+.dj-scene.is-opening .dj-facade,
 .dj-scene.is-entered .dj-facade {
+  transform: scale(5);
   opacity: 0;
   pointer-events: none;
 }
@@ -3078,7 +3082,7 @@ html[data-view="dj-agency"] .dj-agency {
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  background: #0a0a0a url("https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1000&auto=format&fit=crop") center / cover no-repeat;
+  background: #0a0a0a;
   pointer-events: none;
 }
 
