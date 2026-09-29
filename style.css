@@ -2624,6 +2624,39 @@ html[data-view="dj-agency"] .dj-agency {
   pointer-events: none;
 }
 
+.dj-facade__crowd {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.dj-facade__figure {
+  position: absolute;
+  bottom: 0;
+  height: 250px;
+  width: auto;
+  fill: #050505;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.4));
+  pointer-events: none;
+}
+
+.dj-facade__figure--queue {
+  left: calc(50% - var(--dj-door-w) / 2 - 168px);
+  height: 228px;
+}
+
+.dj-facade__figure--wait {
+  left: calc(50% - var(--dj-door-w) / 2 - 92px);
+  height: 246px;
+}
+
+.dj-facade__figure--bouncer {
+  left: calc(50% + var(--dj-door-w) / 2 + 28px);
+  height: 268px;
+}
+
 .dj-facade__wall {
   position: absolute;
   top: 220px;
