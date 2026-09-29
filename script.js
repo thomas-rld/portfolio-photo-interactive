@@ -541,7 +541,7 @@
         if (!this.isAnimating) return;
         this.setEntered(true);
         this.isAnimating = false;
-      }, 800);
+      }, 1500);
     }
 
     setEntered(next) {

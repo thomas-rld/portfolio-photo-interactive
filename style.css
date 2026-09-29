@@ -3019,7 +3019,7 @@ html[data-view="dj-agency"] .dj-agency {
   height: var(--dj-door-h);
   transform: translate3d(-50%, 0, 0);
   transform-style: preserve-3d;
-  perspective: 1200px;
+  perspective: 1500px;
   background: #0a0a0a;
   border: 1px solid #171717;
   box-shadow:
@@ -3044,7 +3044,7 @@ html[data-view="dj-agency"] .dj-agency {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   will-change: transform;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .dj-scene__door::before,
@@ -3078,13 +3078,15 @@ html[data-view="dj-agency"] .dj-agency {
   inset: 0;
   z-index: 0;
   overflow: hidden;
-  background: #0a0a0a;
+  background: #0a0a0a url("https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1000&auto=format&fit=crop") center / cover no-repeat;
   pointer-events: none;
 }
 
 .dj-facade__orb {
   position: absolute;
+  z-index: 1;
   border-radius: 9999px;
+  mix-blend-mode: screen;
   pointer-events: none;
 }
 
@@ -3292,12 +3294,12 @@ html[data-view="dj-agency"] .dj-agency {
 
 .dj-scene.is-opening .dj-scene__door--l,
 .dj-scene.is-entered .dj-scene__door--l {
-  transform: rotateY(105deg) translate3d(0, 0, 0);
+  transform: rotateY(85deg) translate3d(0, 0, 0);
 }
 
 .dj-scene.is-opening .dj-scene__door--r,
 .dj-scene.is-entered .dj-scene__door--r {
-  transform: rotateY(-105deg) translate3d(0, 0, 0);
+  transform: rotateY(-85deg) translate3d(0, 0, 0);
 }
 
 .dj-facade__vignette {
