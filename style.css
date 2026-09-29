@@ -2526,6 +2526,61 @@ html[data-view="dj-agency"] .dj-agency {
   background: transparent;
 }
 
+.dj-facade__pier {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 6;
+  width: 4rem;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(to bottom, transparent, transparent 120px, rgba(0, 0, 0, 0.9) 120px, rgba(0, 0, 0, 0.9) 124px),
+    linear-gradient(90deg, #050505 0%, #1a1a1a 20%, #0a0a0a 50%, #1a1a1a 80%, #050505 100%);
+}
+
+.dj-facade__pier--l {
+  left: -48px;
+  box-shadow: 20px 0 30px -15px rgba(0, 0, 0, 0.8);
+}
+
+.dj-facade__pier--r {
+  right: -48px;
+  box-shadow: -20px 0 30px -15px rgba(0, 0, 0, 0.8);
+}
+
+.dj-facade__pier-spill {
+  position: absolute;
+  top: 22%;
+  width: 10rem;
+  height: 16rem;
+  background: rgba(6, 182, 212, 0.2);
+  filter: blur(64px);
+  pointer-events: none;
+}
+
+.dj-facade__pier--l .dj-facade__pier-spill {
+  right: -5rem;
+}
+
+.dj-facade__pier--r .dj-facade__pier-spill {
+  left: -5rem;
+}
+
+.dj-facade__pier-lamp {
+  position: absolute;
+  top: 33.333%;
+  left: 50%;
+  width: 0.375rem;
+  height: 8rem;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow:
+    0 0 15px 2px #0ff,
+    0 0 40px 10px #0ff;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
 .dj-facade__bricks {
   position: absolute;
   inset: 0;
