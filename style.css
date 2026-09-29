@@ -2617,8 +2617,11 @@ html[data-view="dj-agency"] .dj-agency {
 }
 
 .dj-streetlamp__iron {
-  position: relative;
+  position: absolute;
   z-index: 1;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: block;
   width: 100%;
   height: 100%;
@@ -2630,8 +2633,11 @@ html[data-view="dj-agency"] .dj-agency {
   flex: 1 1 auto;
   width: 1.5rem;
   min-height: 4rem;
-  background: linear-gradient(90deg, #050505 0%, #3a3a3a 48%, #0a0a0a 100%);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  margin-top: -2px;
+  background: linear-gradient(90deg, #050505 0%, #2a2a2a 50%, #050505 100%);
+  box-shadow:
+    inset 1px 0 1px rgba(255, 255, 255, 0.05),
+    inset -2px 0 3px rgba(0, 0, 0, 0.55);
 }
 
 .dj-streetlamp__mast::before {
@@ -2639,21 +2645,42 @@ html[data-view="dj-agency"] .dj-agency {
   position: absolute;
   top: 40%;
   left: 50%;
+  z-index: 1;
   width: 2.35rem;
   height: 0.4rem;
-  background: linear-gradient(90deg, #050505, #4a4a4a 50%, #111);
+  background: linear-gradient(90deg, #050505, #2a2a2a 50%, #111);
+  border-radius: 50%;
   box-shadow:
-    0 2px 0 #000,
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+    0 2px 4px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
   transform: translate(-50%, -50%);
+}
+
+.dj-streetlamp__mast::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(245, 158, 11, 0.2), transparent 55%);
+}
+
+.dj-streetlamp__grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 80px 80px;
+  mix-blend-mode: overlay;
 }
 
 .dj-streetlamp__torus {
   flex-shrink: 0;
-  background: linear-gradient(90deg, #0a0a0a, #3a3a3a 50%, #111);
+  background: linear-gradient(90deg, #0a0a0a, #2a2a2a 50%, #111);
+  border-radius: 50%;
   box-shadow:
-    0 1px 0 #000,
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    0 2px 4px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 
 .dj-streetlamp__torus--a {
@@ -2684,10 +2711,13 @@ html[data-view="dj-agency"] .dj-agency {
   content: "";
   position: absolute;
   inset: 0;
+  mix-blend-mode: multiply;
   background: repeating-linear-gradient(
     90deg,
-    transparent 0 5px,
-    rgba(0, 0, 0, 0.55) 5px 7px
+    rgba(255, 255, 255, 0.05) 0 3px,
+    rgba(0, 0, 0, 0.28) 6px,
+    rgba(0, 0, 0, 0.05) 10px,
+    transparent 14px
   );
 }
 
