@@ -3202,12 +3202,12 @@ html[data-view="dj-agency"] .dj-agency {
   height: 100%;
   overflow: hidden;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.3);
   background-image: none;
   border: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow: none;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   transform: translate3d(0, 0, 0);
   transform-style: preserve-3d;
   -webkit-backface-visibility: hidden;
@@ -3255,6 +3255,7 @@ html[data-view="dj-agency"] .dj-agency {
   position: absolute;
   z-index: 1;
   border-radius: 9999px;
+  opacity: 1;
   mix-blend-mode: screen;
   pointer-events: none;
 }
@@ -3264,7 +3265,7 @@ html[data-view="dj-agency"] .dj-agency {
   left: -2.5rem;
   width: 8rem;
   height: 8rem;
-  background: rgba(192, 38, 211, 0.8);
+  background: #d946ef;
   filter: blur(40px);
   animation: float1 4s ease-in-out infinite;
 }
@@ -3274,7 +3275,7 @@ html[data-view="dj-agency"] .dj-agency {
   bottom: 25%;
   width: 10rem;
   height: 10rem;
-  background: rgba(6, 182, 212, 0.8);
+  background: #22d3ee;
   filter: blur(50px);
   animation: float2 5s ease-in-out infinite;
 }
@@ -3284,7 +3285,7 @@ html[data-view="dj-agency"] .dj-agency {
   left: 25%;
   width: 6rem;
   height: 6rem;
-  background: rgba(168, 85, 247, 0.6);
+  background: #a855f7;
   filter: blur(30px);
   animation: float1 3s ease-in-out infinite reverse;
 }
@@ -3293,7 +3294,7 @@ html[data-view="dj-agency"] .dj-agency {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(to top right, rgba(147, 51, 234, 0.1), transparent, rgba(6, 182, 212, 0.15));
+  background: linear-gradient(to top right, transparent, rgba(255, 255, 255, 0.1), transparent);
 }
 
 .dj-facade__glare {
