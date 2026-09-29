@@ -2581,6 +2581,116 @@ html[data-view="dj-agency"] .dj-agency {
   pointer-events: none;
 }
 
+.dj-streetlamp {
+  position: absolute;
+  right: 5%;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 8rem;
+  height: 100%;
+  pointer-events: none;
+}
+
+.dj-streetlamp__head {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  width: 8rem;
+  height: 9.5rem;
+}
+
+.dj-streetlamp__halo {
+  position: absolute;
+  z-index: 0;
+  top: 18%;
+  left: 50%;
+  width: 24rem;
+  height: 24rem;
+  background: rgba(245, 158, 11, 0.2);
+  filter: blur(60px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transform: translate(-78%, -28%);
+}
+
+.dj-streetlamp__iron {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.dj-streetlamp__mast {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1.5rem;
+  min-height: 4rem;
+  background: linear-gradient(90deg, #050505 0%, #3a3a3a 48%, #0a0a0a 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.dj-streetlamp__mast::before {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 2.35rem;
+  height: 0.4rem;
+  background: linear-gradient(90deg, #050505, #4a4a4a 50%, #111);
+  box-shadow:
+    0 2px 0 #000,
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transform: translate(-50%, -50%);
+}
+
+.dj-streetlamp__torus {
+  flex-shrink: 0;
+  background: linear-gradient(90deg, #0a0a0a, #3a3a3a 50%, #111);
+  box-shadow:
+    0 1px 0 #000,
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.dj-streetlamp__torus--a {
+  width: 2.5rem;
+  height: 0.25rem;
+}
+
+.dj-streetlamp__torus--b {
+  width: 3.25rem;
+  height: 0.5rem;
+}
+
+.dj-streetlamp__torus--c {
+  width: 4.25rem;
+  height: 0.25rem;
+}
+
+.dj-streetlamp__base {
+  position: relative;
+  flex-shrink: 0;
+  width: 5rem;
+  height: 8rem;
+  background: linear-gradient(90deg, #0a0a0a, #2a2a2a 50%, #050505);
+  clip-path: polygon(20% 0, 80% 0, 100% 100%, 0 100%);
+}
+
+.dj-streetlamp__base::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 5px,
+    rgba(0, 0, 0, 0.55) 5px 7px
+  );
+}
+
 .dj-facade__bricks {
   position: absolute;
   inset: 0;
@@ -5114,6 +5224,21 @@ html:has(.dj-card:hover) .viewfinder {
   .dj-facade {
     --dj-door-w: min(70vw, 300px);
     --dj-door-h: 58%;
+  }
+
+  .dj-streetlamp {
+    width: 4.75rem;
+    right: 1%;
+  }
+
+  .dj-streetlamp__head {
+    width: 4.75rem;
+    height: 6rem;
+  }
+
+  .dj-streetlamp__base {
+    width: 3.25rem;
+    height: 4.5rem;
   }
 
   .dj-facade__sill {
